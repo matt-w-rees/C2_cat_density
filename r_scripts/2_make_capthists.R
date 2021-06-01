@@ -3,6 +3,7 @@
 # instead of ignoring mark status unknown (i.e. unidentified tabby cats), include them with the black cats as unmarked category (mt clay - no black cats)
 
 library(secr)
+rm(list = ls())
 
 # CAPTHISTS PER SESSION ---------------------------------------------------
 ## GLENELG

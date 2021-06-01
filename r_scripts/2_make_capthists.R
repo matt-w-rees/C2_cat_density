@@ -78,12 +78,17 @@ mrch_s_19 <- addSightings(ch_s_19, unmarked = all_unid_s_19)
 summary(mrch_s_19, terse = TRUE)
 
 
+# SAVE CAPTHISTS ---------------------------------------------------------
+saveRDS(mrch_a, "derived_data/capthists/mrch_a.RData")
+saveRDS(mrch_c, "derived_data/capthists/mrch_c.RData")
+saveRDS(mrch_h, "derived_data/capthists/mrch_h.RData")
+saveRDS(mrch_mc, "derived_data/capthists/mrch_mc.RData")
+saveRDS(mrch_s_17, "derived_data/capthists/mrch_s_17.RData")
+saveRDS(mrch_n_17, "derived_data/capthists/mrch_n_17.RData")
+saveRDS(mrch_s_18, "derived_data/capthists/mrch_s_18.RData")
+saveRDS(mrch_n_18, "derived_data/capthists/mrch_n_18.RData")
+saveRDS(mrch_s_19, "derived_data/capthists/mrch_s_19.RData")
+saveRDS(mrch_n_19, "derived_data/capthists/mrch_n_19.RData")
 
-# MERGE CAPTHISTS ---------------------------------------------------------
-# merge to single capthist
-# in order of region (glenelg, otways), then deployment start dates (south, north 2018, and so on)
-mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
-saveRDS(mrch, "derived_data/capthists/mrch.RData")
-summary(mrch, terse = TRUE)
 
 # END

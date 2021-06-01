@@ -2,10 +2,8 @@
 rm(list = ls())
 options(scipen = 999)
 
-library(readr)
+library(secr)
 library(dplyr)
-library(reshape2)
-library(sf)
 library(mgcv)
 library(DHARMa)
 
@@ -100,7 +98,7 @@ glenelg_mask_df <- setNames(cbind(rownames(glenelg_mask_df), glenelg_mask_df, ro
 glenelg_mask_df$sess <- as.character(glenelg_mask_df$sess)
 glenelg_mask_df$sess <- gsub('[0-9]+', '', glenelg_mask_df$sess)
 glenelg_mask_df$sess <- gsub('[.]+', '', glenelg_mask_df$sess)
-head(glenelg_mask_df)
+#head(glenelg_mask_df)
 
 
 # because we have a multi-session CH - we need to add in covariates separately for each session then merge back into multi-session mask...
@@ -181,7 +179,7 @@ otways_mask_df$year <- ifelse(otways_mask_df$sess == "mrch_n_18", "2018", otways
 otways_mask_df$year <- ifelse(otways_mask_df$sess == "mrch_s_18", "2018", otways_mask_df$year)
 otways_mask_df$year <- ifelse(otways_mask_df$sess == "mrch_n_19", "2019", otways_mask_df$year)
 otways_mask_df$year <- ifelse(otways_mask_df$sess == "mrch_s_19", "2019", otways_mask_df$year)
-head(otways_mask_df)
+#head(otways_mask_df)
 
 # add dummy variable for random effect and survey duration (note exclude in predict function below - but we still need to give it a column)
 otways_mask_df$station <- "T052" 
@@ -190,7 +188,7 @@ otways_mask_df$survey_duration <- 60
 # predict into the dataframe 
 otways_mask_df <- cbind(otways_mask_df, predict.gam(gam_o_fox, newdata = otways_mask_df, se.fit = TRUE, type = "response", exclude = c("s(station)")))
 otways_mask_df <- rename(otways_mask_df, fox_predicted = fit,  fox_predicted_se = se.fit) # rename
-head(otways_mask_df)
+#head(otways_mask_df)
 
 # because we have a multi-session CH - we need to add in covariates seperately for each session then merge back into multi-session mask...
 #split dataframe by session 
@@ -226,7 +224,7 @@ otways_traps_df$station_year <- gsub('mrch_n_19.', "", otways_traps_df$station_y
 otways_traps_df$station_year <- gsub('mrch_s_17.', "", otways_traps_df$station_year)
 otways_traps_df$station_year <- gsub('mrch_s_18.', "", otways_traps_df$station_year)
 otways_traps_df$station_year <- gsub('mrch_s_19.', "", otways_traps_df$station_year)
-head(otways_traps_df)
+#head(otways_traps_df)
 # add dummy variables for GAM prediction
 otways_traps_df$station <- "T052"
 otways_traps_df$survey_duration <- 60
@@ -234,7 +232,7 @@ otways_traps_df$survey_duration <- 60
 # predict GAM model values into the traps dataframe
 otways_traps_df <- cbind(otways_traps_df, predict.gam(gam_o_fox, newdata = otways_traps_df, se.fit = TRUE, type = "response", exclude = c("s(station)")))
 otways_traps_df <- rename(otways_traps_df, fox_predicted_trapcov = fit,  fox_predicted_trapcov_se = se.fit) # rename
-head(otways_traps_df)
+#head(otways_traps_df)
 
 # need to split dataframes and capthists into single sessions to add covariates 
 otways_traps_df_n_17 <- otways_traps_df[which(grepl("^mrch_n_17", otways_traps_df$station2)),]
@@ -269,15 +267,18 @@ saveRDS(glenelg_mask_df, "derived_data/glenelg_mask_df.RData")
 saveRDS(otways_mask_df, "derived_data/otway_mask_df.RData")
 
 # convert into multi-session habitat mask (same order as capthist!)
-masks <- list(mask_a, mask_c, mask_h, mask_mc, mask_s_17, mask_n_17, mask_s_18, mask_n_18, mask_s_19, mask_n_19)
-mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
+mask_glenelg <- list(mask_a, mask_c, mask_h, mask_mc)
+mask_otways <- list(mask_s_17, mask_n_17, mask_s_18, mask_n_18, mask_s_19, mask_n_19)
+mrch_glenelg <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc)
+mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
 # check covs all worked
-#head(covariates(masks)) 
-#head(covariates(traps(mrch[1])))
-summary(mrch, terse = TRUE)
+#head(covariates(mask_otways)) 
+#head(covariates(traps(mrch_glenelg[1])))
+#summary(mrch_glenelg, terse = TRUE)
 # now save 
-saveRDS(masks, "derived_data/masks.RData")
-saveRDS(mrch, "derived_data/mrch.RData")
-
+saveRDS(mask_glenelg, "derived_data/mask_glenelg.RData")
+saveRDS(mask_otways, "derived_data/mask_otways.RData")
+saveRDS(mrch_glenelg, "derived_data/mrch_glenelg.RData")
+saveRDS(mrch_otways, "derived_data/mrch_otways.RData")
 
 ## END

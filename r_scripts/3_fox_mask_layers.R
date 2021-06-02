@@ -72,14 +72,14 @@ summary(gam_o_fox)
 # GLENELG PREDICTIONS -----------------------------------------------------
 # PREDICT GAM INTO HABITAT MASK -------------------------------------------
 # separate masks per session
-mask_a  <- make.mask(traps(mrch_a),  buffer = 4000, spacing = 474 * 0.6, type = 'trapbuffer')     
-mask_c  <- make.mask(traps(mrch_c),  buffer = 4000, spacing = 474 * 0.6, type = 'trapbuffer')     
-mask_h  <- make.mask(traps(mrch_h),  buffer = 4000, spacing = 474 * 0.6, type = 'trapbuffer')     
-mask_mc <- make.mask(traps(mrch_mc),  buffer = 4000, spacing = 474 * 0.6, type = 'trapbuffer') 
+mask_a  <- make.mask(traps(mrch_a),  buffer = 4500, spacing = 474 * 0.6, type = 'trapbuffer')     
+mask_c  <- make.mask(traps(mrch_c),  buffer = 4500, spacing = 474 * 0.6, type = 'trapbuffer')     
+mask_h  <- make.mask(traps(mrch_h),  buffer = 4500, spacing = 474 * 0.6, type = 'trapbuffer')     
+mask_mc <- make.mask(traps(mrch_mc),  buffer = 4500, spacing = 474 * 0.6, type = 'trapbuffer') 
 
 # make multisession files
 mrch_glenelg <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc)
-glenelg_mask <- make.mask(traps(mrch_glenelg), buffer = 4000, spacing = 474 * 0.6, type = 'trapbuffer')       
+glenelg_mask <- make.mask(traps(mrch_glenelg), buffer = 4500, spacing = 474 * 0.6, type = 'trapbuffer')       
 
 # make a new dataframe with each habitat mask cell so we can add covariates from the GAMs
 glenelg_mask_df <- do.call(rbind.data.frame, glenelg_mask)
@@ -153,15 +153,15 @@ covariates(traps(mrch_mc)) <- glenelg_traps_df_mc[,5:6]
 # OTWAY PREDICTIONS -----------------------------------------------------
 # merge to single capthist (in order of deployment) and make mask
 mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
-otways_mask <- make.mask(traps(mrch_otways), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')       
+otways_mask <- make.mask(traps(mrch_otways), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')       
 
 # also separate masks per session
-mask_n_17 <- make.mask(traps(mrch_n_17), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_n_18 <- make.mask(traps(mrch_n_18), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_n_19 <- make.mask(traps(mrch_n_19), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')   
-mask_s_17 <- make.mask(traps(mrch_s_17), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_s_18 <- make.mask(traps(mrch_s_18), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_s_19 <- make.mask(traps(mrch_s_19), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')   
+mask_n_17 <- make.mask(traps(mrch_n_17), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_n_18 <- make.mask(traps(mrch_n_18), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_n_19 <- make.mask(traps(mrch_n_19), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')   
+mask_s_17 <- make.mask(traps(mrch_s_17), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_s_18 <- make.mask(traps(mrch_s_18), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_s_19 <- make.mask(traps(mrch_s_19), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')   
 
 
 # make a new dataframe with each habitat mask cell so we can add covariates from the GAMs

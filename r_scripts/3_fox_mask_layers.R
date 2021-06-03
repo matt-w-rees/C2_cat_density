@@ -1,3 +1,8 @@
+## ADD SPATIAL COVARIATES TO SECR MASK AND TRAPFILES
+# EVC GROUP (MASK ONLY)
+# FOX SPATIAL OCCUPANCY (MASK AND TRAPS) VIA GAMS USING CAMERA-TRAP DETECTIONS 
+# Matthew Rees
+
 
 rm(list = ls())
 options(scipen = 999)
@@ -6,49 +11,106 @@ library(secr)
 library(dplyr)
 library(mgcv)
 library(DHARMa)
+library(sp)
+library(sf)
 
 
-# LOAD DATA ------------------------------------------------------------
-# load pre-prepared fox record table
-#records <- read_csv("/Users/mrees2/Dropbox/personal/matt/github/merge-records-add-variables-reformat/derived_data/records_presence_absence.csv")
-## subset to my data
-#records <- filter(records, data_source == "matt")
-#records <- subset(records, select = c("region", "station_year", "station", "fox", "cat", "potoroo_ln", "bandicoot_sb", "date_start", "date_end", "survey_duration", "year", "latitude", "longitude", "XGROUPNAME", "foxbaits"))
-#records$station_year <- gsub("_", "x", records$station_year)
-#head(records)
-## add xy coords
-#records_sp <- st_as_sf(records, coords = c("longitude", "latitude"), crs = 4326) %>% 
-#  st_transform(crs = 32754)
-#records$x <- st_coordinates(records_sp)[,1]
-#records$y <- st_coordinates(records_sp)[,2]
-## save
-#write.csv(records, "derived_data/spp_records_pa.csv")
-#rm(records_sp)
 
-# load records
-records <- read.csv("derived_data/spp_records_pa.csv")
+# ADD VEGETATION CLASS ----------------------------------------------------
+## LOAD AND MANIPULATE SPATIAL VEGETATION TYPE LAYER
+evc <- st_read("raw_data/vegetation_layer/EVC_32754_4000M.shp")
+# subset to just EVC group name
+evc <- subset(evc, select = c("XGROUPNAME"))
+evc$XGROUPNAME <- as.character(evc$XGROUPNAME)
+# merge cleared types - different name for the same thing
+evc$XGROUPNAME <- if_else(evc$XGROUPNAME == "No native vegetation recorded", "CLEARED", evc$XGROUPNAME)
+# merge rainforest / wet forest
+evc$XGROUPNAME <- if_else(evc$XGROUPNAME == "Rainforests", "Wet or Damp Forests", evc$XGROUPNAME)
+# merge heathalnds / heathy woodlands
+evc$XGROUPNAME <- if_else(evc$XGROUPNAME == "Heathlands", "Heathy Woodlands", evc$XGROUPNAME)
+# make snakey lil ones NA - we will interpolate these values from surrounds  
+evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Riparian Scrubs or Swampy Scrubs and Woodlands", NA, evc$XGROUPNAME)
+evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Coastal Scrubs Grasslands and Woodlands", NA, evc$XGROUPNAME)
+evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Wetlands", NA, evc$XGROUPNAME)
+evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Riverine Grassy Woodlands or Forests", NA, evc$XGROUPNAME)
+evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Riverine Grassy Woodlands or Forests", NA, evc$XGROUPNAME)
+evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Plains Woodlands or Forests", NA, evc$XGROUPNAME)
+evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Herb-rich Woodlands", NA, evc$XGROUPNAME)
+# subset to just groupname
+evc <- subset(evc, select = c(XGROUPNAME))
+# make evc SpatialPolygonsDataFrame for secr
+evc <- as_Spatial(evc)
 
-# capthists
-mrch_a  <- readRDS("derived_data/capthists/mrch_a.RData")
-mrch_c  <- readRDS("derived_data/capthists/mrch_c.RData")
-mrch_h  <- readRDS("derived_data/capthists/mrch_h.RData")
-mrch_mc <- readRDS( "derived_data/capthists/mrch_mc.RData")
+# add covariates to secr mask file
+# load capthists
+mrch_a    <- readRDS("derived_data/capthists/mrch_a.RData")
+mrch_c    <- readRDS("derived_data/capthists/mrch_c.RData")
+mrch_h    <- readRDS("derived_data/capthists/mrch_h.RData")
+mrch_mc   <- readRDS( "derived_data/capthists/mrch_mc.RData")
 mrch_s_17 <- readRDS("derived_data/capthists/mrch_s_17.RData")
 mrch_n_17 <- readRDS("derived_data/capthists/mrch_n_17.RData")
 mrch_s_18 <- readRDS("derived_data/capthists/mrch_s_18.RData")
 mrch_n_18 <- readRDS("derived_data/capthists/mrch_n_18.RData")
 mrch_s_19 <- readRDS("derived_data/capthists/mrch_s_19.RData")
 mrch_n_19 <- readRDS("derived_data/capthists/mrch_n_19.RData")
+mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
+# make a mask from this 
+masks <- make.mask(traps(mrch), buffer = 4000, spacing = 477 * 0.6, type = 'trapbuffer')     
+# but need to do is seperately per session
+mask_a  <- make.mask(traps(mrch_a),  buffer = 4500, spacing = 477 * 0.6, type = 'trapbuffer')     
+mask_c  <- make.mask(traps(mrch_c),  buffer = 4500, spacing = 477 * 0.6, type = 'trapbuffer')     
+mask_h  <- make.mask(traps(mrch_h),  buffer = 4500, spacing = 477 * 0.6, type = 'trapbuffer')     
+mask_mc <- make.mask(traps(mrch_mc), buffer = 4500, spacing = 477 * 0.6, type = 'trapbuffer') 
+mask_n_17 <- make.mask(traps(mrch_n_17), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_n_18 <- make.mask(traps(mrch_n_18), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_n_19 <- make.mask(traps(mrch_n_19), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')   
+mask_s_17 <- make.mask(traps(mrch_s_17), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_s_18 <- make.mask(traps(mrch_s_18), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_s_19 <- make.mask(traps(mrch_s_19), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')  
+
+# add covariates to each mask
+mask_a    <- addCovariates(mask_a, evc)
+mask_c    <- addCovariates(mask_c, evc)
+mask_h    <- addCovariates(mask_h, evc)
+mask_mc   <- addCovariates(mask_mc, evc)
+mask_n_17 <- addCovariates(mask_n_17, evc)
+mask_n_18 <- addCovariates(mask_n_18, evc)
+mask_n_19 <- addCovariates(mask_n_19, evc)
+mask_s_17 <- addCovariates(mask_s_17, evc)
+mask_s_18 <- addCovariates(mask_s_18, evc)
+mask_s_19 <- addCovariates(mask_s_19, evc)
+
+# FIX NA VALUES (extrapolate category from nearest cell)
+# function to do so - from Efford secr tutorial on habitat masks
+copynearest <- function(mask, covariate){
+  NAcov <- is.na(covariates(mask)[,covariate])
+  OK <- subset(mask, !NAcov)
+  i <- nearesttrap(mask, OK)
+  covariates(mask)[,covariate][NAcov] <- covariates(OK)[i[NAcov],covariate] 
+  mask
+}
+
+mask_a    <- copynearest(mask_a,    'XGROUPNAME')
+mask_c    <- copynearest(mask_c,    'XGROUPNAME')
+mask_h    <- copynearest(mask_h,    'XGROUPNAME')
+mask_mc   <- copynearest(mask_mc,   'XGROUPNAME')
+mask_n_17 <- copynearest(mask_n_17, 'XGROUPNAME')
+mask_n_18 <- copynearest(mask_n_18, 'XGROUPNAME')
+mask_n_19 <- copynearest(mask_n_19, 'XGROUPNAME')
+mask_s_17 <- copynearest(mask_s_17, 'XGROUPNAME')
+mask_s_18 <- copynearest(mask_s_18, 'XGROUPNAME')
+mask_s_19 <- copynearest(mask_s_19, 'XGROUPNAME')
 
 
-# FIT GAMS ----------------------------------------------------------------
+# FOX GAMS ----------------------------------------------------------------
+# load fox presence absence records
+records <- read.csv("raw_data/spp_records_pa.csv")
 # specify records class first
 records <- mutate(records, fox = as.integer(fox),
                            year = factor(year, ordered = FALSE),
                            region = factor(region, ordered = FALSE),
                            station = factor(station, ordered = FALSE),
                            survey_duration = as.integer(survey_duration))
-
 # subset to data to each region
 records_glenelg <- filter(records, region == "glenelg")
 records_otways <- filter(records, region == "otways")
@@ -61,7 +123,8 @@ plot(gam_g_fox, pages = 1, scheme = 2)
 summary(gam_g_fox)
 
 # fit GAM - otways 
-gam_o_fox <- bam(fox ~ s(x, y, year, bs = "fs", xt = list(bs = "ds", m = c(1, 0.5)), k = 100) + 
+gam_o_fox <- bam(fox ~ #s(x, y, year, bs = "fs", xt = list(bs = "ds", m = c(1, 0.5)), k = 100) + 
+                        year + s(x, y, by = year, bs = "ds", m = c(1, 0.5), k = 100) + 
                        s(station, bs = "re") + 
                        offset(log(survey_duration)), 
                  data = records_otways, family = binomial)   
@@ -71,15 +134,10 @@ summary(gam_o_fox)
 
 # GLENELG PREDICTIONS -----------------------------------------------------
 # PREDICT GAM INTO HABITAT MASK -------------------------------------------
-# separate masks per session
-mask_a  <- make.mask(traps(mrch_a),  buffer = 4500, spacing = 474 * 0.6, type = 'trapbuffer')     
-mask_c  <- make.mask(traps(mrch_c),  buffer = 4500, spacing = 474 * 0.6, type = 'trapbuffer')     
-mask_h  <- make.mask(traps(mrch_h),  buffer = 4500, spacing = 474 * 0.6, type = 'trapbuffer')     
-mask_mc <- make.mask(traps(mrch_mc),  buffer = 4500, spacing = 474 * 0.6, type = 'trapbuffer') 
 
 # make multisession files
 mrch_glenelg <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc)
-glenelg_mask <- make.mask(traps(mrch_glenelg), buffer = 4500, spacing = 474 * 0.6, type = 'trapbuffer')       
+glenelg_mask <- make.mask(traps(mrch_glenelg), buffer = 4500, spacing = 477 * 0.6, type = 'trapbuffer')       
 
 # make a new dataframe with each habitat mask cell so we can add covariates from the GAMs
 glenelg_mask_df <- do.call(rbind.data.frame, glenelg_mask)
@@ -109,10 +167,10 @@ glenelg_mask_df_h   <- glenelg_mask_df[which(glenelg_mask_df$sess == "mrch_h"),]
 glenelg_mask_df_mc  <- glenelg_mask_df[which(glenelg_mask_df$sess == "mrch_mc"),]
 
 # add covariates to each session mask separately 
-covariates(mask_a) <- glenelg_mask_df_a[,5:6]
-covariates(mask_c) <- glenelg_mask_df_c[,5:6]
-covariates(mask_h) <- glenelg_mask_df_h[,5:6]
-covariates(mask_mc) <- glenelg_mask_df_mc[,5:6]
+covariates(mask_a)  <- cbind(glenelg_mask_df_a[,5:6],  covariates(mask_a))
+covariates(mask_c)  <- cbind(glenelg_mask_df_c[,5:6],  covariates(mask_c))
+covariates(mask_h)  <- cbind(glenelg_mask_df_h[,5:6],  covariates(mask_h))
+covariates(mask_mc) <- cbind(glenelg_mask_df_mc[,5:6], covariates(mask_mc))
 
 
 # ADD FOX VALUES AS A TRAP COVARIATE --------------------------------------
@@ -155,15 +213,6 @@ covariates(traps(mrch_mc)) <- glenelg_traps_df_mc[,5:6]
 mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
 otways_mask <- make.mask(traps(mrch_otways), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')       
 
-# also separate masks per session
-mask_n_17 <- make.mask(traps(mrch_n_17), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_n_18 <- make.mask(traps(mrch_n_18), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_n_19 <- make.mask(traps(mrch_n_19), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')   
-mask_s_17 <- make.mask(traps(mrch_s_17), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_s_18 <- make.mask(traps(mrch_s_18), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_s_19 <- make.mask(traps(mrch_s_19), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')   
-
-
 # make a new dataframe with each habitat mask cell so we can add covariates from the GAMs
 otways_mask_df <- do.call(rbind.data.frame, otways_mask)
 # make sess column the same per session
@@ -200,12 +249,12 @@ otways_mask_df_n_19 <- otways_mask_df[which(otways_mask_df$sess == "mrch_n_19"),
 otways_mask_df_s_19 <- otways_mask_df[which(otways_mask_df$sess == "mrch_s_19"),]
 
 # add covariates to each session mask separately 
-covariates(mask_n_17) <- otways_mask_df_n_17[,7:8]
-covariates(mask_n_18) <- otways_mask_df_n_18[,7:8]
-covariates(mask_n_19) <- otways_mask_df_n_19[,7:8]
-covariates(mask_s_17) <- otways_mask_df_s_17[,7:8]
-covariates(mask_s_18) <- otways_mask_df_s_18[,7:8]
-covariates(mask_s_19) <- otways_mask_df_s_19[,7:8]
+covariates(mask_n_17) <- cbind(otways_mask_df_n_17[,7:8], covariates(mask_n_17))
+covariates(mask_n_18) <- cbind(otways_mask_df_n_18[,7:8], covariates(mask_n_18))
+covariates(mask_n_19) <- cbind(otways_mask_df_n_19[,7:8], covariates(mask_n_19))
+covariates(mask_s_17) <- cbind(otways_mask_df_s_17[,7:8], covariates(mask_s_17))
+covariates(mask_s_18) <- cbind(otways_mask_df_s_18[,7:8], covariates(mask_s_18))
+covariates(mask_s_19) <- cbind(otways_mask_df_s_19[,7:8], covariates(mask_s_19))
 
 
 
@@ -249,36 +298,37 @@ covariates(traps(mrch_n_19)) <- otways_traps_df_n_19[,8:9]
 covariates(traps(mrch_s_17)) <- otways_traps_df_s_17[,8:9]
 covariates(traps(mrch_s_18)) <- otways_traps_df_s_18[,8:9]
 covariates(traps(mrch_s_19)) <- otways_traps_df_s_19[,8:9]
-#head(covariates(traps(mrch_s_17)))
 
 
 
 
+# COMBINE, CHECKS AND SAVE -------------------------------------------------------------
+# merge masks back together: note no longer a secr class?
+masks2 <- list(mask_a, mask_c, mask_h, mask_mc, mask_n_17, mask_n_18, mask_n_19, mask_s_17, mask_s_18, mask_s_19)
 
+# plot vegetation 
+par (mfrow = c(2,5), mar = c(1,1,3,1))
+for (sess in 1:length(mrch)) {
+  plot(masks2[[sess]], covariate = 'XGROUPNAME', legend = FALSE, dots = FALSE, border = 100) 
+  # plot(traps(mrch)[[sess]], add = TRUE) 
+  mtext(side=3, paste('session', sess)) }
 
+# plot foxes
+par (mfrow = c(2,5), mar = c(1,1,3,1))
+for (sess in 1:length(mrch)) {
+  plot(masks2[[sess]], covariate = 'fox_predicted', legend = FALSE, dots = FALSE, border = 100) 
+  #plot(traps(mrch)[[sess]], add = TRUE) 
+  mtext(side=3, paste('session', sess)) }
 
-# SAVE EVERYTHING -------------------------------------------------------------
+## SAVE EVERYTHING
 # save GAMs
 saveRDS(gam_g_fox, "models/gam_g_fox.RData")  
 saveRDS(gam_o_fox, "models/gam_o_fox.RData")  
-
 # save mask dataframes  (useful for plotting etc in this format)
 saveRDS(glenelg_mask_df, "derived_data/glenelg_mask_df.RData")
 saveRDS(otways_mask_df, "derived_data/otway_mask_df.RData")
-
-# convert into multi-session habitat mask (same order as capthist!)
-mask_glenelg <- list(mask_a, mask_c, mask_h, mask_mc)
-mask_otways <- list(mask_s_17, mask_n_17, mask_s_18, mask_n_18, mask_s_19, mask_n_19)
-mrch_glenelg <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc)
-mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
-# check covs all worked
-#head(covariates(mask_otways)) 
-#head(covariates(traps(mrch_glenelg[1])))
-#summary(mrch_glenelg, terse = TRUE)
-# now save 
-saveRDS(mask_glenelg, "derived_data/mask_glenelg.RData")
-saveRDS(mask_otways, "derived_data/mask_otways.RData")
-saveRDS(mrch_glenelg, "derived_data/mrch_glenelg.RData")
-saveRDS(mrch_otways, "derived_data/mrch_otways.RData")
+# save masks
+saveRDS(mrch, "derived_data/mrch.RData")
+saveRDS(masks2, "derived_data/masks.RData")
 
 ## END

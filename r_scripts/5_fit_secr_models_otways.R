@@ -1,12 +1,9 @@
 # RUN FERAL CAT SECR MODELS - otways REGION 2018 
 # Matthew Rees
 
-
 rm(list = ls())
 options(scipen = 999)
-# Set the default theme for ggplot objects 
-theme_set(theme_bw())
-theme_update(panel.grid = element_blank())
+
 # load packages
 library(secr)  # version 4.3.3
 library(mgcv)  
@@ -19,9 +16,9 @@ mask_otways <- readRDS("derived_data/mask_otways.RData")
 mrch_otways <- readRDS("derived_data/mrch_otways.RData")
 
 # load models 
-df_fits <- readRDS("models/otways_df_fits.RData")
-fit1_adj <- readRDS("models/otways_fit1_adj.RData")
-otways_fits <- readRDS("models/otways_fits.RData")
+#df_fits <- readRDS("models/otways_df_fits.RData")
+#fit1_adj <- readRDS("models/otways_fit1_adj.RData")
+#otways_fits <- readRDS("models/otways_fits.RData")
 
 ## specify session covariates
 # get mean fox occ estimates
@@ -48,7 +45,7 @@ esa.plot(df_fits, max.buffer = 4500, ylim = c(0.001,0.003))
 # also go back and double check maks spacing fits with this sigma estimate. 
 
 # 2) Adjust for overdispersion in the unmarked sightings
-fit1_adj <- secr.fit(mrch_otways, mask = mask_otways, detectfn = 1, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, nsim = 10000), fixed = list(pID = 1), start = df_fits$fit1_hr)
+fit1_adj <- secr.fit(mrch_otways, mask = mask_otways, detectfn = 1, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, nsim = 10000), fixed = list(pID = 1))
 saveRDS(fit1_adj, "models/otways_fit1_adj.RData")
 fit1_adj$details$chat[1:2]
 #Tu       Tm 
@@ -73,4 +70,4 @@ saveRDS(otways_fits, "models/otways_fits.RData")
 AIC(otways_fits, criterion = "AICc")[,-2] # model selection
 
 
-
+# END

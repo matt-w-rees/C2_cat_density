@@ -10,10 +10,6 @@ library(ggplot2)
 library(patchwork)
 library(dplyr)
 
-# Set the default theme for ggplot objects 
-theme_set(theme_bw())
-theme_update(panel.grid = element_blank())
-
 # load secr data
 mask_glenelg <- readRDS("derived_data/mask_glenelg.RData")
 mrch_glenelg <- readRDS("derived_data/mrch_glenelg.RData")
@@ -70,4 +66,4 @@ saveRDS(glenelg_fits, "models/glenelg_fits.RData")
 AIC(glenelg_fits, criterion = "AICc")[,-2] # model selection
 
 
-
+# END

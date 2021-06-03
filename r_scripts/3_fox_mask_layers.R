@@ -57,16 +57,16 @@ mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_s_17, mrch_n_17, mrch_
 # make a mask from this 
 masks <- make.mask(traps(mrch), buffer = 4000, spacing = 477 * 0.6, type = 'trapbuffer')     
 # but need to do is seperately per session
-mask_a  <- make.mask(traps(mrch_a),  buffer = 4500, spacing = 477 * 0.6, type = 'trapbuffer')     
-mask_c  <- make.mask(traps(mrch_c),  buffer = 4500, spacing = 477 * 0.6, type = 'trapbuffer')     
-mask_h  <- make.mask(traps(mrch_h),  buffer = 4500, spacing = 477 * 0.6, type = 'trapbuffer')     
-mask_mc <- make.mask(traps(mrch_mc), buffer = 4500, spacing = 477 * 0.6, type = 'trapbuffer') 
-mask_n_17 <- make.mask(traps(mrch_n_17), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_n_18 <- make.mask(traps(mrch_n_18), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_n_19 <- make.mask(traps(mrch_n_19), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')   
-mask_s_17 <- make.mask(traps(mrch_s_17), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_s_18 <- make.mask(traps(mrch_s_18), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')     
-mask_s_19 <- make.mask(traps(mrch_s_19), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')  
+mask_a  <- make.mask(traps(mrch_a),  buffer = 4000, spacing = 477 * 0.6, type = 'trapbuffer')     
+mask_c  <- make.mask(traps(mrch_c),  buffer = 4000, spacing = 477 * 0.6, type = 'trapbuffer')     
+mask_h  <- make.mask(traps(mrch_h),  buffer = 4000, spacing = 477 * 0.6, type = 'trapbuffer')     
+mask_mc <- make.mask(traps(mrch_mc), buffer = 4000, spacing = 477 * 0.6, type = 'trapbuffer') 
+mask_n_17 <- make.mask(traps(mrch_n_17), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_n_18 <- make.mask(traps(mrch_n_18), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_n_19 <- make.mask(traps(mrch_n_19), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')   
+mask_s_17 <- make.mask(traps(mrch_s_17), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_s_18 <- make.mask(traps(mrch_s_18), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')     
+mask_s_19 <- make.mask(traps(mrch_s_19), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')  
 
 # add covariates to each mask
 mask_a    <- addCovariates(mask_a, evc)
@@ -123,8 +123,7 @@ plot(gam_g_fox, pages = 1, scheme = 2)
 summary(gam_g_fox)
 
 # fit GAM - otways 
-gam_o_fox <- bam(fox ~ #s(x, y, year, bs = "fs", xt = list(bs = "ds", m = c(1, 0.5)), k = 100) + 
-                        year + s(x, y, by = year, bs = "ds", m = c(1, 0.5), k = 100) + 
+gam_o_fox <- bam(fox ~ year + s(x, y, by = year, bs = "ds", m = c(1, 0.5), k = 100) + 
                        s(station, bs = "re") + 
                        offset(log(survey_duration)), 
                  data = records_otways, family = binomial)   
@@ -137,7 +136,7 @@ summary(gam_o_fox)
 
 # make multisession files
 mrch_glenelg <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc)
-glenelg_mask <- make.mask(traps(mrch_glenelg), buffer = 4500, spacing = 477 * 0.6, type = 'trapbuffer')       
+glenelg_mask <- make.mask(traps(mrch_glenelg), buffer = 4000, spacing = 477 * 0.6, type = 'trapbuffer')       
 
 # make a new dataframe with each habitat mask cell so we can add covariates from the GAMs
 glenelg_mask_df <- do.call(rbind.data.frame, glenelg_mask)
@@ -211,7 +210,7 @@ covariates(traps(mrch_mc)) <- glenelg_traps_df_mc[,5:6]
 # OTWAY PREDICTIONS -----------------------------------------------------
 # merge to single capthist (in order of deployment) and make mask
 mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
-otways_mask <- make.mask(traps(mrch_otways), buffer = 4500, spacing = 312 * 0.6, type = 'trapbuffer')       
+otways_mask <- make.mask(traps(mrch_otways), buffer = 4000, spacing = 312 * 0.6, type = 'trapbuffer')       
 
 # make a new dataframe with each habitat mask cell so we can add covariates from the GAMs
 otways_mask_df <- do.call(rbind.data.frame, otways_mask)
@@ -303,22 +302,23 @@ covariates(traps(mrch_s_19)) <- otways_traps_df_s_19[,8:9]
 
 
 # COMBINE, CHECKS AND SAVE -------------------------------------------------------------
-# merge masks back together: note no longer a secr class?
-masks2 <- list(mask_a, mask_c, mask_h, mask_mc, mask_n_17, mask_n_18, mask_n_19, mask_s_17, mask_s_18, mask_s_19)
+# merge masks back together: same order!!!
+masks2 <- list(mask_a, mask_c, mask_h, mask_mc, mask_s_17, mask_n_17, mask_s_18, mask_n_18, mask_s_19, mask_n_19)
 
 # plot vegetation 
 par (mfrow = c(2,5), mar = c(1,1,3,1))
 for (sess in 1:length(mrch)) {
   plot(masks2[[sess]], covariate = 'XGROUPNAME', legend = FALSE, dots = FALSE, border = 100) 
-  # plot(traps(mrch)[[sess]], add = TRUE) 
+  plot(traps(mrch)[[sess]], add = TRUE) 
   mtext(side=3, paste('session', sess)) }
 
 # plot foxes
 par (mfrow = c(2,5), mar = c(1,1,3,1))
 for (sess in 1:length(mrch)) {
   plot(masks2[[sess]], covariate = 'fox_predicted', legend = FALSE, dots = FALSE, border = 100) 
-  #plot(traps(mrch)[[sess]], add = TRUE) 
+  plot(traps(mrch)[[sess]], add = TRUE) 
   mtext(side=3, paste('session', sess)) }
+
 
 ## SAVE EVERYTHING
 # save GAMs

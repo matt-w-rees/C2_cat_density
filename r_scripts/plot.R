@@ -1,7 +1,14 @@
 
-# PLOT  -------------------------------------------------------------
+# LOAD  -------------------------------------------------------------
 
-# GLENELG PLOT -----------------------------------------------------------
+# load fox presence absence records
+records <- read.csv("raw_data/spp_records_pa.csv")
+# split by region
+records_glenelg <- filter(records, region == "glenelg")
+records_otways <- filter(records, region == "otways")
+
+
+# GLENELG FOX PLOT -----------------------------------------------------------
 ## STEP 1) Make buffer zone around cameras to restrict plotting - optional 
 #take just the cams
 records_glenelg_cams <- distinct(records_glenelg, station, .keep_all = TRUE)
@@ -113,7 +120,6 @@ o_fox_plot <- ggplot(aes(x, y, fill = fox_predicted),
   annotate("text", x = mean(data_otways_plot$x) + 7500, y = mean(data_otways_plot$y) + 7500, label = "NT") + 
   annotate("text", x = mean(data_otways_plot$x) - 7500, y = mean(data_otways_plot$y) - 7500, label = "T") 
 o_fox_plot
-
 
 
 

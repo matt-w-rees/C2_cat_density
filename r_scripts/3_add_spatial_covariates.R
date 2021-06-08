@@ -24,9 +24,11 @@ evc$XGROUPNAME <- as.character(evc$XGROUPNAME)
 # merge cleared types - different name for the same thing
 evc$XGROUPNAME <- if_else(evc$XGROUPNAME == "No native vegetation recorded", "CLEARED", evc$XGROUPNAME)
 # merge rainforest / wet forest
-#evc$XGROUPNAME <- if_else(evc$XGROUPNAME == "Rainforests", "Wet or Damp Forests", evc$XGROUPNAME)
+evc$XGROUPNAME <- if_else(evc$XGROUPNAME == "Rainforests", "Wet or Damp Forests", evc$XGROUPNAME)
 # merge heathalnds / heathy woodlands
 evc$XGROUPNAME <- if_else(evc$XGROUPNAME == "Heathlands", "Heathy Woodlands", evc$XGROUPNAME)
+# merge dry / lowland forests
+evc$XGROUPNAME <- if_else(evc$XGROUPNAME == "Dry Forests", "Lowland Forests", evc$XGROUPNAME)
 # make snakey lil ones NA - we will interpolate these values from surrounds  
 evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Riparian Scrubs or Swampy Scrubs and Woodlands", NA, evc$XGROUPNAME)
 evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Coastal Scrubs Grasslands and Woodlands", NA, evc$XGROUPNAME)
@@ -67,16 +69,16 @@ mrch_n_19 <- readRDS("derived_data/capthists/mrch_n_19.RData")
 # combine
 mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
 # but need to do is seperately per session
-mask_a  <- make.mask(traps(mrch_a),  buffer = 4000, spacing = 162*0.6, type = 'trapbuffer')     
-mask_c  <- make.mask(traps(mrch_c),  buffer = 4000, spacing = 162*0.6, type = 'trapbuffer')     
-mask_h  <- make.mask(traps(mrch_h),  buffer = 4000, spacing = 162*0.6, type = 'trapbuffer')     
-mask_mc <- make.mask(traps(mrch_mc), buffer = 4000, spacing = 162*0.6, type = 'trapbuffer') 
-mask_n_17 <- make.mask(traps(mrch_n_17), buffer = 4000, spacing = 254 * 0.6, type = 'trapbuffer')     
-mask_n_18 <- make.mask(traps(mrch_n_18), buffer = 4000, spacing = 254 * 0.6, type = 'trapbuffer')     
-mask_n_19 <- make.mask(traps(mrch_n_19), buffer = 4000, spacing = 254 * 0.6, type = 'trapbuffer')   
-mask_s_17 <- make.mask(traps(mrch_s_17), buffer = 4000, spacing = 254 * 0.6, type = 'trapbuffer')     
-mask_s_18 <- make.mask(traps(mrch_s_18), buffer = 4000, spacing = 254 * 0.6, type = 'trapbuffer')     
-mask_s_19 <- make.mask(traps(mrch_s_19), buffer = 4000, spacing = 254 * 0.6, type = 'trapbuffer')  
+mask_a  <- make.mask(traps(mrch_a),  buffer = 4000, spacing = 200, type = 'trapbuffer')     
+mask_c  <- make.mask(traps(mrch_c),  buffer = 4000, spacing = 200, type = 'trapbuffer')     
+mask_h  <- make.mask(traps(mrch_h),  buffer = 4000, spacing = 200, type = 'trapbuffer')     
+mask_mc <- make.mask(traps(mrch_mc), buffer = 4000, spacing = 200, type = 'trapbuffer') 
+mask_n_17 <- make.mask(traps(mrch_n_17), buffer = 4000, spacing = 200, type = 'trapbuffer')     
+mask_n_18 <- make.mask(traps(mrch_n_18), buffer = 4000, spacing = 200, type = 'trapbuffer')     
+mask_n_19 <- make.mask(traps(mrch_n_19), buffer = 4000, spacing = 200, type = 'trapbuffer')   
+mask_s_17 <- make.mask(traps(mrch_s_17), buffer = 4000, spacing = 200, type = 'trapbuffer')     
+mask_s_18 <- make.mask(traps(mrch_s_18), buffer = 4000, spacing = 200, type = 'trapbuffer')     
+mask_s_19 <- make.mask(traps(mrch_s_19), buffer = 4000, spacing = 200, type = 'trapbuffer')  
 
 # add covariates to each mask
 mask_a    <- addCovariates(mask_a, evc)
@@ -137,16 +139,16 @@ gam_o_fox <- bam(fox ~ year + s(x, y, by = year, bs = "ds", m = c(1, 0.5), k = 1
                        s(station, bs = "re") + 
                        offset(log(survey_duration)), 
                  data = records_otways, family = binomial, discrete = TRUE)   
+plot(gam_o_fox, pages = 1, scheme = 2)
 summary(gam_o_fox)
 
 
 
 # GLENELG PREDICTIONS -----------------------------------------------------
 # PREDICT GAM INTO HABITAT MASK -------------------------------------------
-
 # make multisession files
 mrch_glenelg <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc)
-glenelg_mask <- make.mask(traps(mrch_glenelg), buffer = 4000, spacing = 162*0.6, type = 'trapbuffer')       
+glenelg_mask <- make.mask(traps(mrch_glenelg), buffer = 4000, spacing = 200, type = 'trapbuffer')       
 
 # make a new dataframe with each habitat mask cell so we can add covariates from the GAMs
 glenelg_mask_df <- do.call(rbind.data.frame, glenelg_mask)
@@ -220,7 +222,7 @@ covariates(traps(mrch_mc)) <- glenelg_traps_df_mc[,5:6]
 # OTWAY PREDICTIONS -----------------------------------------------------
 # merge to single capthist (in order of deployment) and make mask
 mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
-otways_mask <- make.mask(traps(mrch_otways), buffer = 4000, 254 * 0.6, type = 'trapbuffer')       
+otways_mask <- make.mask(traps(mrch_otways), buffer = 4000, 200, type = 'trapbuffer')       
 
 # make a new dataframe with each habitat mask cell so we can add covariates from the GAMs
 otways_mask_df <- do.call(rbind.data.frame, otways_mask)
@@ -246,7 +248,7 @@ otways_mask_df$survey_duration <- 60
 # predict into the dataframe 
 otways_mask_df <- cbind(otways_mask_df, predict.gam(gam_o_fox, newdata = otways_mask_df, se.fit = TRUE, type = "response", exclude = c("s(station)")))
 otways_mask_df <- rename(otways_mask_df, fox_predicted = fit,  fox_predicted_se = se.fit) # rename
-#\head(otways_mask_df)
+#head(otways_mask_df)
 
 # because we have a multi-session CH - we need to add in covariates seperately for each session then merge back into multi-session mask...
 #split dataframe by session 
@@ -310,29 +312,32 @@ covariates(traps(mrch_s_19)) <- otways_traps_df_s_19[,8:9]
 
 
 
-
 # COMBINE, CHECKS AND SAVE -------------------------------------------------------------
-# merge masks back together: same order!!!
+# merge masks and capthists back together: same order!!!
+mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
+mrch_glenelg <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc)
+mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
 masks <- list(mask_a, mask_c, mask_h, mask_mc, mask_s_17, mask_n_17, mask_s_18, mask_n_18, mask_s_19, mask_n_19)
 masks_glenelg <- list(mask_a, mask_c, mask_h, mask_mc)
 masks_otways <- list(mask_s_17, mask_n_17, mask_s_18, mask_n_18, mask_s_19, mask_n_19)
 
 
-# plot Vegetation class - Glenelg
-forestcol <- terrain.colors(6, rev = TRUE)
+
+# plot Vegetation class - glenelg
+forestcol <- terrain.colors(6, rev = TRUE)[c(1,3,5)]
 names(masks) <- c("Glenelg: Annya", "Glenelg: Cobboboonee", "Glenelg: Hotspur", "Glenelg: Mt Clay", "Otways: South", "Otways: North", "Otways: South '18", "Otways: North '18", "Otways: South '19", "Otways: North '19")
-par (mfrow = c(1,5), mar = c(0,0,5,0))
+par (mfrow = c(1, 5), mar = c(0,0,5,0))
 for (sess in 1:4) {
   plot(masks[[sess]], covariate = 'vegetation', legend = FALSE, dots = FALSE, border = 100, col = forestcol) 
   plot(traps(mrch)[[sess]], add = TRUE, detpar = list(pch = 16, cex = 0.25, col = "black"))
   mtext(side=3, paste(session(masks)[[sess]])) }
 # null plot for seperate legend
 plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend (x = "left", fill = forestcol, legend = levels(factor(evc$vegetation))[1:4], bty='n', title = "Vegetation type", pt.cex=3, cex=1.5)
+legend (x = "left", fill = forestcol, legend = levels(factor(evc$vegetation))[1:3], bty='n', title = "Vegetation type", pt.cex=3, cex=1.5)
 
 
 # plot Vegetation class - Otways
-forestcol <- terrain.colors(6, rev = TRUE)[c(1,3,5,6)]
+forestcol <- terrain.colors(6, rev = TRUE)[c(1,3,6)]
 names(masks) <- c("Glenelg: Annya", "Glenelg: Cobboboonee", "Glenelg: Hotspur", "Glenelg: Mt Clay", "Otways: South", "Otways: North", "Otways: South '18", "Otways: North '18", "Otways: South '19", "Otways: North '19")
 par (mfrow = c(1,3), mar = c(0,0,5,0))
 for (sess in 5:6) {
@@ -341,10 +346,10 @@ for (sess in 5:6) {
   mtext(side=3, paste(session(masks)[[sess]])) }
 # null plot for seperate legend
 plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend (x = "left", fill = forestcol, legend = levels(factor(evc_otways$vegetation))[1:4], bty='n', title = "Vegetation type", pt.cex=3, cex=1.5)
+legend (x = "left", fill = forestcol, legend = levels(factor(evc_otways$vegetation))[1:3], bty='n', title = "Vegetation type", pt.cex=3, cex=1.5)
 
 # plot foxes - glenelg
-par (mfrow = c(2,5), mar = c(2,2,4,5))
+par (mfrow = c(2,2), mar = c(2,2,4,5))
 names(masks) <- c("Annya", "Cobboboonee", "Hotspur", "Mt Clay", "South '17", "North '17", "South '18", "North '18", "South '19", "North '19")
 for (sess in 1:4) {
   plot(masks[[sess]], covariate = 'fox_predicted', legend = TRUE, dots = FALSE, border = 100)
@@ -358,7 +363,6 @@ for (sess in 5:10) {
   plot(masks[[sess]], covariate = 'fox_predicted', legend = TRUE, dots = FALSE, border = 100)
   plot(traps(mrch)[[sess]], add = TRUE, detpar = list(pch = 16, cex = 0.25, col = "black"))
   mtext(side=3, paste(session(masks)[[sess]])) }
-
 
 
 ## SAVE EVERYTHING

@@ -1,0 +1,217 @@
+---
+title: Invasive mesopredator release
+author:
+  - name: Matthew W. Rees
+    email: matt.wayne.rees@gmail.com
+    affiliation: UOM
+    footnote: 1
+  - name: Jack H. Pascoe
+    email: 
+    affiliation: CEC
+  - name: Brendan A. Wintle
+    email: 
+    affiliation: UOM
+  - name: Alan Robley
+    email: 
+    affiliation: ARI
+  - name: Mark Le Pla
+    email: 
+    affiliation: CEC
+  - name: Emma K. Birnbaum
+    email: 
+    affiliation: CEC
+    footnote: 
+  - name: Bronwyn A. Hradsky
+    email: 
+    affiliation: UOM
+    footnote: 
+address:
+  - code: UOM
+    address: Quantitative & Applied Ecology Group, School of Ecosystem and Forest Science, The University of Melbourne, Parkville, VIC, Australia
+  - code: CEC 
+    address: Conservation Ecology Centre, Otway Lighthouse Rd, Cape Otway, VIC, Australia
+  - code: ARI 
+    address: Department of Environment, Land, Water and Planning, Arthur Rylah Institute for Environmental Research, Heidelberg, Australia
+footnote:
+  - code: 1
+    text: "Corresponding Author"
+abstract: |
+  1. This is the abstract.
+
+  2. It consists of two paragraphs.
+  
+  3. It consists of two paragraphs.
+
+  4. *Synthesis and applications.* It consists of two paragraphs.
+  
+  
+keywords: "Camera trap; Felis catus; invasive predator; interspecific competition; mesopredator release; population density; spatial capture-recapture; spatial mark-resight; species interactions; Vulpes vulpes."
+journal: "Journal of Applied Ecology"
+date: "`r Sys.Date()`"
+bibliography: mybibfile.bib
+header-includes:
+    - \usepackage{setspace}\doublespacing
+linenumbers: true
+#numbersections: true
+csl: jae.csl
+geometry: margin=1.6in
+fontsize: 12pt
+output:
+  bookdown::pdf_book:
+    base_format: rticles::elsevier_article
+       
+---
+\parskip=12pt 
+
+
+\newpage
+
+
+INTRODUCTION
+==========================
+
+Understanding species interactions is critical for effective invasive species management [@zavaleta2001]. 
+When several invasive species co-occur, management actions that suppress the dominant invasive species may inadvertently benefit subordinate invasive species [@jackson2015; @kuebbing2015]. 
+Subordinate invasive species may be released from direct top-down pressure following a decline in the dominant predator or benefit indirectly from an increase in availability of shared resources [often referred to as mesopredator or competitor release - @crooks1999; @ruscoe2011; @doherty2017].
+The release of a subordinate invasive species, particularly predators, can have serious negative implications for native taxa and ecosystem function [@ballari2016; @courchamp1999]. 
+However, integrated predator management is often far more costly and less feasible than single species control, and so it is important to identify the extra cost if justified [@bode2015]. 
+
+
+Most knowledge of predator interactions stems from unreplicated “natural experiments” [e.g. range contractions - @crooks1999] or ad-hoc management interventions [e.g. invasive species eradications - @rayner2007]. 
+However, the occurrence, nature (positive or negative, direct or indirect) and strength of species interactions can vary among species assemblages, predation risk, environmental productivity, management regimes, and other landscape contexts [@hastings2001; @finke2004; @alston2019]. 
+Replicating management programs in an experimental framework is logistically challenging, but important for understanding these complexities, discriminating between plausible hypotheses and producing generalisable results in order to inform effective pest management [@glen2005; @christie2019; @smith2020].
+
+
+Unbiased estimates of invasive predator density are vital for inferring native prey impacts on and for setting meaningful control targets [@moseby2019]. However, controversy around the mesopredator release hypothesis has stemmed from the inability of traditional survey approaches to separate behavioural and numerical population processes [@stephens2015; @hayward2015]. 
+These nonspatial approaches arbitrarily divide continuous landscapes into discrete spatial sampling units, but highly mobile predators can easily break model assumptions by crossing these [@efford2012].
+Additionally, the suppression of an apex predator may change the behaviour and density of a mesopredator, both of which impact detection rates [@broadley2019; @rogan2019]. 
+And so, even with experimental designs, it is difficult to interpret changes in unidentified counts or presence-absences records of mesopredators in relation to apex predators. 
+While spatially explicit capture-recapture methods have been developed to robustly estimate predator density by separating out behavioural and observational processes from population density, they have seldom been used experimentally or to investigate multispecies interactions [although, see @forsyth2019]. 
+
+
+Predation by two invasive species, the red fox *Vulpes vulpes* and feral cat *Felis catus*, has played a major role in Australia’s high rates of mammalian extinction (Woinarski et al. 2019). 
+Integrated invasive predator management programs are rare. 
+Introduced red foxes (hereafter foxes) are far more commonly controlled than feral cats, as they are more susceptible to poison-baiting, have greater direct economic impacts and fewer legal impediments to their control [@reddiex2007; @mcleod2014].
+Nonetheless, feral cats are one of the most widespread and damaging vertebrate species [@doherty2017; @medina2011; @legge2020].
+As foxes are larger-bodied (~2 kg difference) and have high dietary overlap with feral cats [@catling1988; @short1999; @glen2011], the mesopredator release hypothesis predicts that feral cat impacts will increase as fox populations are managed [@soule1988]. 
+This is alarming because feral cats are extremely difficult to manage in open populations [@lazenby2015; @fisher2015].
+
+
+Evidence that foxes suppress feral cats is inconclusive [@hunter2018]. 
+In parts of Australia where the native apex mammalian predator (the dingo *Canis familiaris*) is functionally extinct and introduced red foxes are the largest terrestrial mammalian predator, four studies have observed an increase in feral cat detections following fox control [@risbey2000; @marlow2015; @stobo2020management].
+However, two other studies in similar systems did not see any change [@towerton2011; @molsher2017]. 
+One study with spatial replication detected an increase at one site but not another [@davey2006], and one study observed a decrease in feral cat activity [@claridge2010]. 
+No previous study has directly estimated feral cat density in response to fox control. 
+
+
+In this study, we experimentally investigated the role of introduced foxes in top-down suppression of feral cat density in two regions of south-eastern Australia. 
+Foxes and feral are the only functional terrestrial mammalian predators in these regions, and each region included at least one area in which foxes were subject to continuous lethal poison-baiting (hereafter "impact landscape"), and a paired area were foxes were not controlled (hereafter "non-impact landscape"). 
+This allowed a sharp focus on the interactions between the two invasive predators, across a gradient of apex predator (fox) occupancy and vegetation types. 
+We tested for a direct effect of fox control on feral cat density using traditional experimental approaches: a replicated Control-Impact design in the region with long-term fox control, and a Before-After Control-Impact Paired Series (BACIPS) design in the region with newly implemented fox control. 
+Additionally, we tested for fine-scale associations between spatial fox occupancy (derived using generalised additive models) and feral cat density in each region. 
+In accordance with the mesopredator release hypothesis, we predicted that (1) fox control would increase feral cat density, and (2) feral cat density would be negatively correlated with spatial fox occupancy. 
+We based inference on spatial mark-resight models of feral cat density and information criteria methods. 
+
+
+
+\newpage
+
+MATERIALS AND METHODS
+==========================
+
+## Study area
+We conducted our study across two regions of south-west Victoria, Australia (Fig. \@ref(fig:map)). The native temperate forests in both regions are fragmented to varying degrees, primarily by livestock farming and tree plantations. Although once widespread, dingoes are now absent throughout, and a native mesopredator, the tiger quoll *Dasyurus maculatus*, is long absent from the Glenelg region and recently absent in the Otway Ranges (last sighted in 2014 despite extensive camera-trapping). The terrestrial mammalian predator guild is therefore depauperate, with the introduced fox and feral cat being the primary functional mammalian terrestrial predators; birds of prey and snakes are the only other predators present.  
+
+Our study landscapes in the Glenelg region, Gunditjmara country, are primarily lowland forest (with an overstorey of *Eucalyptus obliqua* and *E. ovata*, a sparse midstorey and a fern-rich understorey) and heathy woodland (with an overstorey of *E. baxteri s.l.* and *E. willisii*, a sparse midstorey and a diverse understorey of narrow or ericoid-leaved shrubs). It has gently undulating terrain and frequently experiences prescribed burns and wildfires, creating a mosaic of fire histories and vegetation complexity. The area receives an average annual rainfall of 700 mm, with average minimum temperatures of 8.1°C and maximum of 17.6°C [@BOM2021].
+
+Our study landscapes in the Otway region were in the western section of the Otway Ranges, Gadubanud country. Here, the vegetation is a mosaic of shrubby wet forest and cool temperate rainforest, with an overstorey of tall eucalyptus species (primarily *E. regnans*), *Acacia melanoxylon* and *Nothofagus cunninghamii*. The midstorey is dominated by tree ferns, *Acacia verticillata*, *Pomaderris aspera* and *Olearia argophylla*. The understorey predominantly comprises a dense layer of ferns and graminoids but can be relatively sparse in steep rainforest gullies. Maximum daily temperatures average 19.3°C in summer and 9.5°C in winter; annual rainfall averages 1955 mm [@BOM2021]. This region rarely experiences fire and is nearly ten times more rugged (based on the terrain ruggedness index [@riley1999] averaged within a 10 m radius of each camera-trap site).
+
+
+## Lethal fox control
+Across broad sections of each region, government land managers conduct ongoing fox control for biodiversity conservation. Manufactured poison baits (FoxOff, Animal Control Technologies, Somerton) containing 3 mg of sodium mono-fluroacetate (1080) are buried at a depth of 10 cm at 1-km intervals along accessible forest tracks and roads (Fig. \@ref(fig:map)). Different road densities across the two regions therefore result in variable poison-bait densities. In the Glenelg region, fox control in the impact landscapes has been ongoing since October 2005, with baits checked and replaced fortnightly [@robley2014]. In the Otway region, baiting commenced in the impact landscape in November 2017. Poison baits were replaced weekly for six weeks until December 2017, before changing to monthly bait replacement until July 2018. The fox control program then lapsed for approximately six months until December 2018 due to logistical constraints, when monthly bait replacement recommenced for the duration of our study (Fig. S1). 
+
+
+## Study design and camera-trapping
+We designed experiments around the implementation of fox poison-baiting in each region. We simultaneously surveyed one impact and one non-impact landscape at a time using camera-traps. Each landscape pair was chosen based on similarity in landscape context, namely vegetation groups, with the aim of maintaining spatial independence with respect to predator range movements.  
+
+In the Glenelg region, we used a replicated control-impact design to test for differences in areas that have been poison-baited for foxes for more than 13 years compared with unbaited areas. We deployed a pair of camera-trapping grids in Cobboboonee National Park (impact) and Annya State Forest (non-impact) in January – April 2018, then moved these cameras to Mt Clay State Forest/Narrawong Flora Reserve (hereafter “Mt Clay”; impact) and Hotspur State Forest (non-impact) in April – June 2018 (Fig. S3). Each grid was separated by at least 8 km, a distance very unlikely to be traversed regularly by these invasive predators [@hradsky2017human]. 
+
+In the Otway region, we undertook a BACIPS study to assess changes related to the introduction of the fox control program. We deployed camera-trap grids in an impact – non-impact pair of landscapes in June – September from 2017 to 2019, in the Great Otway National Park and Otway Forest Park (Fig. S1). Our first survey occurred approximately three months before fox-baiting began. The second survey was conducted six months post-commencement of fox-baiting, however poison bait replacement lapsed at the beginning of the survey until nearly three months afterwards (Fig. S1). Fox-baiting recommenced six months prior to the start of the final survey (Fig. S1). The impact and non-impact landscapes were at least 4.2 km apart, a distance unlikely to be traversed by these invasive predators, although possible [@hradsky2017human]. In this study, and a concurrent study which identified individual foxes through genetic sampling (M. Le Pla, in review), we found no evidence of either species of predator moving between these landscapes.  
+
+In each of the six survey landscapes, we deployed a grid of camera-traps (67 – 110 cameras; mean = 94), with sites spaced on average 448 m apart (range: 194 – 770 m; Fig. \@ref(fig:map)). At each site, we deployed a single Reconyx trail camera (Reconyx, Holmen, Wisconsin) with an infrared flash and temperature-in-motion detector on a tree, facing a lure of oil-absorbing cloth doused in tuna oil (Fig. S2). More information on the camera-trapping methods is provided in Section 1.2 of the Supporting Information. Overall, we deployed 938 functional camera-traps, which operated for an average of 68 days (range: 12 – 93 days), totalling 62,415 trap nights (Table S1) across a total study duration of five months and three years in the Glenelg and Otways regions respectively (Fig. S1). 
+
+
+## Individual feral cat identification
+We added a species metadata tag for each camera-trap image, compiled species record tables and extracted feral cat photos for individual identification using the "camtrapR" R package [@niedballa2016]. We sorted the cats into five categories based on their coat type: black, spotty tabby, swirly tabby, ginger and other (cats with multiple colour blends or other distinctive coats; Fig. S3). We did not attempt to identify any black cats, even the few with white splotches on their underside, as these markings could not always be seen. Within the other four coat categories, multiple observers identified individual cats based on their unique coat patterns where possible. Detailed information on this process is provided in Section 2 of the Supporting Information.
+
+
+## Spatial fox occupancy
+Spatial mark-resight models require density covariate values for each grid cell density is estimated across (or a single value for the entire session - each camera-trap grid deployment in our case), and so we could not directly use the fox data from the camera-trap sites as independent variables. We therefore used the presence-absence data for each camera-trap site to generate a spatially-interpolated layer of fox occupancy probability using binomial generalised additive models [@wood2017]. We did so using the “mgcv” R package [version 1.3.1; @wood2011]. We modelled fox presences and absences (response variable) across space (explanatory variable) separately for each region, with a duchon spline spatial smooth as these provide better predictions at the edge of surveyed space than other splines [@miller2014]. In the Otway region, we included a random intercept for each camera-trap site to account for repeat sampling and did not share spatial information across the years (using a "by variable" smooth with year as a factor). Differences in camera-trap deployment lengths were accounted for using a model offset. We did not use occupancy-detection models because factors which impact fox detectability on camera-traps may also impact fox detectability to feral cats - which is more important than predictive performance in this context. We predicted GAM estimates into the respective spatial mark-resight habitat mask and trapfile (detailed below). 
+
+
+## Spatial mark-resight models of feral cat density
+We used a spatial capture-recapture approach to estimate feral cat density [@borchers2008]. These models consider counts of detections and non-detections of individual animals at trap locations (accounting for trap-specific survey effort) to estimate the location of each individual’s activity centre. These models generally assume that individuals have approximately circular home ranges and spend the majority of time in the centre of which (“activity centre”). The probability of observing an individual therefore decreases with distance from the activity centre. Two detectability parameters govern this process: g0, the probability of detecting an individual per occasion in their activity centre and sigma: a spatial scale parameter which is relative to the home range size. Multiple candidate shapes for this decline in detectability with distance from the activity centre (“detection function”) can be modelled. 
+
+Spatial capture-recapture models have been extended to consider situations where not all individuals in a population are identifiable (i.e. marked) (Chandler & Royle 2013). These spatial mark-resight models typically assume unmarked individuals to be a random sample of the population, sharing the same detection process as marked individuals, and so allow density to be estimated for the entire population. Spatial mark-resight models have four categories of sightings: (1) marked individuals - detections with known identities identified to the individual level at least once each session, (2) marked but unidentifiable individuals - detections of individuals with known identities, but for which the individual could not be determined in a given session (we had no detections in this category), (3) unmarked individuals - unidentified detections which definitely do not belong to the first two categories (in our study, this category comprised black cats) and (4) mark status uncertain - detections in which individuals cannot be identified and it is not clear whether the individual is of the marked or unmarked category.
+
+We used closed population, sighting-only, spatial mark-resight models to estimate feral cat density using the maximum likelihood “secr” R package [@efford2021secr]. Open populations spatial mark-resight models have not yet been developed. Detections of the “mark status uncertain” category cannot be handled in the “secr” R package, we therefore added them to the unmarked detections rather than discard them (Moseby et al. 2020). We condensed detection histories of each mark category to a binary presence-absense record per each camera-trap for a 24-hour length duration ("occasion"), beginning at midday. We treated each camera-trap grid deployment as a separate "session", created a 4000 metre buffer zone around each camera-trap location to estimate feral cat density across, with a grid cell resolution of 200 metres. These habitat mask specifications were based on initial models and our knowledge of feral cats in these area - ensuring density is estimated over a large enough area to encompass the activity centres of all feral cats exposed to our camera-traps, at a fine enough scale to minimise bias in density estimates. We tested the half-normal and exponential detection functions in each region, carrying forward the function with the lowest Akaike’s Information Criterion score adjusted for small sample size (AICc) for all subsequent model fitting [@burnham2004]. 
+
+
+We expected that foxes would impact both detectability parameters for feral cats concurrently, and so, always specified g0 and sigma consistently (Efford & Mowat, 2014).
+
+
+
+
+
+
+
+```{r map, echo = FALSE, out.width="100%", fig.cap = "Locations of our six study landscapes in south-west Victoria, Australia. The grids of camera-traps are denoted by white dots, the locations of fox poison-bait stations are denoted by smaller black dots. The Glenelg region is to the west and Otway region to the east. Native vegetation is indicated by dark green, with hill shading. Map tiles by Stamen Design, under CC BY 3.0, map data by OpenStreetMap, under CC BY SA."}
+
+knitr::include_graphics("figs/fig1.png")
+
+```
+
+
+
+\newpage
+
+
+RESULTS
+============
+
+\newpage
+
+DISCUSSION
+===================
+
+\newpage
+
+CONCLUSIONS
+===================
+
+\newpage
+
+ACKNOWLEDGEMENTS
+===================
+We acknowledge and pay respect to the Gadubanud and Gunditjmara people on whose traditional lands this study took place. Surveys were conducted under University of Melbourne Animal Ethics Committee approval 1714119 and Victorian Government Department of Environment, Land Water and Planning Research Permit 10008273. This experiment was a collaborative effort between the Glenelg Ark (Department of Environment, Land Water and Planning) and Otway Ark (Parks Victoria) working groups. 
+We are extremely grateful to our field assistants: Shauni Omond, Shayne Neal, Asitha Samarawickrama, Shelley Thompson, Erin Harris, Hannah Killian, Lani Watson, Mark Dorman, Jack Davis, Carl Roffey, Bruce Edley, Larissa Oliveira Gonçalves, Ben Lake, Chantelle Geissler, Aviya Naccarella, Emily Gronow, Harley England, David Pitts, Annie Hobby, Louise Falls, Thomas McKinnon, Jimmy Downie, Marney Hradsky, Stephanie Samson, Robin Sinclair, Asmaa Alhusainan, Kelly Forrester, Tammana Wadawani, Emily McColl-Gausden, Emily Gregg, Hannah Edwards, Adam Beck, Vishnu Memnon, Sandy Lu, Pia Lentini, Nick Golding, Emily McColl-Gausden, Nina Page, Maggie Campbell-Jones, Kyle Quinn and Jack Dickson. This manuscript was improved by comments from William Geary. Our study was generously supported by the Conservation Ecology Centre, the Victorian Government Department of Environment, Land Water and Planning, Arthur Rylah Institute for Environmental Research, Parks Victoria and the Australian Government’s National Environmental Science Program through the Threatened Species Recovery Hub, and ARC Linkage Project LPXX. MR also receives support from an Australian Government Research Training Program Scholarship.
+
+
+AUTHORS' CONTRIBUTIONS
+===================
+
+M.W.R, B.H, J.H.P, B.A.W and A.R conceived the ideas and designed methodology; M.W.R, J.H.P, M.LP, E.K.B and B.H collected the data; M.W.R analysed the data; M.W.R led the writing of the manuscript. All authors contributed critically to the drafts and gave final approval for publication.
+
+
+
+
+OPEN RESEARCH
+===================
+
+Raw data and code are on Github link xx.  
+Data will be deposited on the Dryad Digital Repository after acceptance.
+
+\newpage
+
+REFERENCES {#references .unnumbered}
+==========

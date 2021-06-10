@@ -36,13 +36,13 @@ footnote:
   - code: 1
     text: "Corresponding Author"
 abstract: |
-  1. This is the abstract.
+  1. Background.
 
-  2. It consists of two paragraphs.
+  2. Methods.
   
-  3. It consists of two paragraphs.
+  3. Results.
 
-  4. *Synthesis and applications.* It consists of two paragraphs.
+  4. *Synthesis and applications.* 
   
   
 keywords: "Camera trap; Felis catus; invasive predator; interspecific competition; mesopredator release; population density; spatial capture-recapture; spatial mark-resight; species interactions; Vulpes vulpes."
@@ -54,7 +54,7 @@ header-includes:
 linenumbers: true
 #numbersections: true
 csl: jae.csl
-geometry: margin=1.6in
+geometry: margin=1.4in
 fontsize: 12pt
 output:
   bookdown::pdf_book:
@@ -66,6 +66,23 @@ output:
 
 \newpage
 
+
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE, warning = FALSE, message = FALSE)
+
+library(tidyverse)
+library(secr)            
+library(mgcv)            
+library(pander)          
+library(ggplot2)         
+library(patchwork)
+library(viridis)         
+
+#Set the default theme for ggplot objects to theme_bw()
+theme_set(theme_bw())
+theme_update(panel.grid = element_blank())
+```
 
 INTRODUCTION
 ==========================
@@ -85,7 +102,7 @@ Replicating management programs in an experimental framework is logistically cha
 Unbiased estimates of invasive predator density are vital for inferring native prey impacts on and for setting meaningful control targets [@moseby2019]. However, controversy around the mesopredator release hypothesis has stemmed from the inability of traditional survey approaches to separate behavioural and numerical population processes [@stephens2015; @hayward2015]. 
 These nonspatial approaches arbitrarily divide continuous landscapes into discrete spatial sampling units, but highly mobile predators can easily break model assumptions by crossing these [@efford2012].
 Additionally, the suppression of an apex predator may change the behaviour and density of a mesopredator, both of which impact detection rates [@broadley2019; @rogan2019]. 
-And so, even with experimental designs, it is difficult to interpret changes in unidentified counts or presence-absences records of mesopredators in relation to apex predators. 
+And so, even with experimental designs, it is difficult to interpret changes in unidentified counts or presence-absence records of mesopredators in relation to apex predators. 
 While spatially explicit capture-recapture methods have been developed to robustly estimate predator density by separating out behavioural and observational processes from population density, they have seldom been used experimentally or to investigate multispecies interactions [although, see @forsyth2019]. 
 
 
@@ -105,10 +122,10 @@ No previous study has directly estimated feral cat density in response to fox co
 
 
 In this study, we experimentally investigated the role of introduced foxes in top-down suppression of feral cat density in two regions of south-eastern Australia. 
-Foxes and feral are the only functional terrestrial mammalian predators in these regions, and each region included at least one area in which foxes were subject to continuous lethal poison-baiting (hereafter "impact landscape"), and a paired area were foxes were not controlled (hereafter "non-impact landscape"). 
-This allowed a sharp focus on the interactions between the two invasive predators, across a gradient of apex predator (fox) occupancy and vegetation types. 
+Foxes and feral cats are the only functional terrestrial mammalian predators in these regions, and each region included at least one area in which foxes were subject to continuous lethal poison-baiting (hereafter "impact landscape"), and a paired area were foxes were not controlled (hereafter "non-impact landscape"). 
+This allowed a sharp focus on the interactions between the two invasive predators, across a gradient of apex predator (fox) occupancy and landscape productivity. 
 We tested for a direct effect of fox control on feral cat density using traditional experimental approaches: a replicated Control-Impact design in the region with long-term fox control, and a Before-After Control-Impact Paired Series (BACIPS) design in the region with newly implemented fox control. 
-Additionally, we tested for fine-scale associations between spatial fox occupancy (derived using generalised additive models) and feral cat density in each region. 
+We also tested for direct associations between feral cat density and spatial fox occupancy (derived using generalised additive models) in each region, as well as investigated the relative importance of fine or broad scale fox measurements. 
 In accordance with the mesopredator release hypothesis, we predicted that (1) fox control would increase feral cat density, and (2) feral cat density would be negatively correlated with spatial fox occupancy. 
 We based inference on spatial mark-resight models of feral cat density and information criteria methods. 
 
@@ -138,7 +155,7 @@ In the Glenelg region, we used a replicated control-impact design to test for di
 
 In the Otway region, we undertook a BACIPS study to assess changes related to the introduction of the fox control program. We deployed camera-trap grids in an impact – non-impact pair of landscapes in June – September from 2017 to 2019, in the Great Otway National Park and Otway Forest Park (Fig. S1). Our first survey occurred approximately three months before fox-baiting began. The second survey was conducted six months post-commencement of fox-baiting, however poison bait replacement lapsed at the beginning of the survey until nearly three months afterwards (Fig. S1). Fox-baiting recommenced six months prior to the start of the final survey (Fig. S1). The impact and non-impact landscapes were at least 4.2 km apart, a distance unlikely to be traversed by these invasive predators, although possible [@hradsky2017human]. In this study, and a concurrent study which identified individual foxes through genetic sampling (M. Le Pla, in review), we found no evidence of either species of predator moving between these landscapes.  
 
-In each of the six survey landscapes, we deployed a grid of camera-traps (67 – 110 cameras; mean = 94), with sites spaced on average 448 m apart (range: 194 – 770 m; Fig. \@ref(fig:map)). At each site, we deployed a single Reconyx trail camera (Reconyx, Holmen, Wisconsin) with an infrared flash and temperature-in-motion detector on a tree, facing a lure of oil-absorbing cloth doused in tuna oil (Fig. S2). More information on the camera-trapping methods is provided in Section 1.2 of the Supporting Information. Overall, we deployed 938 functional camera-traps, which operated for an average of 68 days (range: 12 – 93 days), totalling 62,415 trap nights (Table S1) across a total study duration of five months and three years in the Glenelg and Otways regions respectively (Fig. S1). 
+In each of the six survey landscapes, we deployed a grid of camera-traps (67 – 110 cameras; mean = 94), with sites spaced on average 448 m apart (range: 194 – 770 m; Fig. \@ref(fig:map)). At each site, we deployed a single Reconyx trail camera (Reconyx, Holmen, Wisconsin) with an infrared flash and temperature-in-motion detector on a tree, facing a lure of oil-absorbing cloth doused in tuna oil (Fig. S2). More information on the camera-trapping methods is provided in Section 1.2 of the Supporting Information. Overall, we deployed 938 functional camera-traps, which operated for an average of 68 days (range: 12 – 93 days), totalling 62,415 trap nights (Table \@ref(tab:sstab)) across a total study duration of five months and three years in the Glenelg and Otways regions respectively (Fig. S1). 
 
 
 ## Individual feral cat identification
@@ -154,7 +171,33 @@ We used a spatial capture-recapture approach to estimate feral cat density [@bor
 
 Spatial capture-recapture models have been extended to consider situations where not all individuals in a population are identifiable (i.e. marked) (Chandler & Royle 2013). These spatial mark-resight models typically assume unmarked individuals to be a random sample of the population, sharing the same detection process as marked individuals, and so allow density to be estimated for the entire population. Spatial mark-resight models have four categories of sightings: (1) marked individuals - detections with known identities identified to the individual level at least once each session, (2) marked but unidentifiable individuals - detections of individuals with known identities, but for which the individual could not be determined in a given session (we had no detections in this category), (3) unmarked individuals - unidentified detections which definitely do not belong to the first two categories (in our study, this category comprised black cats) and (4) mark status uncertain - detections in which individuals cannot be identified and it is not clear whether the individual is of the marked or unmarked category.
 
-We used closed population, sighting-only, spatial mark-resight models to estimate feral cat density using the maximum likelihood “secr” R package [@efford2021secr]. Open populations spatial mark-resight models have not yet been developed. Detections of the “mark status uncertain” category cannot be handled in the “secr” R package, we therefore added them to the unmarked detections rather than discard them (Moseby et al. 2020). We condensed detection histories of each mark category to a binary presence-absense record per each camera-trap for a 24-hour length duration ("occasion"), beginning at midday. We treated each camera-trap grid deployment as a separate "session", created a 4000 metre buffer zone around each camera-trap location to estimate feral cat density across, with a grid cell resolution of 200 metres. These habitat mask specifications were based on initial models and our knowledge of feral cats in these area - ensuring density is estimated over a large enough area to encompass the activity centres of all feral cats exposed to our camera-traps, at a fine enough scale to minimise bias in density estimates. We tested the half-normal and exponential detection functions in each region, carrying forward the function with the lowest Akaike’s Information Criterion score adjusted for small sample size (AICc) for all subsequent model fitting [@burnham2004]. 
+We used closed population, sighting-only, spatial mark-resight to estimate feral cat density using the maximum likelihood “secr” R package [@efford2021secr]. Detections of the “mark status uncertain” category cannot be handled in the “secr” R package, we therefore added them to the unmarked detections rather than discard them [@moseby2020effectiveness]. We condensed detection histories of each mark category to a binary presence-absence record per each camera-trap for a 24-hour length duration ("occasion"), beginning at midday. We ran separate models for each region and treated each camera-trap grid deployment as a "session". We created a 4000 metre buffer zone around each camera-trap location to estimate feral cat density across, with a grid cell resolution of 200 metres. These habitat mask specifications were based on initial models and our knowledge of feral cats in these area - ensuring density is estimated over a large enough area to encompass the activity centres of all feral cats exposed to our camera-traps, at a fine enough scale to minimise bias in density estimates. We tested the half-normal and exponential detection functions in each region, carrying forward the function with the lowest Akaike’s Information Criterion score adjusted for small sample size (AICc) for all subsequent model fitting [@burnham2004]. 
+
+For each region, we ran three sets of models: (1) to choose the best "null model" to carry through into other model sets (2) to experimentally evaluate the effect of fox control on feral cat density, and (3) test fine-scale association between spatial fox occupancy and feral cat density. We assessed the relative performance of  models in each set using AICc score, with models within 2 delta AICc of the top-ranked model considered strongly supported compared to the other candidate models [@burnham2004]. 
+
+We compared four candidate "null models" (1) for each region. The first model (1A) was the simplest - density and detectability parameters were held constant. 
+Model 1B included an effect of vegetation group on feral cat density (with detectability parameters constant). For this model, we condensed Ecological Vegetation Class groupings [@delwp2020] into three categories for each region: cleared land, heathy woodlands, lowland forests (Glenelg region only) and wet forests (Otways region only). Detailed information on this process is provided in Section X of the Supporting Information. Model 1C included a linear time trend on g0, keeping density and sigma constant - because the potency of the tuna oil lure likely decreased over the survey duration [@rees2019]. The fourth model (1D) was a combination of model 1B and 1C: density ~ vegetation group, g0 ~ T, sigma ~ 1. 
+
+We compared two types of experimental models on feral cat density (2) to their respective null model in each region. The first was a standard control-impact or before-after-control impact model specification in the Glenelg and Otways regions respectively - with the effect of fox-baiting averaged across space and time replicates. The second experimental models modelled fox-baiting effects separately for each space and time replicate in the Glenelg and Otways regions respectively. We ran these models twice: once where detectability was constant, and another where detectability parameters mirrored the respective density parameter specification. 
+
+
+
+In the Glenelg region, we fit a standard control-impact model using a binary impact (fox-baited) or non-impact categorical covariate. In the Otway Ranges, we fit a standard before-after-control-impact model with an interaction between landscape (impact or non-impact) and time period (before [2017] or after [2018-19] poison-baiting began). 
+
+non-impact session covariate.
+
+We also fit an interaction model between 
+
+categorical session  
+
+
+Experimental models 
+
+
+
+
+The first was the simplest model - that density and detectability parameters constant, (2) density 
+
 
 
 We expected that foxes would impact both detectability parameters for feral cats concurrently, and so, always specified g0 and sigma consistently (Efford & Mowat, 2014).
@@ -162,13 +205,8 @@ We expected that foxes would impact both detectability parameters for feral cats
 
 
 
-
-
-
-```{r map, echo = FALSE, out.width="100%", fig.cap = "Locations of our six study landscapes in south-west Victoria, Australia. The grids of camera-traps are denoted by white dots, the locations of fox poison-bait stations are denoted by smaller black dots. The Glenelg region is to the west and Otway region to the east. Native vegetation is indicated by dark green, with hill shading. Map tiles by Stamen Design, under CC BY 3.0, map data by OpenStreetMap, under CC BY SA."}
-
+```{r map, out.width="100%", fig.cap = "Locations of our six study landscapes in south-west Victoria, Australia. The grids of camera-traps are denoted by white dots, the locations of fox poison-bait stations are denoted by smaller black dots. The Glenelg region is to the west and Otway region to the east. Native vegetation is indicated by dark green, with hill shading. Map tiles by Stamen Design, under CC BY 3.0, map data by OpenStreetMap, under CC BY SA."}
 knitr::include_graphics("figs/fig1.png")
-
 ```
 
 
@@ -179,7 +217,64 @@ knitr::include_graphics("figs/fig1.png")
 RESULTS
 ============
 
+
+```{r sstab}
+# load data required
+mrch_glenelg <- readRDS("../derived_data/mrch_glenelg.RData")
+mrch_otways <- readRDS("../derived_data/mrch_otways.RData")
+records <- read.csv("../raw_data/spp_records_pa.csv")
+# add grid variable for gam data
+records$grid  <- if_else(grepl("^A", records$station), "Annya", records$grid)
+records$grid  <- if_else(grepl("^C", records$station), "Hotspur", records$grid)
+records$grid  <- if_else(grepl("^H", records$station), "Cobbob", records$grid)
+records$grid  <- if_else(grepl("^M", records$station), "Mt Clay", records$grid)
+records$grid  <- if_else(grepl("^T", records$station), "S", records$grid)
+records$grid  <- if_else(grepl("^U", records$station), "N", records$grid)
+records$grid <- if_else(records$region == "otways", paste0(records$grid, "_", records$year), records$grid)
+## MAKE TABLE
+# transpose summaries as a dataframe and bind together
+g <- t(as.data.frame(summary(mrch_glenelg, terse = TRUE, moves = TRUE))) 
+o <- t(as.data.frame(summary(mrch_otways, terse = TRUE, moves = TRUE)))
+go <- as.data.frame(rbind(g,o))
+go <- tibble::rownames_to_column(go, "Grid")
+# add region column
+go$Region <- ifelse(go$Animals < 15, "Glenelg", "Otways")
+# add other detections
+go$Unidentified_detections <- c(3,  9,  3,  5, 8, 4, 12, 17, 22, 23)
+go$Unmarked_detections     <- c(20, 37, 13, 0, 46, 48, 62, 59, 101, 58)
+go$Total_detections <- go$Detections + go$Unidentified_detections + go$Unmarked_detections
+# change name of grids
+new_grid_names <- c(mrch_a = "Annya", mrch_c ="Cobbob", mrch_h = "Hotspur", mrch_mc = "Mt Clay",
+                    mrch_s_17 = "South 2017", mrch_n_17 = "North 2017", mrch_s_18 = "South 2018", mrch_n_18 = "North 2018", mrch_s_19 = "South 2019", mrch_n_19 = "North 2019")
+go$Grid <- as.character(new_grid_names[go$Grid])
+# add trapnights
+records <- records %>% 
+  group_by(grid) %>% 
+  mutate(trapnights = sum(survey_duration))
+trapnights <- unique(records$trapnights)
+go$Trap_nights <- trapnights
+# add fox control column
+go$Fox_baited <- c("no", "yes", "no", "yes", "no", "no", "yes", "no", "yes", "no")
+# get rid of occasions - not informative (as trap nights), total detections
+go <- subset(go, select = -c(Occasions, Total_detections, Moves, Region))
+# reorder 
+go <- go[,c("Grid", "Fox_baited", "Detectors", "Trap_nights", "Animals", "Detections", "Unidentified_detections", "Unmarked_detections")]
+# present table
+pander(go, split.table = Inf, emphasize.italics.rows(5:10),
+       col.names = c("Land- scape", "Fox control", "Camera- traps", "Trap nights", "Identified cats", "Identified detections", "Unidentified detections", "Unmarked detections"),
+       caption = "(\\#tab:sstab) Camera-trap surveys and feral cat spatial capture-recapture summary statistics.")
+```
+
+*Note: There is a maximum of one detection per each 24-hour occasion.*
+
+
+```{r foxplot, out.width="100%", fig.cap = "Fox probability of occupancy derived from generalised additive models within each impact (I) and associated non-impact (NI) landscape in the Glenelg (A) and Otways (B) regions. Estimates were used as predictor variables in the feral cat spatial mark-resight models."}
+knitr::include_graphics("figs/fig3_covs_600dpi.png")
+```
+
 \newpage
+
+
 
 DISCUSSION
 ===================
@@ -194,7 +289,7 @@ CONCLUSIONS
 ACKNOWLEDGEMENTS
 ===================
 We acknowledge and pay respect to the Gadubanud and Gunditjmara people on whose traditional lands this study took place. Surveys were conducted under University of Melbourne Animal Ethics Committee approval 1714119 and Victorian Government Department of Environment, Land Water and Planning Research Permit 10008273. This experiment was a collaborative effort between the Glenelg Ark (Department of Environment, Land Water and Planning) and Otway Ark (Parks Victoria) working groups. 
-We are extremely grateful to our field assistants: Shauni Omond, Shayne Neal, Asitha Samarawickrama, Shelley Thompson, Erin Harris, Hannah Killian, Lani Watson, Mark Dorman, Jack Davis, Carl Roffey, Bruce Edley, Larissa Oliveira Gonçalves, Ben Lake, Chantelle Geissler, Aviya Naccarella, Emily Gronow, Harley England, David Pitts, Annie Hobby, Louise Falls, Thomas McKinnon, Jimmy Downie, Marney Hradsky, Stephanie Samson, Robin Sinclair, Asmaa Alhusainan, Kelly Forrester, Tammana Wadawani, Emily McColl-Gausden, Emily Gregg, Hannah Edwards, Adam Beck, Vishnu Memnon, Sandy Lu, Pia Lentini, Nick Golding, Emily McColl-Gausden, Nina Page, Maggie Campbell-Jones, Kyle Quinn and Jack Dickson. This manuscript was improved by comments from William Geary. Our study was generously supported by the Conservation Ecology Centre, the Victorian Government Department of Environment, Land Water and Planning, Arthur Rylah Institute for Environmental Research, Parks Victoria and the Australian Government’s National Environmental Science Program through the Threatened Species Recovery Hub, and ARC Linkage Project LPXX. MR also receives support from an Australian Government Research Training Program Scholarship.
+We are extremely grateful to our field assistants: Shauni Omond, Shayne Neal, Asitha Samarawickrama, Shelley Thompson, Erin Harris, Hannah Killian, Lani Watson, Mark Dorman, Jack Davis, Carl Roffey, Bruce Edley, Larissa Oliveira Gonçalves, Ben Lake, Chantelle Geissler, Aviya Naccarella, Emily Gronow, Harley England, David Pitts, Annie Hobby, Louise Falls, Thomas McKinnon, Jimmy Downie, Marney Hradsky, Stephanie Samson, Robin Sinclair, Asmaa Alhusainan, Kelly Forrester, Tammana Wadawani, Emily McColl-Gausden, Emily Gregg, Hannah Edwards, Adam Beck, Vishnu Memnon, Sandy Lu, Pia Lentini, Nick Golding, Emily McColl-Gausden, Nina Page, Maggie Campbell-Jones, Kyle Quinn and Jack Dickson. This manuscript was improved by comments from William Geary. Our study was generously supported by the Conservation Ecology Centre, the Victorian Government Department of Environment, Land Water and Planning, Arthur Rylah Institute for Environmental Research, Parks Victoria and the Australian Government’s National Environmental Science Program through the Threatened Species Recovery Hub, and ARC Linkage Project LP170101134. MR also receives support from an Australian Government Research Training Program Scholarship.
 
 
 AUTHORS' CONTRIBUTIONS

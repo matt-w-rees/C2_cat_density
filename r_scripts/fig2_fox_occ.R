@@ -1,11 +1,22 @@
 
-# LOAD  -------------------------------------------------------------
+library(dplyr)
+library(mgcv)
+library(sp)
+library(sf)
+library(ggplot2)
+library(viridis)
 
+
+# LOAD  -------------------------------------------------------------
 # load fox presence absence records
 records <- read.csv("raw_data/spp_records_pa.csv")
 # split by region
 records_glenelg <- filter(records, region == "glenelg")
 records_otways <- filter(records, region == "otways")
+
+# load models
+gam_g_fox <- readRDS("models/gam_g_fox.RData")
+gam_o_fox <- readRDS("models/gam_o_fox.RData")
 
 
 # GLENELG FOX PLOT -----------------------------------------------------------
@@ -52,7 +63,7 @@ data_glenelg_plot <- rename(data_glenelg_plot, fox_predicted = fit,  fox_predict
 g_fox_plot <- ggplot(aes(x, y, fill = fox_predicted),
                      data = data_glenelg_plot) +
   geom_tile()+
-  scale_fill_viridis("Pr(occupancy)", option = "magma", limits = c(0, 0.7)) +
+  scale_fill_viridis("Pr(occupancy)", option = "viridis", limits = c(0, 0.7)) +
   geom_point(data = records_glenelg, fill = NA, col = "white", size = 0.7, alpha = 0.7, shape = 3) +
   theme_bw(10) + 
   ggtitle("Glenelg region, 2018") +
@@ -61,10 +72,10 @@ g_fox_plot <- ggplot(aes(x, y, fill = fox_predicted),
   annotate("text", x = mean(data_glenelg_plot$x) - 10000, y = mean(data_glenelg_plot$y) - 500, label = "Replicate 1") +
   annotate("text", x = mean(data_glenelg_plot$x) - 7200, y = mean(data_glenelg_plot$y) + 26000, label = "Replicate 2") +
   annotate("text", x = mean(data_glenelg_plot$x) + 10000, y = mean(data_glenelg_plot$y) - 7500, label = "Replicate 2") + 
-  annotate("text", x = mean(data_glenelg_plot$x) - 9000, y = mean(data_glenelg_plot$y) + 13000, label = "NT") + 
-  annotate("text", x = mean(data_glenelg_plot$x) + 3450, y = mean(data_glenelg_plot$y) + 300, label = "NT") + 
-  annotate("text", x = mean(data_glenelg_plot$x) - 12500, y = mean(data_glenelg_plot$y) - 14200, label = "T") + 
-  annotate("text", x = mean(data_glenelg_plot$x) + 9000, y = mean(data_glenelg_plot$y) - 21500, label = "T") 
+  annotate("text", x = mean(data_glenelg_plot$x) - 9000, y = mean(data_glenelg_plot$y) + 13000, label = "NI") + 
+  annotate("text", x = mean(data_glenelg_plot$x) + 3450, y = mean(data_glenelg_plot$y) + 300, label = "NI") + 
+  annotate("text", x = mean(data_glenelg_plot$x) - 12500, y = mean(data_glenelg_plot$y) - 14200, label = "I") + 
+  annotate("text", x = mean(data_glenelg_plot$x) + 9000, y = mean(data_glenelg_plot$y) - 21500, label = "I") 
 g_fox_plot
 
 
@@ -108,31 +119,33 @@ data_otways_plot <- rename(data_otways_plot, fox_predicted = fit,  fox_predicted
 
 ## STEP 3) PLOTS
 # fox plot
+par(mar = c(5.1, 20, 4.1, 2.1))
 o_fox_plot <- ggplot(aes(x, y, fill = fox_predicted),
                      data = data_otways_plot) +
   geom_tile()+
-  scale_fill_viridis("Pr(occupancy)", option = "magma", limits = c(0, 0.7)) +
+  scale_fill_viridis("Pr(occupancy)", option = "viridis", limits = c(0, 0.7)) +
   facet_wrap(~year, nrow = 1) +
   geom_point(data = records_otways, fill = NA, col = "white", size = 0.7, alpha = 0.7, shape = 3) +
   theme_bw(10) + 
   ggtitle("Otway region") +
   theme(axis.title = element_blank()) + 
-  annotate("text", x = mean(data_otways_plot$x) + 7500, y = mean(data_otways_plot$y) + 7500, label = "NT") + 
-  annotate("text", x = mean(data_otways_plot$x) - 7500, y = mean(data_otways_plot$y) - 7500, label = "T") 
+  annotate("text", x = mean(data_otways_plot$x) + 7500, y = mean(data_otways_plot$y) + 7500, label = "NI") + 
+  annotate("text", x = mean(data_otways_plot$x) - 7500, y = mean(data_otways_plot$y) - 7500, label = "I") 
 o_fox_plot
 
 
 
 # COMBINE AND PLOT --------------------------------------------------------
 
-png("figs/fig3_covsA_600dpi.png", width = 7, height = 7, res = 600, units = "in")
+png("C2-manuscript/figs/fig2A_600dpi.png", width = 7, height = 7, res = 600, units = "in")
 g_fox_plot +
   plot_annotation(title = 'A') 
 dev.off()
 
-png("figs/fig3_covsB_600dpi.png", width = 10, height = 4.75, res = 600, units = "in")
+png("C2-manuscript/figs/fig2B_600dpi.png", width = 10, height = 4.75, res = 600, units = "in")
 o_fox_plot +
   plot_annotation(title = 'B') 
 dev.off()
 
-# convert figs/fig3_covsA_600dpi.png figs/fig3_covsB_600dpi.png  -append figs/fig3_covs_600dpi.png
+# to merge, using imagemagick - type in the terminal:
+# convert C2-manuscript/figs/fig2A_600dpi.png C2-manuscript/figs/fig2B_600dpi.png -gravity center -append C2-manuscript/figs/fig2_600dpi.png

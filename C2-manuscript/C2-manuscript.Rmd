@@ -253,7 +253,7 @@ pander(go, split.table = Inf,
 
 
 ```{r foxplot, out.width="100%", fig.cap = "Fox probability of occupancy derived from generalised additive models within each impact (I) and associated non-impact (NI) landscape in the Glenelg (A) and Otways (B) regions. Estimates were used as predictor variables in the feral cat spatial mark-resight models."}
-knitr::include_graphics("figs/fig3_covs_600dpi.png")
+knitr::include_graphics("figs/fig2_600dpi.png")
 ```
 
 \newpage
@@ -317,14 +317,13 @@ knitr::include_graphics("figs/fig3_glenelg_600dpi.png")
 ```
 
 
+\newpage
 
 ```{r oplots, out.width="100%", fig.cap="Best-ranked model of feral cat density in the Otway region, Australia. The best-ranked model predicted that feral cat density declined with the probability of fox occupancy (B). This model also predicted that the probability of detecting a feral cat in its activity centre per 24-hour occasion (g0) increased with the probability of fox occupancy (B), while sigma (which is related to home range size) increased (C). Shaded regions indicate 95\\% confidence intervals."}
 
 knitr::include_graphics("figs/fig4_otway_600dpi.png")
 
 ```
-
-
 
 
 \newpage

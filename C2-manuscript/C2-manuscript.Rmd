@@ -181,23 +181,7 @@ Model 1B included an effect of vegetation group on feral cat density (with detec
 We compared two types of experimental models on feral cat density (2) to their respective null model in each region. The first was a standard control-impact or before-after-control impact model specification in the Glenelg and Otways regions respectively - with the effect of fox-baiting averaged across space and time replicates. The second experimental models modelled fox-baiting effects separately for each space and time replicate in the Glenelg and Otways regions respectively. We ran these models twice: once where detectability was constant, and another where detectability parameters mirrored the respective density parameter specification. 
 
 
-
 In the Glenelg region, we fit a standard control-impact model using a binary impact (fox-baited) or non-impact categorical covariate. In the Otway Ranges, we fit a standard before-after-control-impact model with an interaction between landscape (impact or non-impact) and time period (before [2017] or after [2018-19] poison-baiting began). 
-
-non-impact session covariate.
-
-We also fit an interaction model between 
-
-categorical session  
-
-
-Experimental models 
-
-
-
-
-The first was the simplest model - that density and detectability parameters constant, (2) density 
-
 
 
 We expected that foxes would impact both detectability parameters for feral cats concurrently, and so, always specified g0 and sigma consistently (Efford & Mowat, 2014).
@@ -260,8 +244,8 @@ go <- subset(go, select = -c(Occasions, Total_detections, Moves, Region))
 # reorder 
 go <- go[,c("Grid", "Fox_baited", "Detectors", "Trap_nights", "Animals", "Detections", "Unidentified_detections", "Unmarked_detections")]
 # present table
-pander(go, split.table = Inf, emphasize.italics.rows(5:10),
-       col.names = c("Land- scape", "Fox control", "Camera- traps", "Trap nights", "Identified cats", "Identified detections", "Unidentified detections", "Unmarked detections"),
+pander(go, split.table = Inf,
+       col.names = c("Land- scape", "Fox control?", "Camera- traps", "Trap nights", "Identified cats", "Identified detections", "Unidentified detections", "Unmarked detections"),
        caption = "(\\#tab:sstab) Camera-trap surveys and feral cat spatial capture-recapture summary statistics.")
 ```
 
@@ -275,6 +259,69 @@ knitr::include_graphics("figs/fig3_covs_600dpi.png")
 \newpage
 
 
+```{r aictab}
+# load data required
+glenelg_fits <- readRDS("../models/glenelg_fits.RData")
+otways_fits <- readRDS("../models/otways_fits.RData")
+glenelg_fits <- readRDS("/Users/mrees2/Dropbox/personal/matt/github/C2_cat_density/models/glenelg_fits.RData")
+otways_fits <- readRDS("/Users/mrees2/Dropbox/personal/matt/github/C2_cat_density/models/otways_fits.RData")
+# get aic tables and merge
+glenelg_fits_aic <- AIC(glenelg_fits, criterion = "AICc")[,-2]
+glenelg_fits_aic$region <- "Glenelg"
+#glenelg_fits_aic <- slice_head(glenelg_fits_aic, n = 5)
+otways_fits_aic <- AIC(otways_fits, criterion = "AICc")[,-2]
+otways_fits_aic$region <- "Otways"
+#otways_fits_aic <- slice_head(otways_fits_aic, n = 5)
+aic_tab <- rbind(glenelg_fits_aic, otways_fits_aic)
+# filter to within 7 AICc
+aic_tab <- filter(aic_tab, dAICc < 7)
+# remove sigma (inefficiently) - change to detectability
+aic_tab$model <- gsub("sigma~1", "", aic_tab$model)
+aic_tab$model <- gsub("sigma~fox_predicted_mean", "", aic_tab$model)
+aic_tab$model <- gsub("sigma~fox_predicted_trapcov", "", aic_tab$model)
+aic_tab$model <- gsub("sigma~foxbaiting", "", aic_tab$model)
+# fix up names spaces etc
+aic_tab$model <- gsub("_trapcov", "", aic_tab$model)
+aic_tab$model <- gsub(" g0", ", g0", aic_tab$model)
+aic_tab$model <- gsub(" sigma", ", sigma", aic_tab$model)
+aic_tab$model <- gsub("~", " ~ ", aic_tab$model)
+aic_tab$model <- gsub("predicted", "occ", aic_tab$model)
+aic_tab$model <- gsub("foxbaiting", "foxbaited_01", aic_tab$model)
+aic_tab$model <- gsub("mean", "avg", aic_tab$model)
+# split detectability and density into seperate columns
+library(stringr)
+aic_tab$density <- str_split_fixed(aic_tab$model, ", g0", 2)[,1]
+aic_tab$detectability <- str_split_fixed(aic_tab$model, " g0", 2)[,2]
+aic_tab$density <- gsub("D ~ ", "", aic_tab$density)
+aic_tab$detectability <- gsub("~ ", "", aic_tab$detectability)
+# final clean
+aic_tab <- tibble::rownames_to_column(aic_tab, "fit")
+aic_tab <- subset(aic_tab, select = -c(AIC, AICc, fit, model))
+aic_tab <- relocate(aic_tab, region, density, detectability)
+# make table
+pander(aic_tab, 
+       split.cell = 40, 
+       split.table = Inf, 
+       round = 2,
+       col.names = c("Region", "Density", "Detectability", "Parameters", "logLik", "dAICc", "AICcwt"),  
+    caption = "(\\#tab:aictab) Akaike's Information Criterion values adjusted for small sample size for top-5 ranked feral cat density models in each region (ordered in decreasing AICc scores).")
+```
+
+
+\newpage
+
+```{r gplots, out.width="100%", fig.cap="Best-ranked experimental (A) and correlative (B) models of feral cat density in the Glenelg region, Australia. There was statistical evidence (i.e., 95\\% confidence intervals of the parameter estimates did not overlap zero) that feral cat density was higher in the landscape with fox-baiting (impact) than the associated landscape without fox-baiting (non-impact) for the first replicate, but not for the second replicate (A). The best-ranked model predicted that feral cat density declined with the probability of fox occupancy at the landscape level (B). Error bars and the shaded region indicate 95\\% confidence intervals."}
+
+knitr::include_graphics("figs/fig3_glenelg_600dpi.png")
+
+```
+
+
+\newpage
+
+
+
+   
 
 DISCUSSION
 ===================

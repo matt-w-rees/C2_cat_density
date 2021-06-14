@@ -89,10 +89,10 @@ AIC(glenelg_fits, criterion = "AICc")[,-2]
 
 
 # PLOTS -------------------------------------------------------------------
-# load models
-#glenelg_fits <- readRDS("models/secr/glenelg/glenelg_fits.RData")
-#fit_ci2 <- readRDS("models/secr/glenelg/glenelg_fit_ci2.RData")
 library(ggplot2)
+library(patchwork)
+# load models
+glenelg_fits <- readRDS("models/glenelg_fits.RData")
 # Set the default theme for ggplot objects 
 theme_set(theme_bw())
 theme_update(panel.grid = element_blank())
@@ -101,13 +101,13 @@ theme_update(panel.grid = element_blank())
 # B) DENSITY ESTIMATES
 ## Extract estimates
 # pair 1: 
-estimate <- as.data.frame(unlist(sapply(predict(fit_CIc_D), "[", "D","estimate")))
+estimate <- as.data.frame(unlist(sapply(predict(glenelg_fits$fits2_e), "[", "D","estimate")))
 names(estimate)[1] <- "estimate"
 estimate <- tibble::rownames_to_column(estimate, "grid")
-lower_bound <- as.data.frame(unlist(sapply(predict(fit_CIc_D), "[", "D","lcl")))
+lower_bound <- as.data.frame(unlist(sapply(predict(glenelg_fits$fits2_e), "[", "D","lcl")))
 names(lower_bound)[1] <- "lcl"
 lower_bound <- tibble::rownames_to_column(lower_bound, "grid")
-upper_bound <- as.data.frame(unlist(sapply(predict(fit_CIc_D), "[", "D","ucl")))
+upper_bound <- as.data.frame(unlist(sapply(predict(glenelg_fits$fits2_e), "[", "D","ucl")))
 names(upper_bound)[1] <- "ucl"
 upper_bound <- tibble::rownames_to_column(upper_bound, "grid")
 temp <- merge(lower_bound, upper_bound, by = "grid")
@@ -116,7 +116,7 @@ x <- merge(estimate, temp, by = "grid")
 # rename grid
 x$grid <- c("Annya","Cobboboonee", "Hotspur", "Mt Clay")
 # add treatment variable
-x$Treatment <- c("Non-treatment", "Treatment", "Non-treatment", "Treatment")
+x$Treatment <- c("Non-impact", "Impact", "Non-impact", "Impact")
 # add pair variable
 x$Replicate <- c("Replicate 1", "Replicate 1", "Replicate 2", "Replicate 2")
 # covert from hectares to km2
@@ -127,10 +127,12 @@ x$ucl <- x$ucl*100
 plot_g_cat <- ggplot(x, aes(x = Replicate, y = estimate, color = Treatment)) + 
   geom_point(size = 4, position = position_dodge(width = 0.25)) +
   geom_pointrange(aes(ymin = lcl, ymax = ucl), position = position_dodge(width = 0.25)) + 
-  ylim(0,1) + labs(title = "", x = "", y = bquote("Cats per km"^2)) +
-  scale_color_manual(values=c('blue','red'),  labels = c("Non-treatment", "Treatment")) + 
+  ylim(0,0.8) + labs(title = "", x = "", y = bquote("Cats per km"^2)) +
+  scale_color_manual(values=c('red','blue'),  labels = c("Impact", "Non-impact")) + 
   theme(plot.background = element_rect(fill = 'white'),
-        legend.position = "none",
+        legend.position = "bottom",
+        legend.title = element_blank(),
+        legend.text = element_text(size = 14),
         axis.text = element_text(size = 14),
         axis.title = element_text(size = 16),
         axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
@@ -140,20 +142,21 @@ plot_g_cat
 
 
 # 2) CORRELATION 
-## D ~ FOX
+
+## D ~ FOX_MEAN
 # extract values
-all_predicted <- predict(fit_fox_D, newdata = data.frame(fox_predicted = seq(min(glenelg_mask_df$fox_predicted), max(glenelg_mask_df$fox_predicted), by = 0.01)))
+all_predicted <- predict(glenelg_fits$fits3_b, newdata = data.frame(fox_predicted_mean = seq(min(sesscov$fox_predicted_mean), max(sesscov$fox_predicted_mean), by = 0.01)))
 predicted_values <- unlist(sapply(all_predicted, "[", "D","estimate"))*100
 lower_bound <- unlist(sapply(all_predicted, "[", "D","lcl"))*100
 upper_bound <- unlist(sapply(all_predicted, "[", "D","ucl"))*100
-pr_occ <- seq(min(glenelg_mask_df$fox_predicted), max(glenelg_mask_df$fox_predicted), by = 0.01)
+pr_occ <- seq(min(sesscov$fox_predicted_mean), max(sesscov$fox_predicted_mean), by = 0.01)
 newdf <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
 # plot
 plot_cat_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
   geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "grey85") +
   geom_line(size = 1)+
-  ylim(0,1) + 
-  labs(title = "", x = "Fox Pr(occupancy)", y = bquote("Cats per km"^2)) +
+  ylim(0,0.8) + 
+  labs(title = "", x = "Fox Pr(occupancy) - landscape average", y = bquote("Cats per km"^2)) +
   scale_color_manual(values=c('blue','red')) + 
   theme(plot.background = element_rect(fill = 'white'),
         axis.text = element_text(size = 14),
@@ -162,11 +165,35 @@ plot_cat_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) +
         axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
 plot_cat_fox
 
+
+
+## D ~ FOX
+# extract values
+#all_predicted <- predict(glenelg_fits$fits3_e, newdata = data.frame(fox_predicted = seq(min(glenelg_mask_df$fox_predicted), max(glenelg_mask_df$fox_predicted), by = 0.01)))
+#predicted_values <- unlist(sapply(all_predicted, "[", "D","estimate"))*100
+#lower_bound <- unlist(sapply(all_predicted, "[", "D","lcl"))*100
+#upper_bound <- unlist(sapply(all_predicted, "[", "D","ucl"))*100
+#pr_occ <- seq(min(glenelg_mask_df$fox_predicted), max(glenelg_mask_df$fox_predicted), by = 0.01)
+#newdf <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
+## plot
+#plot_cat_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
+#  geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "grey85") +
+#  geom_line(size = 1)+
+#  ylim(0,1) + 
+#  labs(title = "", x = "Fox Pr(occupancy)", y = bquote("Cats per km"^2)) +
+#  scale_color_manual(values=c('blue','red')) + 
+#  theme(plot.background = element_rect(fill = 'white'),
+#        axis.text = element_text(size = 14),
+#        axis.title = element_text(size = 16),
+#        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
+#        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
+#plot_cat_fox
+
+
+
 ## Assemble plots and save
-png("figs/fig4_glenelg_600dpi.png", width = 13, height = 4, res = 600, units = "in")
-(plot_g_cat + plot_effect + plot_cat_fox) + plot_annotation(tag_levels = 'A', title = "Glenelg region") 
+png("C2-manuscript/figs/fig3_glenelg_600dpi.png", width = 12, height = 6, res = 600, units = "in")
+(plot_g_cat + plot_cat_fox) + plot_annotation(tag_levels = 'A', title = "Glenelg region") 
 dev.off() 
 
 # END 
-
-# END

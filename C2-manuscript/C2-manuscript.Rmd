@@ -317,9 +317,17 @@ knitr::include_graphics("figs/fig3_glenelg_600dpi.png")
 ```
 
 
+
+```{r oplots, out.width="100%", fig.cap="Best-ranked model of feral cat density in the Otway region, Australia. The best-ranked model predicted that feral cat density declined with the probability of fox occupancy (B). This model also predicted that the probability of detecting a feral cat in its activity centre per 24-hour occasion (g0) increased with the probability of fox occupancy (B), while sigma (which is related to home range size) increased (C). Shaded regions indicate 95\\% confidence intervals."}
+
+knitr::include_graphics("figs/fig4_otway_600dpi.png")
+
+```
+
+
+
+
 \newpage
-
-
 
    
 

@@ -34,7 +34,6 @@ evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Riparian Scrubs or Swampy Scrubs and
 evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Coastal Scrubs Grasslands and Woodlands", NA, evc$XGROUPNAME)
 evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Wetlands", NA, evc$XGROUPNAME)
 evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Riverine Grassy Woodlands or Forests", NA, evc$XGROUPNAME)
-evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Riverine Grassy Woodlands or Forests", NA, evc$XGROUPNAME)
 evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Plains Woodlands or Forests", NA, evc$XGROUPNAME)
 evc$XGROUPNAME <- ifelse(evc$XGROUPNAME == "Herb-rich Woodlands", NA, evc$XGROUPNAME)
 # subset to just groupname

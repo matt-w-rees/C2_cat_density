@@ -1,0 +1,773 @@
+---
+title: 'Invasive mesopredator release'
+subtitle: 'Supplementary material'
+date: "`r Sys.Date()`"
+author: MW Rees
+bibliography: mybibfile.bib
+csl: jae.csl
+header-includes:
+    - \usepackage{setspace}\doublespacing
+    - \usepackage{float}
+    - \floatplacement{figure}{H}
+geometry: margin=1.0in
+fontsize: 10pt
+output:
+  bookdown::pdf_document2:
+    toc: yes
+    number_sections: yes
+editor_options:
+  chunk_output_type: console
+---
+
+
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE, warning = FALSE, message = FALSE)
+
+library(bookdown)
+library(tidyverse)
+library(secr)            
+library(mgcv)            
+library(camtrapR)        
+library(RColorBrewer)    
+library(pander)          
+library(ggplot2)         
+library(gratia)
+library(patchwork)
+library(viridis)         
+library(sf) 
+library(sp) 
+
+options(scipen = 999) # get rid of scientific notation
+
+#Set the default theme for ggplot objects to theme_bw()
+theme_set(theme_bw())
+theme_update(panel.grid = element_blank())
+
+```
+
+
+```{r, load data, include = FALSE}
+
+# load camera-trap station info
+records <- read.csv("../raw_data/spp_records_pa.csv")
+records_otways <- records[which(records$region == "otways"),] 
+records_glenelg <- records[which(records$region == "glenelg"),]
+
+# load masks as dataframes (for covariates)
+otways_mask_df <- readRDS("../derived_data/otway_mask_df.RData")
+glenelg_mask_df <- readRDS("../derived_data/glenelg_mask_df.RData")
+
+# load SECR capture histories - each session (but seperate unID from unmarked)
+# mt clay (no black cats)
+ch_mc <- readRDS("../derived_data/capthists/ch_mc.RData")
+unid_mc <- as.matrix(read.csv("../derived_data/capthists/unid_mc.csv")[, -1]) 
+mrch_mc <- addSightings(ch_mc, uncertain = unid_mc)
+# hotspur 
+ch_h <- readRDS("../derived_data/capthists/ch_h.RData")
+unid_h <- as.matrix(read.csv("../derived_data/capthists/unid_h.csv")[, -1]) 
+unm_h <- as.matrix(read.csv("../derived_data/capthists/unm_h.csv")[, -1]) 
+mrch_h <- addSightings(ch_h, unmarked = unm_h, uncertain = unid_h)
+# annya 
+ch_a <- readRDS("../derived_data/capthists/ch_a.RData")
+unid_a <- as.matrix(read.csv("../derived_data/capthists/unid_a.csv")[, -1]) 
+unm_a <- as.matrix(read.csv("../derived_data/capthists/unm_a.csv")[, -1]) 
+mrch_a <- addSightings(ch_a, unmarked = unm_a, uncertain = unid_a)
+# cobbob 
+ch_c <- readRDS("../derived_data/capthists/ch_c.RData")
+unid_c <- as.matrix(read.csv("../derived_data/capthists/unid_c.csv")[, -1]) 
+unm_c <- as.matrix(read.csv("../derived_data/capthists/unm_c.csv")[, -1]) 
+mrch_c <- addSightings(ch_c, unmarked = unm_c, uncertain = unid_c)
+# northern grid 2017 
+ch_n_17 <- readRDS("../derived_data/capthists/ch_n_17.RData")
+unid_n_17 <- as.matrix(read.csv("../derived_data/capthists/unid_n_17.csv")[, -1]) 
+unm_n_17 <- as.matrix(read.csv("../derived_data/capthists/unm_n_17.csv")[, -1]) 
+mrch_n_17 <- addSightings(ch_n_17, unmarked = unm_n_17, uncertain = unid_n_17)
+# northern grid 2018 
+ch_n_18 <- readRDS("../derived_data/capthists/ch_n_18.RData")
+unid_n_18 <- as.matrix(read.csv("../derived_data/capthists/unid_n_18.csv")[, -1]) 
+unm_n_18 <- as.matrix(read.csv("../derived_data/capthists/unm_n_18.csv")[, -1]) 
+mrch_n_18 <- addSightings(ch_n_18, unmarked = unm_n_18, uncertain = unid_n_18)
+# northern grid 2019 
+ch_n_19 <- readRDS("../derived_data/capthists/ch_n_19.RData")
+unid_n_19 <- as.matrix(read.csv("../derived_data/capthists/unid_n_19.csv")[, -1]) 
+unm_n_19 <- as.matrix(read.csv("../derived_data/capthists/unm_n_19.csv")[, -1]) 
+mrch_n_19 <- addSightings(ch_n_19, unmarked = unm_n_19, uncertain = unid_n_19)
+# southern grid 2017 
+ch_s_17 <- readRDS("../derived_data/capthists/ch_s_17.RData")
+unid_s_17 <- as.matrix(read.csv("../derived_data/capthists/unid_s_17.csv")[, -1]) 
+unm_s_17 <- as.matrix(read.csv("../derived_data/capthists/unm_s_17.csv")[, -1]) 
+mrch_s_17 <- addSightings(ch_s_17, unmarked = unm_s_17, uncertain = unid_s_17)
+# southern grid 2018 
+ch_s_18 <- readRDS("../derived_data/capthists/ch_s_18.RData")
+unid_s_18 <- as.matrix(read.csv("../derived_data/capthists/unid_s_18.csv")[, -1]) 
+unm_s_18 <- as.matrix(read.csv("../derived_data/capthists/unm_s_18.csv")  [, -1]) 
+mrch_s_18 <- addSightings(ch_s_18, unmarked = unm_s_18, uncertain = unid_s_18)
+# southern grid 2019 
+ch_s_19 <- readRDS("../derived_data/capthists/ch_s_19.RData")
+unid_s_19 <- as.matrix(read.csv("../derived_data/capthists/unid_s_19.csv")[, -1]) 
+unm_s_19 <- as.matrix(read.csv("../derived_data/capthists/unm_s_19.csv")[, -1]) 
+mrch_s_19 <- addSightings(ch_s_19, unmarked = unm_s_19, uncertain = unid_s_19)
+
+# combine capthists per region
+mrch_glenelg <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc)
+mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
+mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
+
+# load masks
+masks <- readRDS("../derived_data/masks.RData")
+
+# load SECR models
+df_fits_glenelg <- readRDS("../models/glenelg_df_fits.RData")
+glenelg_fits <- readRDS("../models/glenelg_fits.RData")
+df_fits_otways <- readRDS("../models/otways_df_fits.RData")
+otways_fits <- readRDS("../models/otways_fits.RData")
+
+# load GAMs
+gam_g_fox <- readRDS("../models/gam_g_fox.RData")
+gam_o_fox <- readRDS("../models/gam_o_fox.RData")
+
+```
+
+
+\newpage
+
+
+# Survey methods
+
+## Timeline
+
+```{r, camop,  fig.height = 6, fig.width=4.5, fig.cap = "Camera-trap operation times in the Glenelg region (A) and Otway Ranges (B). Each blue, horizontal line represents one camera-trap. Grey shading indicates periods of fox control in the Otway Ranges."}
+par(mfrow = c(2,1), mar = c(2.6, 2.1, 2.1, 2.1))
+## GLENELG
+camop_glenelg <- cameraOperation(CTtable = records_glenelg, stationCol = "station", setupCol = "date_start", retrievalCol = "date_end", writecsv = FALSE, hasProblems = FALSE, dateFormat = "%Y-%m-%d")
+# plot
+camOp <- camop_glenelg
+which.tmp <- grep(as.Date(colnames(camOp)), pattern = "01$")
+label.tmp <- format(as.Date(colnames(camOp))[which.tmp], "%Y-%m")
+at.tmp <- which.tmp / ncol(camOp)
+values_tmp <- sort(na.omit(unique(c(camOp))))
+image(t(as.matrix(camOp)), xaxt = "n", yaxt = "n", col = "#1b98e0")
+axis(1, at = at.tmp, labels = label.tmp)
+# axis(2, at = seq(from = 0, to = 1, length.out = nrow(camOp)), labels = NA, las = 1)
+abline(v = at.tmp, col = rgb(0,0,0, 0.1))
+mtext("A", side = 3, line = 1, at = 0)
+## OTWAYS
+records_otways <- arrange(records_otways, date_start)
+camop_otways    <- cameraOperation(CTtable = records_otways,  stationCol = "station_year", setupCol = "date_start", retrievalCol = "date_end", writecsv = FALSE, hasProblems = FALSE, dateFormat = "%Y-%m-%d")
+camOp <- camop_otways
+which.tmp <- grep(as.Date(colnames(camOp)), pattern = "01$")
+label.tmp <- format(as.Date(colnames(camOp))[which.tmp], "%Y-%m")
+at.tmp <- which.tmp / ncol(camOp)
+values_tmp <- sort(na.omit(unique(c(camOp))))
+image(t(as.matrix(camOp)), xaxt = "n", yaxt = "n", col = "#1b98e0")
+axis(1, at = at.tmp, labels = label.tmp)
+# axis(2, at = seq(from = 0, to = 1, length.out = nrow(camOp)), labels = NA, las = 1)
+abline(v = at.tmp, col = rgb(0,0,0, 0.1))
+# plot baiting schedule
+polygon(x = c(0.18, 0.458, 0.458, 0.18), y = c(0, 0, 2, 2), col = "grey80")  
+polygon(x = c(0.68, 1, 1, 0.68), y = c(0, 0, 2, 2), col = "grey80")  
+#replot cams
+image(t(as.matrix(camOp)), xaxt = "n", yaxt = "n", col = "#1b98e0", add = TRUE)
+abline(v = at.tmp, col = rgb(0,0,0, 0.1))
+mtext("B", side = 3, line = 1, at = 0)
+```
+
+\newpage
+
+
+
+## Camera-trap deployment
+In the Glenelg region, we deployed camera sites once, whereas in the Otways, we redeployed cameras three times annually. All 2017 camera-sites were resurveyed each year, except for four logistically challenging sites in the southern grid. In 2018, we added 16 additional sites in the southern grid, as well as 36 additional sites in the northern grid. These additional sites were resurveyed in 2019. Camera-trap grids ranged from 3442 - 7819 camera-trap nights across both regions (Table 1).
+
+At each site, we deployed a singular remote trail camera with infrared flash and temperature-in-motion detector. The vast majority of cameras were were Reconyx Hyperfire HC600, but a small proportion were PC900’s HF2X’s, infrared camera-traps (Reconyx, Holmen, Wisconsin). We programmed camera’s to their highest sensitivity and to take five consecutive photographs when triggered (no quiet period). We attached each camera to a tree, approximately 30 cm above the ground, and facing toward a lure 2 - 2.5 metres away. The lure comprised an oil-absorbing cloth doused in tuna oil and placed inside a PVC pipe container with a mesh top. We secured each lure to the top of a 1 metre wooden stake and attached a handful of small white feathers to the outside of the PVC pipe container. We cleared vegetation in the camera’s line-of-sight to reduce false triggers and avoid obscuring cat coat markings in images. While these cameras were aimed to target predators, they were also effective at detecting mammalian prey species.
+
+$~$
+
+$~$
+
+
+```{r cam,  out.width="100%", fig.cap = "Example of a camera-trap set-up"}
+
+knitr::include_graphics("figs/camtrap1.jpg")
+
+```
+
+
+
+\newpage
+
+
+# Individual cat identification
+
+We first labelled every camera-trap image with a species metadata tag using DigiKam software [www.digikam.org](https://www.digikam.org){target="_blank"}. We also tagged cats based on their coat type: black, mackerel tabby, classic tabby, ginger and other: coats with multiple colour blends (Fig. 3). This allowed us to summarise species detections and extract cat images using the "camtrapR" R package [@niedballa2016].
+
+We considered all black cats to be of the 'unmarked' category in spatial mark-resight models - even the few with white splotches on their underside (these couldn't always be seen as cats move with their head down).
+
+In the remaining coat categories, we identified individual cats based on their unique coat markings. The ability to identify individuals substantially increased as the image library for each cat increased. Therefore we made the easiest identifications first to build up these libraries, before making decisions on the less obvious detections. We examined and matched all coats markings seen between two particular defections. Markings on the front legs were most often seen and particularly useful for ID's as the patterns do not skew as much with different body positions. On the whole, unidentifiable detections were mainly due to only part of a cat appearing in the frame, or because photos were blurry (fast moving cats or a fogged up camera lens).
+
+However, we were left with a small number of instances (less than ten) where only left or right flanks could be seen. In this case, the side with the most repeat detections was labelled as an individual, whereas the side with the least number of detections was considered unidentifiable. 
+
+Additionally, an extremely small portion of cats in the Otways had ginger coats. When ginger coats are photographed with an infrared flash, they become overexposed and appear consistently white (bottom-right corner in Fig. 3). We only had one detection of a ginger cat without an infrared coat. Therefore, if there were multiple ginger cat detections in a single grid, we treated them in same way as one-sided flank detections.
+
+One observer identified the feral cats in the Glenelg region (MR). In the 2017 and 2018 Otway datasets, where there were substantially more cat detections and fewer distinct coat patterns, two independent observers identified individual cats and discrepancies between observers were reviewed together until consensus was reached (MR, MLP, BH). If no consensus could be reached, the cat was considered unidentifiable. In the 2019 Otway dataset, many of the identified cats were sighted in the previous surveys – these larger individual libraries meant that cats could be identified more easily so only one observer was necessary (MR). We also made use of additional cat images taken within the Otway grids (just before each of our surveys) by white flash camera-traps from a complementary study (Z. Banikos, unpublished data). This provided additional and higher quality images (due to the white flash) of individuals.
+
+We were therefore left with three groups of cats: unmarked (black cats), marked (cats which could be identified to the individual-level with complete certainty) and mark status unknown (cats which were not black, but couldn't be identified to the individual level with complete certainty).
+
+We discarded detections of cats which were obviously young enough to be dependent on a parent, as these kittens do not have independent activity centres or movements and not yet recruited into the adult population. 
+
+![Feral cat coat categories.](figs/cat_coats.jpg)
+
+\newpage
+
+# Summary statistics 
+
+```{r sstab}
+# add grid variable for gam data
+records$grid  <- if_else(grepl("^A", records$station), "Annya", records$grid)
+records$grid  <- if_else(grepl("^C", records$station), "Hotspur", records$grid)
+records$grid  <- if_else(grepl("^H", records$station), "Cobbob", records$grid)
+records$grid  <- if_else(grepl("^M", records$station), "Mt Clay", records$grid)
+records$grid  <- if_else(grepl("^T", records$station), "S", records$grid)
+records$grid  <- if_else(grepl("^U", records$station), "N", records$grid)
+records$grid <- if_else(records$region == "otways", paste0(records$grid, "_", records$year), records$grid)
+## MAKE TABLE
+# transpose summaries as a dataframe and bind together
+g <- t(as.data.frame(summary(mrch_glenelg, terse = TRUE, moves = TRUE))) 
+o <- t(as.data.frame(summary(mrch_otways, terse = TRUE, moves = TRUE)))
+go <- as.data.frame(rbind(g,o))
+go <- tibble::rownames_to_column(go, "Grid")
+# add region column
+go$Region <- ifelse(go$Animals < 15, "Glenelg", "Otways")
+# add other detections
+go$Unidentified_detections <- c(3,  9,  3,  5, 8, 4, 12, 17, 22, 23)
+go$Unmarked_detections     <- c(20, 37, 13, 0, 46, 48, 62, 59, 101, 58)
+go$Total_detections <- go$Detections + go$Unidentified_detections + go$Unmarked_detections
+# change name of grids
+new_grid_names <- c(mrch_a = "Annya", mrch_c ="Cobbob", mrch_h = "Hotspur", mrch_mc = "Mt Clay",
+                    mrch_s_17 = "South 2017", mrch_n_17 = "North 2017", mrch_s_18 = "South 2018", mrch_n_18 = "North 2018", mrch_s_19 = "South 2019", mrch_n_19 = "North 2019")
+go$Grid <- as.character(new_grid_names[go$Grid])
+# add trapnights
+records <- records %>% 
+  group_by(grid) %>% 
+  mutate(trapnights = sum(survey_duration))
+trapnights <- unique(records$trapnights)
+go$Trap_nights <- trapnights
+# add fox control column
+go$Fox_baited <- c("no", "yes", "no", "yes", "no", "no", "yes", "no", "yes", "no")
+# get rid of occasions - not informative (as trap nights), total detections
+go <- subset(go, select = -c(Occasions, Total_detections, Moves, Region))
+# reorder 
+go <- go[,c("Grid", "Fox_baited", "Detectors", "Trap_nights", "Animals", "Detections", "Unidentified_detections", "Unmarked_detections")]
+# present table
+pander(go, split.table = Inf,
+       col.names = c("Land- scape", "Fox control?", "Camera- traps", "Trap nights", "Identified cats", "Identified detections", "Unidentified detections", "Unmarked detections"),
+       caption = "(\\#tab:sstab) Camera-trap surveys and feral cat spatial capture-recapture summary statistics.")
+```
+
+*Note: There is a maximum of one detection per each 24-hour occasion.*
+
+
+
+# Feral cat detection plots 
+
+## Glenelg 
+
+### Pair 1 
+```{r, echo = FALSE, fig.cap = "Feral cat detections in the first grid pair of the Glenelg region. Camera-traps are indicated by black crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, red circles unidentifiable detections (the circle radius scales positively with the number daily detections). Fox control does not occur in Annya (A) but has since 2005 in Cobboboonee (B)."}
+
+par(mfrow = c(1,2), mar = c(2.6, 1, 2.1, 1))
+
+plot(mrch_a, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "A) Annya State Forest", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
+sightingPlot(mrch_a, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
+sightingPlot(mrch_a, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+
+plot(mrch_c, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "B) Cobboboonee National Park", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
+sightingPlot(mrch_c, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
+sightingPlot(mrch_c, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+
+```
+
+
+\newpage
+
+
+### Pair 2
+```{r, echo = FALSE, fig.cap = "Feral cat detections in the second grid pair of the Glenelg region. Camera-traps are indicated by black crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, red circles unidentifiable detections (the circle radius scales positively with the number daily detections). Fox control does not occur in Hotspur (A) but has since 2005 in Mt Clay (B)."}
+
+par(mfrow = c(1,2), mar = c(2.6, 1, 2.1, 1))
+
+plot(mrch_h, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "A) Hotspur State Forest", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
+sightingPlot(mrch_h, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
+sightingPlot(mrch_h, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+
+plot(mrch_mc, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "B) Mt Clay Reserve", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
+sightingPlot(mrch_mc, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+
+```
+
+
+\newpage
+
+
+
+
+## Otway Ranges
+### 2017
+```{r, echo = FALSE,   fig.cap = "Feral cat detections in the Otway Ranges 2017. Camera-traps are indicated by black crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, red circles unidentifiable detections (the circle radius scales positively with the number daily detections). Fox control did not occur in either of the grids during this time."}
+
+par(mfrow = c(1,2), mar = c(2.6, 1, 2.1, 1))
+
+plot(mrch_n_17, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "A) Otways north 2017", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
+sightingPlot(mrch_n_17, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
+sightingPlot(mrch_n_17, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+
+plot(mrch_s_17, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "B) Otways south 2017", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
+sightingPlot(mrch_s_17, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
+sightingPlot(mrch_s_17, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+
+```
+
+
+\newpage
+
+
+### 2018
+```{r, echo = FALSE,   fig.cap = "Feral cat detections in the Otway Ranges 2018. Camera-traps are indicated by black crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, red circles unidentifiable detections (the circle radius scales positively with the number daily detections)."}
+
+par(mfrow = c(1,2), mar = c(2.6, 1, 2.1, 1))
+
+plot(mrch_n_18, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "A) Otways north 2018", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
+sightingPlot(mrch_n_18, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
+sightingPlot(mrch_n_18, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+
+plot(mrch_s_18, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "B) Otways south 2018", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
+sightingPlot(mrch_s_18, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
+sightingPlot(mrch_s_18, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+
+```
+
+
+\newpage
+
+
+### 2019
+```{r, echo = FALSE, fig.cap = "Feral cat detections in the Otway Ranges 2019. Camera-traps are indicated by black crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, red circles unidentifiable detections (the circle radius scales positively with the number daily detections)."}
+
+par(mfrow = c(1,2), mar = c(2.6, 1, 2.1, 1))
+
+plot(mrch_n_19, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "A) Otways north 2019", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
+sightingPlot(mrch_n_19, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
+sightingPlot(mrch_n_19, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+
+plot(mrch_s_19, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "B) Otways south 2019", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
+sightingPlot(mrch_s_19, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
+sightingPlot(mrch_s_19, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+
+```
+
+
+\newpage
+
+# Fox spatial occupancy
+
+## Glenelg 
+
+```{r, echo = FALSE}
+summary(gam_g_fox)
+```
+
+
+```{r, echo = FALSE, fig.height = 5, fig.width = 5, fig.cap = "Standard error of fox occupancy probability derived from generalised additive models within each impact (I) and associated non-impact (NI) landscape in the Glenelg region."}
+# GLENELG FOX PLOT -----------------------------------------------------------
+## STEP 1) Make buffer zone around cameras to restrict plotting - optional 
+#take just the cams
+records_glenelg_cams <- distinct(records_glenelg, station, .keep_all = TRUE)
+# change it to sf class
+records_glenelg_cams <- st_as_sf(records_glenelg_cams, coords = c("x", "y"), crs = 32754) 
+# make a 4km buffer around each camera
+glenelg_cams_buffer = st_buffer(records_glenelg_cams, 4000)
+# dissolve the buffer
+glenelg_cams_buffer = st_union(glenelg_cams_buffer)
+# convert back to dataframe
+glenelg_buffer_df <- fortify(as_Spatial(glenelg_cams_buffer))%>%
+  transmute(x = long, y = lat, order = order, group = group)
+# split by each group (seperate polygon for each grid)
+buffer_df1 <- glenelg_buffer_df[which(glenelg_buffer_df$group == "ID1.1"),]
+buffer_df2 <- glenelg_buffer_df[which(glenelg_buffer_df$group == "ID1.2"),]
+buffer_df3 <- glenelg_buffer_df[which(glenelg_buffer_df$group == "ID1.3"),]
+buffer_df4 <- glenelg_buffer_df[which(glenelg_buffer_df$group == "ID1.4"),]
+
+## STEP 2) MAKE A GRID TO PREDICT DATA INTO
+data_glenelg_plot = expand.grid(
+  x = seq(min(glenelg_buffer_df$x), 
+          max(glenelg_buffer_df$x),
+          length=50),
+  y = seq(min(glenelg_buffer_df$y),
+          max(glenelg_buffer_df$y),
+          length=50),
+  survey_duration = 60)
+
+# subset to just locations within  of each camera 
+data_glenelg_plot1 = data_glenelg_plot[with(data_glenelg_plot, inSide(buffer_df1, x, y)),]
+data_glenelg_plot2 = data_glenelg_plot[with(data_glenelg_plot, inSide(buffer_df2, x, y)),]
+data_glenelg_plot3 = data_glenelg_plot[with(data_glenelg_plot, inSide(buffer_df3, x, y)),]
+data_glenelg_plot4 = data_glenelg_plot[with(data_glenelg_plot, inSide(buffer_df4, x, y)),]
+data_glenelg_plot <- rbind(data_glenelg_plot1, data_glenelg_plot2, data_glenelg_plot3, data_glenelg_plot4)
+
+# predict model results into dataframe
+data_glenelg_plot <- cbind(data_glenelg_plot, predict.gam(gam_g_fox, newdata = data_glenelg_plot, se.fit = TRUE, type = "response", exclude = c("s(station)", "s(survey_duration)")))
+data_glenelg_plot <- rename(data_glenelg_plot, fox_predicted = fit,  fox_predicted_se = se.fit) # rename
+
+# fox plot
+g_fox_plot <- ggplot(aes(x, y, fill = fox_predicted_se),
+                     data = data_glenelg_plot) +
+  geom_tile()+
+  scale_fill_viridis("Standard error", option = "viridis") +
+  geom_point(data = records_glenelg, fill = NA, col = "white", size = 0.7, alpha = 0.7, shape = 3) +
+  theme_bw(10) + 
+  ggtitle("Glenelg region, 2018") +
+  theme(axis.title = element_blank()) + 
+  annotate("text", x = mean(data_glenelg_plot$x) + 6200, y = mean(data_glenelg_plot$y) + 13000, label = "Replicate 1") + 
+  annotate("text", x = mean(data_glenelg_plot$x) - 10000, y = mean(data_glenelg_plot$y) - 500, label = "Replicate 1") +
+  annotate("text", x = mean(data_glenelg_plot$x) - 7200, y = mean(data_glenelg_plot$y) + 26000, label = "Replicate 2") +
+  annotate("text", x = mean(data_glenelg_plot$x) + 10000, y = mean(data_glenelg_plot$y) - 7500, label = "Replicate 2") + 
+  annotate("text", x = mean(data_glenelg_plot$x) - 9000, y = mean(data_glenelg_plot$y) + 13000, label = "NI") + 
+  annotate("text", x = mean(data_glenelg_plot$x) + 3450, y = mean(data_glenelg_plot$y) + 300, label = "NI") + 
+  annotate("text", x = mean(data_glenelg_plot$x) - 12500, y = mean(data_glenelg_plot$y) - 14200, label = "I") + 
+  annotate("text", x = mean(data_glenelg_plot$x) + 9000, y = mean(data_glenelg_plot$y) - 21500, label = "I") 
+g_fox_plot
+```
+
+\newpage
+
+## Otway Region 
+
+```{r, echo = FALSE}
+summary(gam_o_fox)
+```
+
+$~$
+
+$~$
+
+$~$
+
+$~$
+
+```{r, echo = FALSE, fig.width = 11, fig.cap = "Standard error of fox occupancy probability derived from generalised additive models within each impact (I) and associated non-impact (NI) landscape in the Otway region."}
+
+# OTWAY PLOTS -----------------------------------------------------------
+## STEP 1) Make buffer zone around cameras to restrict plotting - optional 
+#take just the cams
+records_otways_cams <- distinct(records_otways, station, .keep_all = TRUE)
+# change it to sf class
+records_otways_cams <- st_as_sf(records_otways_cams, coords = c("x", "y"), crs = 32754) 
+# make a 4km buffer around each camera
+otways_cams_buffer = st_buffer(records_otways_cams, 4000)
+# dissolve the buffer
+otways_cams_buffer = st_union(otways_cams_buffer)
+# convert back to dataframe
+otways_buffer_df <- fortify(as_Spatial(otways_cams_buffer))%>%
+  transmute(x = long, y = lat, order = order, group = group)
+
+
+## STEP 2) MAKE A GRID TO PREDICT DATA INTO
+data_otways_plot = expand.grid(
+  x = seq(min(otways_buffer_df$x), 
+          max(otways_buffer_df$x),
+          length=50),
+  y = seq(min(otways_buffer_df$y),
+          max(otways_buffer_df$y),
+          length=50),
+  station = "T053", 
+  station_year = "T053x2017",
+  year = seq(2017,2019,by=1),
+  survey_duration = 60)
+
+# subset to just locations within buffer zone
+data_otways_plot = data_otways_plot[with(data_otways_plot, inSide(otways_buffer_df, x, y)),]
+
+data_otways_plot <- cbind(data_otways_plot, predict.gam(gam_o_fox, newdata = data_otways_plot, se.fit = TRUE, type = "response", exclude = c("s(station)", "s(survey_duration)")))
+data_otways_plot <- rename(data_otways_plot, fox_predicted = fit,  fox_predicted_se = se.fit) # rename
+
+
+## STEP 3) PLOTS
+# fox plot
+par(mar = c(5.1, 20, 4.1, 2.1))
+o_fox_plot <- ggplot(aes(x, y, fill = fox_predicted_se),
+                     data = data_otways_plot) +
+  geom_tile()+
+  scale_fill_viridis("Standard error", option = "viridis") +
+  facet_wrap(~year, nrow = 1) +
+  geom_point(data = records_otways, fill = NA, col = "white", size = 0.7, alpha = 0.7, shape = 3) +
+  theme_bw(10) + 
+  ggtitle("Otway region") +
+  theme(axis.title = element_blank()) + 
+  annotate("text", x = mean(data_otways_plot$x) + 7500, y = mean(data_otways_plot$y) + 7500, label = "NI") + 
+  annotate("text", x = mean(data_otways_plot$x) - 7500, y = mean(data_otways_plot$y) - 7500, label = "I") 
+o_fox_plot
+```
+
+
+\newpage
+
+# Vegetation categories
+
+We condensed the main Ecological Vegetation Class groupings [@delwp2020] present into three categories for each region: Cleared Land, Heathy Woodlands, Lowland Forests (Glenelg region only) and Wet Forests (Otways region only). We merged similar groups to reduce the number of categories for each region. In the Glenelg region, we merged Dry Forests with Lowland Forests. In the Otway Ranges, we merged Rainforests with Wet Forests, as well as merged Dry Forests and Heathy Woodlands. 
+
+A very small proportion of other Ecological Vegetation Class groupings were present in the habitat masks: Riparian Scrubs or Swampy Scrubs and Woodlands, Coastal Scrubs Grasslands and Woodlands, Wetlands, Riverine Grassy Woodlands or Forests, Plains Woodlands or Forests, Herb-rich Woodlands. We removed these groups, and interpolated cell values from the nearest of the three vegetation categories. 
+
+$~$
+
+$~$
+
+```{r, echo = FALSE, fig.cap="Condensed Ecological Vegetation Class groups used as habitat mask covariates in spatial mark-resight models."}
+# plot Vegetation class - glenelg
+forestcol <- terrain.colors(6, rev = TRUE)[c(1,3,5)]
+names(masks) <- c("Annya", "Cobboboonee", "Hotspur", "Mt Clay", "Otways: South", "Otways: North", "Otways: South '18", "Otways: North '18", "Otways: South '19", "Otways: North '19")
+par (mfrow = c(2, 4), mar = c(0,0,5,0))
+for (sess in 1:4) {
+  plot(masks[[sess]], covariate = 'vegetation', legend = FALSE, dots = FALSE, border = 100, col = forestcol) 
+  plot(traps(mrch)[[sess]], add = TRUE, detpar = list(pch = 16, cex = 0.25, col = "black"))
+  mtext(side=3, paste(session(masks)[[sess]])) }
+# plot Vegetation class - otways
+forestcol <- terrain.colors(6, rev = TRUE)[c(1,3,6)]
+for (sess in 5:6) {
+  plot(masks[[sess]], covariate = 'vegetation', legend = FALSE, dots = FALSE, border = 100, col = forestcol) 
+  plot(traps(mrch)[[sess]], add = TRUE, detpar = list(pch = 16, cex = 0.25, col = "black"))
+  mtext(side=3, paste(session(masks)[[sess]])) }
+# null plots for seperate legend
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+# legend
+legend (x = "left", fill = terrain.colors(6, rev = TRUE)[c(1,5,3,6)], legend = c("Cleared", "Lowland Forests", "Heathy Woodlands", "Wet Forests"), bty='n', title = "Vegetation type", pt.cex=3, cex=1.2)
+
+```
+
+
+
+
+# Spatial mark-resight models 
+
+## Glenelg region 
+
+### Detector function fits
+
+```{r, fig.cap = "Detector function shapes (solid line) and 95% confidence intervals (dashed lines) tested for the Glenelg region."}
+plot(df_fits_glenelg$fit1_ex, add = FALSE, col = c(rgb(0.2,0.4,0.1,0.7)), lwd = 2, 
+     sigmatick = FALSE, rgr = FALSE, limits = TRUE, alpha = 0.05,
+     xval = 0:2000, ylim = NULL, xlab = "Distance from activity centre (m)", ylab = NULL)
+plot(df_fits_glenelg$fit1_hn, add = TRUE, col = c(rgb(0.8,0.4,0.1,0.7)), lwd = 2,
+     sigmatick = FALSE, rgr = FALSE, limits = TRUE, alpha = 0.05,
+     xval = 0:2000, ylim = NULL, xlab = NULL, ylab = NULL)
+legend("topright", 
+       legend = c("Half-normal", "Exponential"), 
+       col = c(rgb(0.2,0.4,0.1,0.7), 
+               rgb(0.8,0.4,0.1,0.7)), 
+       lwd = 2, 
+       bty = "n", 
+       pt.cex = 2, 
+       cex = 1, 
+       text.col = "black", 
+       horiz = FALSE, 
+       inset = c(0.1, 0.1))
+```
+
+$~$
+
+```{r df_aic_g}
+df_fits_glenelg_aic <- AIC(df_fits_glenelg, criterion = "AICc")[,-2]
+df_fits_glenelg_aic <- subset(df_fits_glenelg_aic, select = -c(model))
+df_fits_glenelg_aic$logLik <- round(df_fits_glenelg_aic$logLik, digits = 2)
+df_fits_glenelg_aic$AIC    <- round(df_fits_glenelg_aic$AIC, digits = 2)
+df_fits_glenelg_aic$AICc   <- round(df_fits_glenelg_aic$AICc, digits = 2)
+df_fits_glenelg_aic$dAICc   <- round(df_fits_glenelg_aic$dAICc, digits = 2)
+df_fits_glenelg_aic$AICcwt  <- round(df_fits_glenelg_aic$AICcwt, digits = 2)
+df_fits_glenelg_aic <- tibble::rownames_to_column(df_fits_glenelg_aic, "fit")
+df_fits_glenelg_aic$fit <- ifelse(df_fits_glenelg_aic$fit == "fit1_ex", "exponential", "half-normal")
+pander(df_fits_glenelg_aic, split.cell = 40, split.table = Inf, col.names = c("Detector function", "Parameters", "logLik", "AIC", "AICc", "dAICc", "AICcwt"), round = 3,
+       caption = "Akaike's Information Criterion values for detector functions in the Glenelg region.")
+
+```
+
+\newpage
+
+### Candidate model fits
+
+```{r aic_g}
+glenelg_fits <- readRDS("../models/glenelg_fits.RData")
+aic_tab <- AIC(glenelg_fits, criterion = "AICc")[,-2]
+# remove sigma (inefficiently) - change to detectability
+aic_tab$model <- gsub("sigma~1", "", aic_tab$model)
+aic_tab$model <- gsub("sigma~fox_predicted_mean", "", aic_tab$model)
+aic_tab$model <- gsub("sigma~fox_predicted_trapcov", "", aic_tab$model)
+aic_tab$model <- gsub("sigma~foxbaiting", "", aic_tab$model)
+# fix up names spaces etc
+aic_tab$model <- gsub("_trapcov", "", aic_tab$model)
+aic_tab$model <- gsub(" g0", ", g0", aic_tab$model)
+aic_tab$model <- gsub(" sigma", ", sigma", aic_tab$model)
+aic_tab$model <- gsub("~", " ~ ", aic_tab$model)
+aic_tab$model <- gsub("predicted", "occ", aic_tab$model)
+aic_tab$model <- gsub("foxbaiting", "foxbaited_01", aic_tab$model)
+aic_tab$model <- gsub("mean", "avg", aic_tab$model)
+# split detectability and density into seperate columns
+library(stringr)
+aic_tab$density <- str_split_fixed(aic_tab$model, ", g0", 2)[,1]
+aic_tab$detectability <- str_split_fixed(aic_tab$model, " g0", 2)[,2]
+aic_tab$density <- gsub("D ~ ", "", aic_tab$density)
+aic_tab$detectability <- gsub("~ ", "", aic_tab$detectability)
+# final clean
+aic_tab <- tibble::rownames_to_column(aic_tab, "fit")
+aic_tab <- subset(aic_tab, select = -c(AIC, AICc, fit, model))
+aic_tab <- relocate(aic_tab, density, detectability)
+# make table
+pander(aic_tab, 
+       split.cell = 40, 
+       split.table = Inf, 
+       round = 2,
+       col.names = c("Density", "Detectability", "Parameters", "logLik", "dAICc", "AICcwt"),  
+    caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region (ordered in decreasing AICc scores).")
+```
+
+\newpage
+
+## Otway region 
+
+### Detector function fits
+
+```{r, fig.cap = "Detector function shapes (solid line) and 95% confidence intervals (dashed lines) tested for the Otway region."}
+plot(df_fits_otways$fit1_ex, add = FALSE, col = c(rgb(0.2,0.4,0.1,0.7)), lwd = 2, 
+     sigmatick = FALSE, rgr = FALSE, limits = TRUE, alpha = 0.05,
+     xval = 0:2000, ylim = NULL, xlab = "Distance from activity centre (m)", ylab = NULL)
+plot(df_fits_otways$fit1_hn, add = TRUE, col = c(rgb(0.8,0.4,0.1,0.7)), lwd = 2,
+     sigmatick = FALSE, rgr = FALSE, limits = TRUE, alpha = 0.05,
+     xval = 0:2000, ylim = NULL, xlab = NULL, ylab = NULL)
+legend("topright", 
+       legend = c("Half-normal", "Exponential"), 
+       col = c(rgb(0.2,0.4,0.1,0.7), 
+               rgb(0.8,0.4,0.1,0.7)), 
+       lwd = 2, 
+       bty = "n", 
+       pt.cex = 2, 
+       cex = 1, 
+       text.col = "black", 
+       horiz = FALSE, 
+       inset = c(0.1, 0.1))
+```
+
+$~$
+
+```{r df_aic_o}
+df_fits_otways_aic <- AIC(df_fits_otways, criterion = "AICc")[,-2]
+df_fits_otways_aic <- subset(df_fits_otways_aic, select = -c(model))
+df_fits_otways_aic$logLik <- round(df_fits_otways_aic$logLik, digits = 2)
+df_fits_otways_aic$AIC    <- round(df_fits_otways_aic$AIC, digits = 2)
+df_fits_otways_aic$AICc   <- round(df_fits_otways_aic$AICc, digits = 2)
+df_fits_otways_aic$dAICc   <- round(df_fits_otways_aic$dAICc, digits = 2)
+df_fits_otways_aic$AICcwt  <- round(df_fits_otways_aic$AICcwt, digits = 2)
+df_fits_otways_aic <- tibble::rownames_to_column(df_fits_otways_aic, "fit")
+df_fits_otways_aic$fit <- ifelse(df_fits_otways_aic$fit == "fit1_ex", "exponential", "half-normal")
+pander(df_fits_otways_aic, split.cell = 40, split.table = Inf, col.names = c("Detector function", "Parameters", "logLik", "AIC", "AICc", "dAICc", "AICcwt"), round = 3,
+       caption = "Akaike's Information Criterion values for detector functions in the Otway region.")
+```
+
+\newpage
+
+### Candidate model fits
+
+```{r aic_o}
+otways_fits <- readRDS("../models/otways_fits.RData")
+aic_tab <- AIC(otways_fits, criterion = "AICc")[,-2]
+# remove sigma (inefficiently) - change to detectability
+aic_tab$model <- gsub("sigma~1", "", aic_tab$model)
+aic_tab$model <- gsub("sigma~fox_predicted_mean", "", aic_tab$model)
+aic_tab$model <- gsub("sigma~fox_predicted_trapcov", "", aic_tab$model)
+aic_tab$model <- gsub("sigma~foxbaiting", "", aic_tab$model)
+# fix up names spaces etc
+aic_tab$model <- gsub("_trapcov", "", aic_tab$model)
+aic_tab$model <- gsub(" g0", ", g0", aic_tab$model)
+aic_tab$model <- gsub(" sigma", ", sigma", aic_tab$model)
+aic_tab$model <- gsub("~", " ~ ", aic_tab$model)
+aic_tab$model <- gsub("predicted", "occ", aic_tab$model)
+aic_tab$model <- gsub("foxbaiting", "foxbaited_01", aic_tab$model)
+aic_tab$model <- gsub("mean", "avg", aic_tab$model)
+# split detectability and density into seperate columns
+library(stringr)
+aic_tab$density <- str_split_fixed(aic_tab$model, ", g0", 2)[,1]
+aic_tab$detectability <- str_split_fixed(aic_tab$model, " g0", 2)[,2]
+aic_tab$density <- gsub("D ~ ", "", aic_tab$density)
+aic_tab$detectability <- gsub("~ ", "", aic_tab$detectability)
+# final clean
+aic_tab <- tibble::rownames_to_column(aic_tab, "fit")
+aic_tab <- subset(aic_tab, select = -c(AIC, AICc, fit, model))
+aic_tab <- relocate(aic_tab, density, detectability)
+# make table
+pander(aic_tab, 
+       split.cell = 40, 
+       split.table = Inf, 
+       round = 2,
+       col.names = c("Density", "Detectability", "Parameters", "logLik", "dAICc", "AICcwt"),  
+    caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Otway region (ordered in decreasing AICc scores).")
+```
+
+
+```{r fig.cap="Feral cat density estimated seperately for each survey landscape in the Otway region (with fox-baiting impacting feral cat detectability)."}
+# 1) EXPERIMENTAL 
+# B) DENSITY ESTIMATES
+# Extract estimates
+estimate <- as.data.frame(unlist(sapply(predict(otways_fits$fits2_g), "[", "D","estimate")))
+names(estimate)[1] <- "estimate"
+estimate <- tibble::rownames_to_column(estimate, "grid")
+lower_bound <- as.data.frame(unlist(sapply(predict(otways_fits$fits2_g), "[", "D","lcl")))
+names(lower_bound)[1] <- "lcl"
+lower_bound <- tibble::rownames_to_column(lower_bound, "grid")
+upper_bound <- as.data.frame(unlist(sapply(predict(otways_fits$fits2_g), "[", "D","ucl")))
+names(upper_bound)[1] <- "ucl"
+upper_bound <- tibble::rownames_to_column(upper_bound, "grid")
+temp <- merge(lower_bound, upper_bound, by = "grid")
+fit_baci_vals <- merge(estimate, temp, by = "grid")
+# rename grid
+fit_baci_vals$grid <- gsub("session = ", "", fit_baci_vals$grid)
+new_grid_names <- c(mrch_n_17 = "north 2017", mrch_n_18 = "north 2018", mrch_n_19 = "north 2019", mrch_s_17 = "south 2017", mrch_s_18 = "south 2018", mrch_s_19 = "south 2019")
+fit_baci_vals$grid <- as.character(new_grid_names[fit_baci_vals$grid])
+# add treatment variable
+fit_baci_vals$Treatment <- c("Non-treatment", "Non-treatment", "Non-treatment", "Treatment", "Treatment", "Treatment")
+fit_baci_vals$Year <- c("2017", "2018", "2019", "2017", "2018", "2019")
+# covert from hectares to km2
+fit_baci_vals$estimate <- fit_baci_vals$estimate*100
+fit_baci_vals$lcl <- fit_baci_vals$lcl*100
+fit_baci_vals$ucl <- fit_baci_vals$ucl*100
+## Plot
+plot_o_cat <- ggplot(fit_baci_vals, aes(x = Year, y = estimate, color = Treatment, group = Treatment)) + 
+  geom_point(size = 4, position = position_dodge(width = 0.25)) +
+  geom_pointrange(aes(ymin = lcl, ymax = ucl), position = position_dodge(width = 0.25)) + 
+  ylim(0,1.6) + 
+  geom_line(linetype = "dashed", size = 0.5, position = position_dodge(width = 0.25)) + 
+  labs(title = "", x = "Year", y = bquote("Cats per km"^2)) +
+  scale_color_manual(values=c('blue','red'), labels = c("Non-impact", "Impact")) + 
+  theme(plot.background = element_rect(fill = 'white'),
+        legend.position = "bottom",
+        legend.title = element_blank(),
+        axis.text = element_text(size = 14),
+        axis.title = element_text(size = 16),
+        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
+        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
+plot_o_cat
+```
+
+
+
+\newpage
+
+# Session information
+
+```{r}
+
+sessionInfo() %>% pander()
+
+```
+
+
+
+# References {#references .unnumbered}

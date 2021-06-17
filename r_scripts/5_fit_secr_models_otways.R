@@ -88,48 +88,6 @@ library(patchwork)
 theme_set(theme_bw())
 theme_update(panel.grid = element_blank())
 
-# 1) EXPERIMENTAL 
-# B) DENSITY ESTIMATES
-## Extract estimates
-#estimate <- as.data.frame(unlist(sapply(predict(otways_fits$fits2_g), "[", "D","estimate")))
-#names(estimate)[1] <- "estimate"
-#estimate <- tibble::rownames_to_column(estimate, "grid")
-#lower_bound <- as.data.frame(unlist(sapply(predict(otways_fits$fits2_g), "[", "D","lcl")))
-#names(lower_bound)[1] <- "lcl"
-#lower_bound <- tibble::rownames_to_column(lower_bound, "grid")
-#upper_bound <- as.data.frame(unlist(sapply(predict(otways_fits$fits2_g), "[", "D","ucl")))
-#names(upper_bound)[1] <- "ucl"
-#upper_bound <- tibble::rownames_to_column(upper_bound, "grid")
-#temp <- merge(lower_bound, upper_bound, by = "grid")
-#fit_baci_vals <- merge(estimate, temp, by = "grid")
-## rename grid
-#fit_baci_vals$grid <- gsub("session = ", "", fit_baci_vals$grid)
-#new_grid_names <- c(mrch_n_17 = "north 2017", mrch_n_18 = "north 2018", mrch_n_19 = "north 2019", mrch_s_17 = "south 2017", mrch_s_18 = "south 2018", mrch_s_19 = "south 2019")
-#fit_baci_vals$grid <- as.character(new_grid_names[fit_baci_vals$grid])
-## add treatment variable
-#fit_baci_vals$Treatment <- c("Non-treatment", "Non-treatment", "Non-treatment", "Treatment", "Treatment", "Treatment")
-#fit_baci_vals$Year <- c("2017", "2018", "2019", "2017", "2018", "2019")
-## covert from hectares to km2
-#fit_baci_vals$estimate <- fit_baci_vals$estimate*100
-#fit_baci_vals$lcl <- fit_baci_vals$lcl*100
-#fit_baci_vals$ucl <- fit_baci_vals$ucl*100
-### Plot
-#plot_o_cat <- ggplot(fit_baci_vals, aes(x = Year, y = estimate, color = Treatment, group = Treatment)) + 
-#  geom_point(size = 4, position = position_dodge(width = 0.25)) +
-#  geom_pointrange(aes(ymin = lcl, ymax = ucl), position = position_dodge(width = 0.25)) + 
-#  ylim(0,1.6) + 
-#  geom_line(linetype = "dashed", size = 0.5, position = position_dodge(width = 0.25)) + 
-#  labs(title = "", x = "Year", y = bquote("Cats per km"^2)) +
-#  scale_color_manual(values=c('blue','red')) + 
-#  theme(plot.background = element_rect(fill = 'white'),
-#        legend.position = "none",
-#        #legend.title = element_blank(),
-#        axis.text = element_text(size = 14),
-#        axis.title = element_text(size = 16),
-#        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-#        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
-#plot_o_cat
-
 
 # 2) CORRELATION 
 ## D ~ FOX
@@ -204,6 +162,10 @@ plot_sigma_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) +
         axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
         axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
 plot_sigma_fox
+ 
+#(plot_o_cat) / (plot_D_fox + plot_g0_fox + plot_sigma_fox) + plot_annotation(tag_levels = 'A', title = "Otway region") +
+#  plot_layout(widths = c(6, 1), heights = unit(c(6, 1), c('cm', 'null')))
+
 
 ## Assemble plots and save
 png("C2-manuscript/figs/fig4_otway_600dpi.png", width = 13, height = 4, res = 600, units = "in")

@@ -33,7 +33,7 @@
 \fi
 % use microtype if available
 \IfFileExists{microtype.sty}{\usepackage{microtype}}{}
-\usepackage[margin=1.4in]{geometry}
+\usepackage[margin=1.1in]{geometry}
 \bibliographystyle{elsarticle-harv}
 \usepackage{longtable}
 \ifxetex
@@ -60,6 +60,8 @@
 
 % Pandoc header
 \usepackage{setspace}\doublespacing
+\usepackage{float}
+\floatplacement{figure}{H}
 
 
 
@@ -113,16 +115,16 @@ Understanding species interactions is critical for effective invasive species ma
 When several invasive species co-occur, management actions that suppress the dominant invasive species may inadvertently benefit subordinate invasive species (Jackson, 2015; Kuebbing \& Nuñez, 2015).
 Subordinate invasive species may be released from direct top-down pressure following a decline in the dominant predator or benefit indirectly from an increase in availability of shared resources (often referred to as mesopredator or competitor release - Crooks \& Soulé, 1999; Doherty \& Ritchie, 2017; Ruscoe et al., 2011).
 The release of a subordinate invasive species, particularly predators, can have serious negative implications for native taxa and ecosystem function (Ballari et al., 2016; Courchamp et al., 1999).
-However, integrated predator management is often far more costly and less feasible than single species control, and so it is important to identify the extra cost if justified (Bode et al., 2015).
+However, integrated predator management is often far more costly and less feasible than single species control, and so it is important to identify when the extra cost if justified (Bode et al., 2015).
 
 Most knowledge of predator interactions stems from unreplicated ``natural experiments'' (e.g.~range contractions - Crooks \& Soulé, 1999) or ad-hoc management interventions (e.g.~invasive species eradications - Rayner et al., 2007).
 However, the occurrence, nature (positive or negative, direct or indirect) and strength of species interactions can vary among species assemblages, predation risk, environmental productivity, management regimes, and other landscape contexts (Alston et al., 2019; Finke \& Denno, 2004; Hastings, 2001).
 Replicating management programs in an experimental framework is logistically challenging, but important for understanding these complexities, discriminating between plausible hypotheses and producing generalisable results in order to inform effective pest management (Christie et al., 2019; Glen \& Dickman, 2005; Smith et al., 2020).
 
-Unbiased estimates of invasive predator density are vital for inferring native prey impacts on and for setting meaningful control targets (Moseby et al., 2019). However, controversy around the mesopredator release hypothesis has stemmed from the inability of traditional survey approaches to separate behavioural and numerical population processes (Hayward et al., 2015; Stephens et al., 2015).
-These nonspatial approaches arbitrarily divide continuous landscapes into discrete spatial sampling units, but highly mobile predators can easily break model assumptions by crossing these (Efford \& Dawson, 2012).
+Unbiased estimates of invasive predator density are vital for inferring native prey impacts and for setting meaningful control targets (Moseby et al., 2019). However, controversy around the mesopredator release hypothesis has stemmed from the inability of traditional survey approaches to separate behavioural and numerical population processes (Hayward et al., 2015; Stephens et al., 2015).
+These nonspatial approaches arbitrarily divide continuous landscapes into discrete spatial sampling units, which highly mobile predators can easily cross - breaking model assumptions (Efford \& Dawson, 2012).
 Additionally, the suppression of an apex predator may change the behaviour and density of a mesopredator, both of which impact detection rates (Broadley et al., 2019; Rogan et al., 2019).
-And so, even with experimental designs, it is difficult to interpret changes in unidentified counts or presence-absence records of mesopredators in relation to apex predators.
+And so--even with experimental designs--it is difficult to interpret changes in unidentified counts or presence-absence records of mesopredators in relation to apex predators.
 While spatially explicit capture-recapture methods have been developed to robustly estimate predator density by separating out behavioural and observational processes from population density, they have seldom been used experimentally or to investigate multispecies interactions (although, see Forsyth et al., 2019).
 
 Predation by two invasive species, the red fox \emph{Vulpes vulpes} and feral cat \emph{Felis catus}, has played a major role in Australia's high rates of mammalian extinction (Woinarski et al.~2019).
@@ -133,7 +135,7 @@ As foxes are larger-bodied (\textasciitilde2 kg difference) and have high dietar
 This is alarming because feral cats are extremely difficult to manage in open populations (Fisher et al., 2015; Lazenby et al., 2015).
 
 Evidence that foxes suppress feral cats is inconclusive (Hunter et al., 2018).
-In parts of Australia where the native apex mammalian predator (the dingo \emph{Canis familiaris}) is functionally extinct and introduced red foxes are the largest terrestrial mammalian predator, four studies have observed an increase in feral cat detections following fox control (Marlow et al., 2015; Risbey et al., 2000; Stobo-Wilson et al., 2020).
+In parts of Australia where the native apex mammalian predator (the dingo \emph{Canis familiaris}) is functionally extinct and introduced foxes are the largest terrestrial mammalian predator, four studies have observed an increase in feral cat detections following fox control (Marlow et al., 2015; Risbey et al., 2000; Stobo-Wilson et al., 2020).
 However, two other studies in similar systems did not see any change (Molsher et al., 2017; Towerton et al., 2011).
 One study with spatial replication detected an increase at one site but not another (Davey et al., 2006), and one study observed a decrease in feral cat activity (Claridge et al., 2010).
 No previous study has directly estimated feral cat density in response to fox control.
@@ -141,9 +143,9 @@ No previous study has directly estimated feral cat density in response to fox co
 In this study, we experimentally investigated the role of introduced foxes in top-down suppression of feral cat density in two regions of south-eastern Australia.
 Foxes and feral cats are the only functional terrestrial mammalian predators in these regions, and each region included at least one area in which foxes were subject to continuous lethal poison-baiting (hereafter ``impact landscape''), and a paired area were foxes were not controlled (hereafter ``non-impact landscape'').
 This allowed a sharp focus on the interactions between the two invasive predators, across a gradient of apex predator (fox) occupancy and landscape productivity.
-We tested for a direct effect of fox control on feral cat density using traditional experimental approaches: a replicated Control-Impact design in the region with long-term fox control, and a Before-After Control-Impact Paired Series (BACIPS) design in the region with newly implemented fox control.
-We also tested for direct associations between feral cat density and spatial fox occupancy (derived using generalised additive models) in each region, as well as investigated the relative importance of fine or broad scale fox measurements.
-In accordance with the mesopredator release hypothesis, we predicted that (1) fox control would increase feral cat density, and (2) feral cat density would be negatively correlated with spatial fox occupancy.
+We tested for associations between feral cat density and spatial fox occupancy in each region, at both fine and broadscales.
+We also tested for an effect of fox control on feral cat density using traditional experimental approaches: a replicated Control-Impact design in the region with long-term fox control, and a Before-After Control-Impact Paired Series (BACIPS) design in the region with newly implemented fox control.
+In accordance with the mesopredator release hypothesis, we predicted that (1) feral cat density would be negatively correlated with spatial fox occupancy, and (2) fox control would increase feral cat density.
 We based inference on spatial mark-resight models of feral cat density and information criteria methods.
 
 \newpage
@@ -154,37 +156,62 @@ We based inference on spatial mark-resight models of feral cat density and infor
 \hypertarget{study-area}{%
 \subsection{Study area}\label{study-area}}
 
-We conducted our study across two regions of south-west Victoria, Australia (Fig. \ref{fig:map}). The native temperate forests in both regions are fragmented to varying degrees, primarily by livestock farming and tree plantations. Although once widespread, dingoes are now absent throughout, and a native mesopredator, the tiger quoll \emph{Dasyurus maculatus}, is long absent from the Glenelg region and recently absent in the Otway Ranges (last sighted in 2014 despite extensive camera-trapping). The terrestrial mammalian predator guild is therefore depauperate, with the introduced fox and feral cat being the primary functional mammalian terrestrial predators; birds of prey and snakes are the only other predators present.
+We conducted our study across two regions of south-west Victoria, Australia (Fig. \ref{fig:map}).
+The native temperate forests in both regions are fragmented to varying degrees, primarily by livestock farming and tree plantations.
+Although once widespread, dingoes are now absent throughout, and a native mesopredator, the tiger quoll \emph{Dasyurus maculatus}, is long absent from the Glenelg region and recently absent in the Otway Ranges (last sighted in 2014 despite extensive camera-trapping).
+The terrestrial mammalian predator guild is therefore depauperate, with the introduced fox and feral cat being the primary functional mammalian terrestrial predators; birds of prey and snakes are the only other predators present.
 
-Our study landscapes in the Glenelg region, Gunditjmara country, are primarily lowland forest (with an overstorey of \emph{Eucalyptus obliqua} and \emph{E. ovata}, a sparse midstorey and a fern-rich understorey) and heathy woodland (with an overstorey of \emph{E. baxteri s.l.} and \emph{E. willisii}, a sparse midstorey and a diverse understorey of narrow or ericoid-leaved shrubs). It has gently undulating terrain and frequently experiences prescribed burns and wildfires, creating a mosaic of fire histories and vegetation complexity. The area receives an average annual rainfall of 700 mm, with average minimum temperatures of 8.1°C and maximum of 17.6°C (\emph{Bureau of Meteorology}, 2021).
+Our study landscapes in the Glenelg region, Gunditjmara country, are primarily lowland forest (with an overstorey of \emph{Eucalyptus obliqua} and \emph{E. ovata}, a sparse midstorey and a fern-rich understorey) and heathy woodland (with an overstorey of \emph{E. baxteri s.l.} and \emph{E. willisii}, a sparse midstorey and a diverse understorey of narrow or ericoid-leaved shrubs).
+It has gently undulating terrain and frequently experiences prescribed burns and wildfires, creating a mosaic of fire histories and vegetation complexity.
+The area receives an average annual rainfall of 700 mm, with average minimum temperatures of 8.1°C and maximum of 17.6°C (\emph{Bureau of Meteorology}, 2021).
 
-Our study landscapes in the Otway region were in the western section of the Otway Ranges, Gadubanud country. Here, the vegetation is a mosaic of shrubby wet forest and cool temperate rainforest, with an overstorey of tall eucalyptus species (primarily \emph{E. regnans}), \emph{Acacia melanoxylon} and \emph{Nothofagus cunninghamii}. The midstorey is dominated by tree ferns, \emph{Acacia verticillata}, \emph{Pomaderris aspera} and \emph{Olearia argophylla}. The understorey predominantly comprises a dense layer of ferns and graminoids but can be relatively sparse in steep rainforest gullies. Maximum daily temperatures average 19.3°C in summer and 9.5°C in winter; annual rainfall averages 1955 mm (\emph{Bureau of Meteorology}, 2021). This region rarely experiences fire and is nearly ten times more rugged (based on the terrain ruggedness index (Riley et al., 1999) averaged within a 10 m radius of each camera-trap site).
+Our study landscapes in the Otway region were in the western section of the Otway Ranges, Gadubanud country.
+Here, the vegetation is a mosaic of shrubby wet forest and cool temperate rainforest, with an overstorey of tall eucalyptus species (primarily \emph{E. regnans}), \emph{Acacia melanoxylon} and \emph{Nothofagus cunninghamii}.
+The midstorey is dominated by tree ferns, \emph{Acacia verticillata}, \emph{Pomaderris aspera} and \emph{Olearia argophylla}.
+The understorey predominantly comprises a dense layer of ferns and graminoids but can be relatively sparse in steep rainforest gullies. Maximum daily temperatures average 19.3°C in summer and 9.5°C in winter; annual rainfall averages 1955 mm (\emph{Bureau of Meteorology}, 2021).
+This region rarely experiences fire and is nearly ten times more rugged than the Glenelg region (based on the terrain ruggedness index; Riley et al., 1999, averaged within a 10 m radius of each camera-trap site).
 
 \hypertarget{lethal-fox-control}{%
 \subsection{Lethal fox control}\label{lethal-fox-control}}
 
-Across broad sections of each region, government land managers conduct ongoing fox control for biodiversity conservation. Manufactured poison baits (FoxOff, Animal Control Technologies, Somerton) containing 3 mg of sodium mono-fluroacetate (1080) are buried at a depth of 10 cm at 1-km intervals along accessible forest tracks and roads (Fig. \ref{fig:map}). Different road densities across the two regions therefore result in variable poison-bait densities. In the Glenelg region, fox control in the impact landscapes has been ongoing since October 2005, with baits checked and replaced fortnightly (Robley et al., 2014). In the Otway region, baiting commenced in the impact landscape in November 2017. Poison baits were replaced weekly for six weeks until December 2017, before changing to monthly bait replacement until July 2018. The fox control program then lapsed for approximately six months until December 2018 due to logistical constraints, when monthly bait replacement recommenced for the duration of our study (Fig. S1).
+Across broad sections of each region, government land managers conduct ongoing fox control for biodiversity conservation.
+Manufactured poison baits (FoxOff, Animal Control Technologies, Somerton) containing 3 mg of sodium mono-fluroacetate (1080) are buried at a depth of 10 cm at 1-km intervals along accessible forest tracks and roads (Fig. \ref{fig:map}).
+Different road densities across the two regions therefore result in variable poison-bait densities. In the Glenelg region, fox-baiting in the impact landscapes has been ongoing since October 2005, with baits checked and replaced fortnightly (Robley et al., 2014). In the Otway region, fox-baiting commenced in the impact landscape in November 2017. Poison baits were replaced weekly for six weeks until December 2017, before changing to monthly bait replacement until July 2018. The fox control program then lapsed for approximately six months until December 2018 due to logistical constraints, when monthly bait replacement recommenced for the duration of our study (Fig. S1).
 
 \hypertarget{study-design-and-camera-trapping}{%
 \subsection{Study design and camera-trapping}\label{study-design-and-camera-trapping}}
 
-We designed experiments around the implementation of fox poison-baiting in each region. We simultaneously surveyed one impact and one non-impact landscape at a time using camera-traps. Each landscape pair was chosen based on similarity in landscape context, namely vegetation groups, with the aim of maintaining spatial independence with respect to predator range movements.
+We designed experiments around the implementation of fox poison-baiting in each region. We simultaneously surveyed one impact and one non-impact landscape at a time using camera-traps.
+Each landscape pair was chosen based on similarity in landscape context, namely vegetation groups, with the aim of maintaining spatial independence with respect to predator range movements.
 
-In the Glenelg region, we used a replicated control-impact design to test for differences in areas that have been poison-baited for foxes for more than 13 years compared with unbaited areas. We deployed a pair of camera-trapping grids in Cobboboonee National Park (impact) and Annya State Forest (non-impact) in January -- April 2018, then moved these cameras to Mt Clay State Forest/Narrawong Flora Reserve (hereafter ``Mt Clay''; impact) and Hotspur State Forest (non-impact) in April -- June 2018 (Fig. S3). Each grid was separated by at least 8 km, a distance very unlikely to be traversed regularly by these invasive predators (Hradsky et al., 2017).
+In the Glenelg region, we used a replicated control-impact design to test for differences in areas that have been poison-baited for foxes for more than 13 years compared with unbaited areas.
+We deployed a pair of camera-trapping grids in Cobboboonee National Park (impact) and Annya State Forest (non-impact) in January -- April 2018, then moved these cameras to Mt Clay State Forest/Narrawong Flora Reserve (hereafter ``Mt Clay''; impact) and Hotspur State Forest (non-impact) in April -- June 2018 (Fig. S1).
+Each grid was separated by at least 8 km, a distance very unlikely to be traversed regularly by these invasive predators (Hradsky et al., 2017).
 
-In the Otway region, we undertook a BACIPS study to assess changes related to the introduction of the fox control program. We deployed camera-trap grids in an impact -- non-impact pair of landscapes in June -- September from 2017 to 2019, in the Great Otway National Park and Otway Forest Park (Fig. S1). Our first survey occurred approximately three months before fox-baiting began. The second survey was conducted six months post-commencement of fox-baiting, however poison bait replacement lapsed at the beginning of the survey until nearly three months afterwards (Fig. S1). Fox-baiting recommenced six months prior to the start of the final survey (Fig. S1). The impact and non-impact landscapes were at least 4.2 km apart, a distance unlikely to be traversed by these invasive predators, although possible (Hradsky et al., 2017). In this study, and a concurrent study which identified individual foxes through genetic sampling (M. Le Pla, in review), we found no evidence of either species of predator moving between these landscapes.
+In the Otway region, we undertook a BACIPS study to assess changes related to the introduction of the fox control program.
+We deployed camera-trap grids in an impact -- non-impact pair of landscapes in June -- September from 2017 to 2019, in the Great Otway National Park and Otway Forest Park (Fig. S1).
+Our first survey occurred approximately three months before fox-baiting began.
+The second survey was conducted six months post-commencement of fox-baiting, however poison bait replacement lapsed at the beginning of the survey until nearly three months afterwards. Fox-baiting recommenced six months prior to the start of the final survey (Fig. S1).
+The impact and non-impact landscapes were at least 4.2 km apart, a distance unlikely to be traversed by these invasive predators, although possible (Hradsky et al., 2017).
+In this study, and a concurrent study which identified individual foxes through genetic sampling (M. Le Pla, in review), we found no evidence of either species of predator moving between these landscapes.
 
-In each of the six survey landscapes, we deployed a grid of camera-traps (67 -- 110 cameras; mean = 94), with sites spaced on average 448 m apart (range: 194 -- 770 m; Fig. \ref{fig:map}). At each site, we deployed a single Reconyx trail camera (Reconyx, Holmen, Wisconsin) with an infrared flash and temperature-in-motion detector on a tree, facing a lure of oil-absorbing cloth doused in tuna oil (Fig. S2). More information on the camera-trapping methods is provided in Section 1.2 of the Supporting Information. Overall, we deployed 938 functional camera-traps, which operated for an average of 68 days (range: 12 -- 93 days), totalling 62,415 trap nights (Table \ref{tab:sstab}) across a total study duration of five months and three years in the Glenelg and Otways regions respectively (Fig. S1).
+In each of the six survey landscapes, we deployed a grid of camera-traps (67 -- 110 cameras; mean = 94), with sites spaced on average 448 m apart (range: 194 -- 770 m; Fig. \ref{fig:map}).
+At each site, we deployed a single Reconyx trail camera (Reconyx, Holmen, Wisconsin) with an infrared flash and temperature-in-motion detector on a tree, facing a lure of oil-absorbing cloth doused in tuna oil (Fig. S2).
+More information on the camera-trapping methods is provided in Section 1.2 of the Supporting Information.
+Overall, we deployed 938 functional camera-traps, which operated for an average of 68 days (range: 12 -- 93 days), totalling 62,415 trap nights (Table S1) across a total study duration of five months and three years in the Glenelg and Otways regions respectively (Fig. S1).
 
 \hypertarget{individual-feral-cat-identification}{%
 \subsection{Individual feral cat identification}\label{individual-feral-cat-identification}}
 
-We added a species metadata tag for each camera-trap image, compiled species record tables and extracted feral cat photos for individual identification using the ``camtrapR'' R package (Niedballa et al., 2016). We sorted the cats into five categories based on their coat type: black, spotty tabby, swirly tabby, ginger and other (cats with multiple colour blends or other distinctive coats; Fig. S3). We did not attempt to identify any black cats, even the few with white splotches on their underside, as these markings could not always be seen. Within the other four coat categories, multiple observers identified individual cats based on their unique coat patterns where possible. Detailed information on this process is provided in Section 2 of the Supporting Information.
+We sorted the cats into five categories based on their coat type: black, mackerel tabby, classic tabby, ginger and other (cats with multiple colour blends or other distinctive coats; Fig. S3).
+We did not attempt to identify any black cats, even the few with white splotches on their underside, as these markings could not always be seen.
+Within the other four coat categories, multiple observers identified individual cats based on their unique coat patterns where possible.
+Detailed information on this process is provided in Section 2 of the Supporting Information.
 
 \hypertarget{spatial-fox-occupancy}{%
 \subsection{Spatial fox occupancy}\label{spatial-fox-occupancy}}
 
-Spatial mark-resight models require density covariate values for each grid cell density is estimated across (or a single value for the entire session - each camera-trap grid deployment in our case), and so we could not directly use the fox data from the camera-trap sites as independent variables. We therefore used the presence-absence data for each camera-trap site to generate a spatially-interpolated layer of fox occupancy probability using binomial generalised additive models (Wood, 2017). We did so using the ``mgcv'' R package (version 1.3.1; Wood, 2011). We modelled fox presences and absences (response variable) across space (explanatory variable) separately for each region, with a duchon spline spatial smooth as these provide better predictions at the edge of surveyed space than other splines (Miller \& Wood, 2014). In the Otway region, we included a random intercept for each camera-trap site to account for repeat sampling and did not share spatial information across the years (using a ``by variable'' smooth with year as a factor). Differences in camera-trap deployment lengths were accounted for using a model offset. We did not use occupancy-detection models because factors which impact fox detectability on camera-traps may also impact fox detectability to feral cats - which is more important than predictive performance in this context. We predicted GAM estimates into the respective spatial mark-resight habitat mask and trapfile (detailed below).
+Spatial mark-resight models require density covariate values for each grid cell density is estimated across, or a single value for the entire session (each camera-trap grid deployment in our case), and so we could not directly use the fox data from the camera-trap sites as independent variables. We therefore used the fox presence-absence data for each camera-trap site to generate a spatially-interpolated layer of fox occupancy probability using binomial generalised additive models (Wood, 2017). We did so using the ``mgcv'' R package (version 1.3.1; Wood, 2011). We modelled fox presences and absences (response variable) across space (explanatory variable) separately for each region, with a duchon spline spatial smooth as these provide better predictions at the edge of surveyed space than other splines (Miller \& Wood, 2014). In the Otway region, we included a random intercept for each camera-trap site to account for repeat sampling and did not share spatial information across the years (using a ``by variable'' smooth with year as a factor). Differences in camera-trap deployment lengths were accounted for using a model offset. We did not use occupancy-detection models because factors which impact fox detectability on camera-traps may also impact fox detectability to feral cats - which is more important than predictive performance in this context. We predicted GAM estimates into the respective spatial mark-resight habitat mask and trapfile (detailed below).
 
 \hypertarget{spatial-mark-resight-models-of-feral-cat-density}{%
 \subsection{Spatial mark-resight models of feral cat density}\label{spatial-mark-resight-models-of-feral-cat-density}}
@@ -198,13 +225,15 @@ We used closed population, sighting-only, spatial mark-resight to estimate feral
 For each region, we ran three sets of models: (1) to choose the best ``null model'' to carry through into other model sets (2) to experimentally evaluate the effect of fox control on feral cat density, and (3) test fine-scale association between spatial fox occupancy and feral cat density. We assessed the relative performance of models in each set using AICc score, with models within 2 delta AICc of the top-ranked model considered strongly supported compared to the other candidate models (Burnham \& Anderson, 2004).
 
 We compared four candidate ``null models'' (1) for each region. The first model (1A) was the simplest - density and detectability parameters were held constant.
-Model 1B included an effect of vegetation group on feral cat density (with detectability parameters constant). For this model, we condensed Ecological Vegetation Class groupings (DELWP, 2020) into three categories for each region: cleared land, heathy woodlands, lowland forests (Glenelg region only) and wet forests (Otways region only). Detailed information on this process is provided in Section X of the Supporting Information. Model 1C included a linear time trend on g0, keeping density and sigma constant - because the potency of the tuna oil lure likely decreased over the survey duration (Rees et al., 2019). The fourth model (1D) was a combination of model 1B and 1C: density \textasciitilde{} vegetation group, g0 \textasciitilde{} T, sigma \textasciitilde{} 1.
+Model 1B included an effect of vegetation group on feral cat density (with detectability parameters constant). For this model, we condensed Ecological Vegetation Class groupings (DELWP, 2020) into three categories for each region: cleared land, heathy woodlands, lowland forests (Glenelg region only) and wet forests (Otways region only). Detailed information on this process is provided in Section 6 of the Supporting Information. Model 1C included a linear time trend on g0, keeping density and sigma constant - because the potency of the tuna oil lure likely decreased over the survey duration (Rees et al., 2019). The fourth model (1D) was a combination of model 1B and 1C: density \textasciitilde{} vegetation group, g0 \textasciitilde{} T, sigma \textasciitilde{} 1.
 
 We compared two types of experimental models on feral cat density (2) to their respective null model in each region. The first was a standard control-impact or before-after-control impact model specification in the Glenelg and Otways regions respectively - with the effect of fox-baiting averaged across space and time replicates. The second experimental models modelled fox-baiting effects separately for each space and time replicate in the Glenelg and Otways regions respectively. We ran these models twice: once where detectability was constant, and another where detectability parameters mirrored the respective density parameter specification.
 
 In the Glenelg region, we fit a standard control-impact model using a binary impact (fox-baited) or non-impact categorical covariate. In the Otway Ranges, we fit a standard before-after-control-impact model with an interaction between landscape (impact or non-impact) and time period (before {[}2017{]} or after {[}2018-19{]} poison-baiting began).
 
 We expected that foxes would impact both detectability parameters for feral cats concurrently, and so, always specified g0 and sigma consistently (Efford \& Mowat, 2014).
+
+\newpage
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{figs/fig1} \caption{Locations of our six study landscapes in south-west Victoria, Australia. The grids of camera-traps are denoted by white dots, the locations of fox poison-bait stations are denoted by smaller black dots. The Glenelg region is to the west and Otway region to the east. Native vegetation is indicated by dark green, with hill shading. Map tiles by Stamen Design, under CC BY 3.0, map data by OpenStreetMap, under CC BY SA.}\label{fig:map}
@@ -214,223 +243,6 @@ We expected that foxes would impact both detectability parameters for feral cats
 
 \hypertarget{results}{%
 \section{RESULTS}\label{results}}
-
-\begin{longtable}[]{@{}cccccccc@{}}
-\caption{\label{tab:sstab} Camera-trap surveys and feral cat spatial capture-recapture summary statistics.}\tabularnewline
-\toprule
-\begin{minipage}[b]{0.07\columnwidth}\centering
-Land- scape\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering
-Fox control?\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering
-Camera- traps\strut
-\end{minipage} & \begin{minipage}[b]{0.07\columnwidth}\centering
-Trap nights\strut
-\end{minipage} & \begin{minipage}[b]{0.09\columnwidth}\centering
-Identified cats\strut
-\end{minipage} & \begin{minipage}[b]{0.13\columnwidth}\centering
-Identified detections\strut
-\end{minipage} & \begin{minipage}[b]{0.14\columnwidth}\centering
-Unidentified detections\strut
-\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\centering
-Unmarked detections\strut
-\end{minipage}\tabularnewline
-\midrule
-\endfirsthead
-\toprule
-\begin{minipage}[b]{0.07\columnwidth}\centering
-Land- scape\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering
-Fox control?\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\centering
-Camera- traps\strut
-\end{minipage} & \begin{minipage}[b]{0.07\columnwidth}\centering
-Trap nights\strut
-\end{minipage} & \begin{minipage}[b]{0.09\columnwidth}\centering
-Identified cats\strut
-\end{minipage} & \begin{minipage}[b]{0.13\columnwidth}\centering
-Identified detections\strut
-\end{minipage} & \begin{minipage}[b]{0.14\columnwidth}\centering
-Unidentified detections\strut
-\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\centering
-Unmarked detections\strut
-\end{minipage}\tabularnewline
-\midrule
-\endhead
-\begin{minipage}[t]{0.07\columnwidth}\centering
-Annya\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-no\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-110\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering
-8000\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering
-9\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering
-23\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-3\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-20\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.07\columnwidth}\centering
-Cobbob\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-yes\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-110\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering
-7752\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering
-13\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering
-35\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-9\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-37\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.07\columnwidth}\centering
-Hotspur\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-no\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-99\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering
-6085\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering
-8\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering
-22\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-3\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-13\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.07\columnwidth}\centering
-Mt Clay\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-yes\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-106\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering
-5451\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering
-10\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering
-33\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-5\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-0\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.07\columnwidth}\centering
-South 2017\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-no\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-73\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering
-3565\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering
-20\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering
-62\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-8\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-46\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.07\columnwidth}\centering
-North 2017\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-no\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-67\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering
-7099\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering
-26\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering
-60\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-4\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-48\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.07\columnwidth}\centering
-South 2018\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-yes\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-85\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering
-7838\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering
-24\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering
-75\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-12\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-62\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.07\columnwidth}\centering
-North 2018\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-no\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-103\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering
-4543\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering
-30\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering
-90\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-17\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-59\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.07\columnwidth}\centering
-South 2019\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-yes\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-86\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering
-6077\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering
-25\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering
-133\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-22\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-101\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.07\columnwidth}\centering
-North 2019\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-no\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\centering
-99\strut
-\end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\centering
-7150\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\centering
-27\strut
-\end{minipage} & \begin{minipage}[t]{0.13\columnwidth}\centering
-90\strut
-\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\centering
-23\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\centering
-58\strut
-\end{minipage}\tabularnewline
-\bottomrule
-\end{longtable}
-
-\emph{Note: There is a maximum of one detection per each 24-hour occasion.}
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{figs/fig2_600dpi} \caption{Fox probability of occupancy derived from generalised additive models within each impact (I) and associated non-impact (NI) landscape in the Glenelg (A) and Otways (B) regions. Estimates were used as predictor variables in the feral cat spatial mark-resight models.}\label{fig:foxplot}
@@ -725,6 +537,8 @@ fox\_occ\strut
 \includegraphics[width=1\linewidth]{figs/fig3_glenelg_600dpi} \caption{Best-ranked experimental (A) and correlative (B) models of feral cat density in the Glenelg region, Australia. There was statistical evidence (i.e., 95\% confidence intervals of the parameter estimates did not overlap zero) that feral cat density was higher in the landscape with fox-baiting (impact) than the associated landscape without fox-baiting (non-impact) for the first replicate, but not for the second replicate (A). The best-ranked model predicted that feral cat density declined with the probability of fox occupancy at the landscape level (B). Error bars and the shaded region indicate 95\% confidence intervals.}\label{fig:gplots}
 \end{figure}
 
+\newpage
+
 \begin{figure}
 \includegraphics[width=1\linewidth]{figs/fig4_otway_600dpi} \caption{Best-ranked model of feral cat density in the Otway region, Australia. The best-ranked model predicted that feral cat density declined with the probability of fox occupancy (B). This model also predicted that the probability of detecting a feral cat in its activity centre per 24-hour occasion (g0) increased with the probability of fox occupancy (B), while sigma (which is related to home range size) increased (C). Shaded regions indicate 95\% confidence intervals.}\label{fig:oplots}
 \end{figure}
@@ -875,9 +689,6 @@ Moseby, K. E., Letnic, M., Blumstein, D. T., \& West, R. (2019). Understanding p
 
 \leavevmode\hypertarget{ref-moseby2020effectiveness}{}%
 Moseby, K., McGregor, H., \& Read, J. (2020). Effectiveness of the felixer grooming trap for the control of feral cats: A field trial in arid south australia. \emph{Wildlife Research}, \emph{47}(8), 599--609.
-
-\leavevmode\hypertarget{ref-niedballa2016}{}%
-Niedballa, J., Sollmann, R., Courtiol, A., \& Wilting, A. (2016). CamtrapR: An r package for efficient camera trap data management. \emph{Methods in Ecology and Evolution}, \emph{7}(12), 1457--1462.
 
 \leavevmode\hypertarget{ref-rayner2007}{}%
 Rayner, M. J., Hauber, M. E., Imber, M. J., Stamp, R. K., \& Clout, M. N. (2007). Spatial heterogeneity of mesopredator release within an oceanic island system. \emph{Proceedings of the National Academy of Sciences}, \emph{104}(52), 20862--20865.

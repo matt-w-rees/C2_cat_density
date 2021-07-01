@@ -66,7 +66,7 @@ mrch_n_18 <- readRDS("derived_data/capthists/mrch_n_18.RData")
 mrch_s_19 <- readRDS("derived_data/capthists/mrch_s_19.RData")
 mrch_n_19 <- readRDS("derived_data/capthists/mrch_n_19.RData")
 # combine
-mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
+mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_n_17, mrch_s_17, mrch_n_18, mrch_s_18, mrch_n_19, mrch_s_19)
 # but need to do is seperately per session
 mask_a  <- make.mask(traps(mrch_a),  buffer = 4000, spacing = 200, type = 'trapbuffer')     
 mask_c  <- make.mask(traps(mrch_c),  buffer = 4000, spacing = 200, type = 'trapbuffer')     
@@ -220,7 +220,7 @@ covariates(traps(mrch_mc)) <- glenelg_traps_df_mc[,5:6]
 
 # OTWAY PREDICTIONS -----------------------------------------------------
 # merge to single capthist (in order of deployment) and make mask
-mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
+mrch_otways <- MS.capthist(mrch_n_17, mrch_s_17, mrch_n_18, mrch_s_18, mrch_n_19, mrch_s_19)
 otways_mask <- make.mask(traps(mrch_otways), buffer = 4000, 200, type = 'trapbuffer')       
 
 # make a new dataframe with each habitat mask cell so we can add covariates from the GAMs
@@ -313,18 +313,18 @@ covariates(traps(mrch_s_19)) <- otways_traps_df_s_19[,8:9]
 
 # COMBINE, CHECKS AND SAVE -------------------------------------------------------------
 # merge masks and capthists back together: same order!!!
-mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
+mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_n_17, mrch_s_17, mrch_n_18, mrch_s_18, mrch_n_19, mrch_s_19)
 mrch_glenelg <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc)
-mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
-masks <- list(mask_a, mask_c, mask_h, mask_mc, mask_s_17, mask_n_17, mask_s_18, mask_n_18, mask_s_19, mask_n_19)
+mrch_otways <- MS.capthist(mrch_n_17, mrch_s_17, mrch_n_18, mrch_s_18, mrch_n_19, mrch_s_19)
+masks <- list(mask_a, mask_c, mask_h, mask_mc, mask_n_17, mask_s_17, mask_n_18, mask_s_18, mask_n_19, mask_s_19)
 masks_glenelg <- list(mask_a, mask_c, mask_h, mask_mc)
-masks_otways <- list(mask_s_17, mask_n_17, mask_s_18, mask_n_18, mask_s_19, mask_n_19)
+masks_otways <- list(mask_n_17, mask_s_17, mask_n_18, mask_s_18, mask_n_19, mask_s_19)
 
 
 
 # plot Vegetation class - glenelg
 forestcol <- terrain.colors(6, rev = TRUE)[c(1,3,5)]
-names(masks) <- c("Glenelg: Annya", "Glenelg: Cobboboonee", "Glenelg: Hotspur", "Glenelg: Mt Clay", "Otways: South", "Otways: North", "Otways: South '18", "Otways: North '18", "Otways: South '19", "Otways: North '19")
+names(masks) <- c("Glenelg: Annya", "Glenelg: Cobboboonee", "Glenelg: Hotspur", "Glenelg: Mt Clay", "Otways: North", "Otways: South", "Otways: North '18", "Otways: South '18", "Otways: North '19", "Otways: South '19")
 par (mfrow = c(1, 5), mar = c(0,0,5,0))
 for (sess in 1:4) {
   plot(masks[[sess]], covariate = 'vegetation', legend = FALSE, dots = FALSE, border = 100, col = forestcol) 
@@ -337,7 +337,7 @@ legend (x = "left", fill = forestcol, legend = levels(factor(evc$vegetation))[1:
 
 # plot Vegetation class - Otways
 forestcol <- terrain.colors(6, rev = TRUE)[c(1,3,6)]
-names(masks) <- c("Glenelg: Annya", "Glenelg: Cobboboonee", "Glenelg: Hotspur", "Glenelg: Mt Clay", "Otways: South", "Otways: North", "Otways: South '18", "Otways: North '18", "Otways: South '19", "Otways: North '19")
+names(masks) <- c("Glenelg: Annya", "Glenelg: Cobboboonee", "Glenelg: Hotspur", "Glenelg: Mt Clay", "Otways: North", "Otways: South", "Otways: North '18", "Otways: South '18", "Otways: North '19", "Otways: South '19")
 par (mfrow = c(1,3), mar = c(0,0,5,0))
 for (sess in 5:6) {
   plot(masks[[sess]], covariate = 'vegetation', legend = FALSE, dots = FALSE, border = 100, col = forestcol) 
@@ -349,7 +349,7 @@ legend (x = "left", fill = forestcol, legend = levels(factor(evc_otways$vegetati
 
 # plot foxes - glenelg
 par (mfrow = c(2,2), mar = c(2,2,4,5))
-names(masks) <- c("Annya", "Cobboboonee", "Hotspur", "Mt Clay", "South '17", "North '17", "South '18", "North '18", "South '19", "North '19")
+names(masks) <- c("Annya", "Cobboboonee", "Hotspur", "Mt Clay", "North '17", "South '17", "North '18", "South '18", "North '19", "South '19")
 for (sess in 1:4) {
   plot(masks[[sess]], covariate = 'fox_predicted', legend = TRUE, dots = FALSE, border = 100)
   plot(traps(mrch)[[sess]], add = TRUE, detpar = list(pch = 16, cex = 0.25, col = "black"))
@@ -357,7 +357,7 @@ for (sess in 1:4) {
 
 # plot foxes - otways
 par (mfrow = c(3,2), mar = c(1,1,3,1))
-names(masks) <- c("Annya", "Cobboboonee", "Hotspur", "Mt Clay", "South '17", "North '17", "South '18", "North '18", "South '19", "North '19")
+names(masks) <- c("Annya", "Cobboboonee", "Hotspur", "Mt Clay", "North '17", "South '17", "North '18", "South '18", "North '19", "South '19")
 for (sess in 5:10) {
   plot(masks[[sess]], covariate = 'fox_predicted', legend = TRUE, dots = FALSE, border = 100)
   plot(traps(mrch)[[sess]], add = TRUE, detpar = list(pch = 16, cex = 0.25, col = "black"))

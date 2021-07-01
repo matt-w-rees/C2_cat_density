@@ -1,4 +1,4 @@
-# RUN FERAL CAT SECR MODELS - OTWAY REGION 2018 
+# RUN FERAL CAT SECR MODELS - GLENELG REGION 2017-19 
 # Matthew Rees
 
 # Set-up 
@@ -11,27 +11,32 @@ library(dplyr)
 mrch_otways  <- readRDS("derived_data/mrch_otways.RData")
 masks_otways <- readRDS("derived_data/masks_otways.RData")
 
+
 ## specify session covariates
-sesscov <- data.frame(grid = factor(c("south", "north", "south", "north", "south", "north")), 
+sesscov <- data.frame(grid = factor(c("north", "south", "north", "south", "north", "south")), 
                       year = factor(c("2017", "2017", "2018", "2018", "2019", "2019")), 
-                      before_after = factor(c("b", "b", "a", "a", "a", "a")))
+                      baiting1 = factor(c("0ub", "0ub", "0ub", "1b", "0ub", "1b")),
+                      baiting2 = factor(c("0ub", "0ub", "0ub", "1b", "0ub", "2b")))
+sesscov
+
+
 
 
 # FIT MARK-RESIGHT MODELS -------------------------------------------------
 # 1) Choose best detector function
-fit1_hn <- secr.fit(mrch_otways, mask = masks_otways, detectfn = 0, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE), fixed = list(pID = 1), method = "Nelder-Mead")
-fit1_ex <- secr.fit(mrch_otways, mask = masks_otways, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE), fixed = list(pID = 1), method = "Nelder-Mead", start = fit1_hn)
+fit1_hn <- secr.fit(mrch_otways, mask = masks_otways, detectfn = 0, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE), fixed = list(pID = 1), method = "Nelder-Mead")
+fit1_ex <- secr.fit(mrch_otways, mask = masks_otways, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE), fixed = list(pID = 1), method = "Nelder-Mead", start = fit1_hn)
 df_fits <- secrlist(fit1_hn, fit1_ex)
 saveRDS(df_fits, "models/otways_df_fits.RData")
-#df_fits <- readRDS("models/otways_df_fits.RData")
+df_fits <- readRDS("models/otways_df_fits.RData")
 AIC(df_fits, criterion = "AICc")[,-2]
 # fit1_ex wins --> Use this detector function for all subsequent model fitting
 
 
 # 2) Adjust for overdispersion in the unmarked sightings
-fit1_adj <- secr.fit(mrch_otways, mask = masks_otways, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, nsim = 10000), method = "Nelder-Mead", fixed = list(pID = 1), start = fit1_ex)
+fit1_adj <- secr.fit(mrch_otways, mask = masks_otways, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, nsim = 10000), method = "Nelder-Mead", fixed = list(pID = 1), start = fit1_ex)
 saveRDS(fit1_adj,   "models/otways_fit1_adj.RData")
-#fit1_adj <- readRDS("models/otways_fit1_adj.RData")
+fit1_adj <- readRDS("models/otways_fit1_adj.RData")
 fit1_adj$details$chat[1:2]
 #Tu       Tm 
 #5.713383 1.000000 
@@ -39,137 +44,31 @@ fit1_adj$details$chat[1:2]
 
 # 3) Fit actual models
 ## Null models
-fit1      <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1, g0 ~ 1, sigma ~ 1))
-fit1_Dveg <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ vegetation, g0 ~ 1, sigma ~ 1))
-fit1_g0T  <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1, g0 ~ T, sigma ~ 1))
-fit1_Dveg_g0T  <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ vegetation, g0 ~ T, sigma ~ 1))
-AIC(fit1, fit1_Dveg, fit1_g0T, fit1_Dveg_g0T, criterion = "AICc")[,-2] 
+fit_null <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year, g0 ~ 1, sigma ~ 1))
+fit_null_Dveg <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year + vegetation, g0 ~ 1, sigma ~ 1))
+fit_null_g0T <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year, g0 ~ T, sigma ~ 1))
+AIC(fit_null, fit_null_Dveg, fit_null_g0T, criterion = "AICc")[,-2] 
 
-
-## 4) Experimental models
-# a) same density in the unbaited sites, same effect of baiting in the baited sites
-# b) different density in the unbaited sites, same effect of baiting in the baited sites:
-# c) different density in the unbaited sites, different effect of baiting in the baited sites (i.e. D ~ session)
-fit_BACIa_D     <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ grid + before_after, g0 ~ 1, sigma ~ 1)) 
-fit_BACIa_Ddet  <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ grid + before_after, g0 ~ grid + before_after, sigma ~ grid + before_after)) 
-fit_BACIb_D     <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ grid * before_after, g0 ~ 1, sigma ~ 1)) 
-fit_BACIb_Ddet  <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ grid * before_after, g0 ~ grid * before_after, sigma ~ grid * before_after)) 
-fit_BACIc_D     <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ grid + year, g0 ~ 1, sigma ~ 1)) 
-fit_BACIc_Ddet  <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ grid + year, g0 ~ grid + year, sigma ~ grid + year)) 
-fit_BACId_D     <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ grid * year, g0 ~ 1, sigma ~ 1)) 
-fit_BACId_Ddet  <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ grid * year, g0 ~ grid * year, sigma ~ grid * year)) 
-AIC(fit1, fit_BACIa_D, fit_BACIa_Ddet, fit_BACIb_D, fit_BACIb_Ddet, fit_BACIc_D, fit_BACIc_Ddet, fit_BACId_D, fit_BACId_Ddet, criterion = "AICc")[,-2] 
+## 4) Baiting models
+fit_sess1 <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat, contrasts = list(session = MASS::contr.sdif)), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ session, g0 ~ 1, sigma ~ 1)) 
+fit_sess2 <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat, contrasts = list(session = MASS::contr.sdif)), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ session, g0 ~ baiting2, sigma ~ baiting2)) 
+fit_sess3 <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat, contrasts = list(session = MASS::contr.sdif)), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ session, g0 ~ year, sigma ~ year)) 
+fit_sess4 <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat, contrasts = list(session = MASS::contr.sdif)), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ session, g0 ~ year + baiting2, sigma ~ year + baiting2)) 
+AIC(fit_sess1, fit_sess2, fit_sess3, fit_sess4, criterion = "AICc")[,-2] 
 
 
 ## 5) Correlative models with fox occupancy
-fit_fox_D <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted, g0 ~ 1, sigma ~ 1)) 
-fit_fox_Dd <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted, g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov)) 
-AIC(fit1, fit_fox_D, fit_fox_Dd, criterion = "AICc")[,-2] 
+fit_fox_det <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year, g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov)) 
+fit_fox_D <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year + fox_predicted, g0 ~ 1, sigma ~ 1)) 
+fit_fox_Ddet <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year + fox_predicted, g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov)) 
+AIC(fit_null, fit_fox_det, fit_fox_D, fit_fox_Ddet, criterion = "AICc")[,-2] 
 
 
 ## 6) Combine models, save and compare AICc
-otways_fits <- secrlist(fit1, fit1_Dveg, fit1_g0T, fit_BACIa_D, fit_BACIa_Ddet, fit_BACIb_D, fit_BACIb_Ddet, fit_BACIc_D, fit_BACIc_Ddet, fit_BACId_D, fit_BACId_Ddet, fit_fox_D, fit_fox_Dd)
+otways_fits <- secrlist(fit_null, fit_null_Dveg, fit_null_g0T, fit_sess1, fit_sess2, fit_sess3, fit_sess4, fit_fox_det, fit_fox_D, fit_fox_Ddet)
 saveRDS(otways_fits,   "models/otways_fits.RData")
+otways_fits <- readRDS("models/otways_fits.RData")
 AIC(otways_fits, criterion = "AICc")[,-2] 
 
 
-
-
-
-# PLOTS -------------------------------------------------------------------
-# load models
-otways_fits <- readRDS("models/otways_fits.RData")
-otways_mask_df <- readRDS("derived_data/otway_mask_df.RData")
-
-library(ggplot2)
-library(patchwork)
-
-# Set the default theme for ggplot objects 
-theme_set(theme_bw())
-theme_update(panel.grid = element_blank())
-
-
-# 2) CORRELATION 
-## D ~ FOX
-all_predicted <- predict(otways_fits$fits3_f, 
-                         newdata = data.frame(fox_predicted = seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01),
-                                              fox_predicted_trapcov = mean(otways_mask_df$fox_predicted)))
-predicted_values <- unlist(sapply(all_predicted, "[", "D","estimate"))*100
-lower_bound <- unlist(sapply(all_predicted, "[", "D","lcl"))*100
-upper_bound <- unlist(sapply(all_predicted, "[", "D","ucl"))*100
-pr_occ <- seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01)
-newdf <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
-# plot
-plot_D_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
-  geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "grey85") +
-  geom_line(size = 1)+
-  ylim(0,1.5) + 
-  labs(title = "", x = "Fox Pr(occupancy)", y = bquote("Cats per km"^2)) +
-  scale_color_manual(values=c('blue','red')) + 
-  theme(plot.background = element_rect(fill = 'white'),
-        axis.text = element_text(size = 14),
-        axis.title = element_text(size = 16),
-        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
-plot_D_fox
-
-
-
-## g0 ~ FOX
-all_predicted <- predict(otways_fits$fits3_f, 
-                         newdata = data.frame(fox_predicted_trapcov = seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01),
-                                              fox_predicted = mean(otways_mask_df$fox_predicted)))
-predicted_values <- unlist(sapply(all_predicted, "[", "g0","estimate"))
-lower_bound <- unlist(sapply(all_predicted, "[", "g0","lcl"))
-upper_bound <- unlist(sapply(all_predicted, "[", "g0","ucl"))
-pr_occ <- seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01)
-newdf <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
-# plot
-plot_g0_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
-  geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "grey85") +
-  geom_line(size = 1)+
-  ylim(0, 0.13) + 
-  labs(title = "", x = "Fox Pr(occupancy)", y = expression(paste("g", italic("0")))) +
-  scale_color_manual(values=c('blue','red')) + 
-  theme(plot.background = element_rect(fill = 'white'),
-        axis.text = element_text(size = 14),
-        axis.title = element_text(size = 16),
-        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
-plot_g0_fox
-
-
-
-## sigma ~ FOX
-all_predicted <- predict(otways_fits$fits3_f, 
-                         newdata = data.frame(fox_predicted_trapcov = seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01),
-                                              fox_predicted = mean(otways_mask_df$fox_predicted)))
-predicted_values <- unlist(sapply(all_predicted, "[", "sigma","estimate"))
-lower_bound <- unlist(sapply(all_predicted, "[", "sigma","lcl"))
-upper_bound <- unlist(sapply(all_predicted, "[", "sigma","ucl"))
-pr_occ <- seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01)
-newdf <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
-# plot
-plot_sigma_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
-  geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "grey85") +
-  geom_line(size = 1)+
-  ylim(200, 650) + 
-  labs(title = "", x = "Fox Pr(occupancy)", y = "Sigma (exponential units)") +
-  scale_color_manual(values=c('blue','red')) + 
-  theme(plot.background = element_rect(fill = 'white'),
-        axis.text = element_text(size = 14),
-        axis.title = element_text(size = 16),
-        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
-plot_sigma_fox
- 
-#(plot_o_cat) / (plot_D_fox + plot_g0_fox + plot_sigma_fox) + plot_annotation(tag_levels = 'A', title = "Otway region") +
-#  plot_layout(widths = c(6, 1), heights = unit(c(6, 1), c('cm', 'null')))
-
-
-## Assemble plots and save
-png("C2-manuscript/figs/fig4_otway_600dpi.png", width = 13, height = 4, res = 600, units = "in")
-plot_D_fox + plot_g0_fox + plot_sigma_fox + plot_annotation(tag_levels = 'A', title = "Otway region")
-dev.off() 
-
-# END 
+# END

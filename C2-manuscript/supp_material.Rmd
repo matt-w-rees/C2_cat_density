@@ -6,7 +6,7 @@ author: MW Rees
 bibliography: mybibfile.bib
 csl: jae.csl
 header-includes:
-    - \usepackage{setspace}\doublespacing
+   # - \usepackage{setspace}\doublespacing
     - \usepackage{float}
     - \floatplacement{figure}{H}
 geometry: margin=1.0in
@@ -274,17 +274,17 @@ pander(go, split.table = Inf,
 ## Glenelg 
 
 ### Pair 1 
-```{r, echo = FALSE, fig.cap = "Feral cat detections in the first grid pair of the Glenelg region. Camera-traps are indicated by black crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, red circles unidentifiable detections (the circle radius scales positively with the number daily detections). Fox control does not occur in Annya (A) but has since 2005 in Cobboboonee (B)."}
+```{r, echo = FALSE, fig.cap = "Feral cat detections in the first grid pair of the Glenelg region. Camera-traps are indicated by red crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, blue circles unidentifiable detections (the circle radius scales positively with the number daily detections). Fox control does not occur in Annya (A) but has since 2005 in Cobboboonee (B)."}
 
 par(mfrow = c(1,2), mar = c(2.6, 1, 2.1, 1))
 
 plot(mrch_a, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "A) Annya State Forest", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
 sightingPlot(mrch_a, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
-sightingPlot(mrch_a, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+sightingPlot(mrch_a, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "blue")
 
 plot(mrch_c, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "B) Cobboboonee National Park", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
 sightingPlot(mrch_c, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
-sightingPlot(mrch_c, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+sightingPlot(mrch_c, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "blue")
 
 ```
 
@@ -293,16 +293,16 @@ sightingPlot(mrch_c, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.
 
 
 ### Pair 2
-```{r, echo = FALSE, fig.cap = "Feral cat detections in the second grid pair of the Glenelg region. Camera-traps are indicated by black crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, red circles unidentifiable detections (the circle radius scales positively with the number daily detections). Fox control does not occur in Hotspur (A) but has since 2005 in Mt Clay (B)."}
+```{r, echo = FALSE, fig.cap = "Feral cat detections in the second grid pair of the Glenelg region. Camera-traps are indicated by red crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, blue circles unidentifiable detections (the circle radius scales positively with the number daily detections). Fox control does not occur in Hotspur (A) but has since 2005 in Mt Clay (B)."}
 
 par(mfrow = c(1,2), mar = c(2.6, 1, 2.1, 1))
 
 plot(mrch_h, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "A) Hotspur State Forest", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
 sightingPlot(mrch_h, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
-sightingPlot(mrch_h, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+sightingPlot(mrch_h, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "blue")
 
 plot(mrch_mc, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "B) Mt Clay Reserve", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
-sightingPlot(mrch_mc, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+sightingPlot(mrch_mc, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "blue")
 
 ```
 
@@ -314,17 +314,17 @@ sightingPlot(mrch_mc, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1
 
 ## Otway Ranges
 ### 2017
-```{r, echo = FALSE,   fig.cap = "Feral cat detections in the Otway Ranges 2017. Camera-traps are indicated by black crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, red circles unidentifiable detections (the circle radius scales positively with the number daily detections). Fox control did not occur in either of the grids during this time."}
+```{r, echo = FALSE,   fig.cap = "Feral cat detections in the Otway Ranges 2017. Camera-traps are indicated by red crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, blue circles unidentifiable detections (the circle radius scales positively with the number daily detections). Fox control did not occur in either of the grids during this time."}
 
 par(mfrow = c(1,2), mar = c(2.6, 1, 2.1, 1))
 
 plot(mrch_n_17, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "A) Otways north 2017", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
 sightingPlot(mrch_n_17, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
-sightingPlot(mrch_n_17, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+sightingPlot(mrch_n_17, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "blue")
 
 plot(mrch_s_17, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "B) Otways south 2017", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
 sightingPlot(mrch_s_17, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
-sightingPlot(mrch_s_17, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+sightingPlot(mrch_s_17, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "blue")
 
 ```
 
@@ -333,17 +333,17 @@ sightingPlot(mrch_s_17, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px =
 
 
 ### 2018
-```{r, echo = FALSE,   fig.cap = "Feral cat detections in the Otway Ranges 2018. Camera-traps are indicated by black crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, red circles unidentifiable detections (the circle radius scales positively with the number daily detections)."}
+```{r, echo = FALSE,   fig.cap = "Feral cat detections in the Otway Ranges 2018. Camera-traps are indicated by red crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, blue circles unidentifiable detections (the circle radius scales positively with the number daily detections)."}
 
 par(mfrow = c(1,2), mar = c(2.6, 1, 2.1, 1))
 
 plot(mrch_n_18, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "A) Otways north 2018", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
 sightingPlot(mrch_n_18, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
-sightingPlot(mrch_n_18, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+sightingPlot(mrch_n_18, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "blue")
 
 plot(mrch_s_18, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "B) Otways south 2018", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
 sightingPlot(mrch_s_18, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
-sightingPlot(mrch_s_18, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+sightingPlot(mrch_s_18, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "blue")
 
 ```
 
@@ -352,17 +352,17 @@ sightingPlot(mrch_s_18, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px =
 
 
 ### 2019
-```{r, echo = FALSE, fig.cap = "Feral cat detections in the Otway Ranges 2019. Camera-traps are indicated by black crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, red circles unidentifiable detections (the circle radius scales positively with the number daily detections)."}
+```{r, echo = FALSE, fig.cap = "Feral cat detections in the Otway Ranges 2019. Camera-traps are indicated by red crosses. Circles with coloured fills represent individual cats and lines denote thier observed movements. Black circles represent black cats, blue circles unidentifiable detections (the circle radius scales positively with the number daily detections)."}
 
 par(mfrow = c(1,2), mar = c(2.6, 1, 2.1, 1))
 
 plot(mrch_n_19, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "A) Otways north 2019", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
 sightingPlot(mrch_n_19, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
-sightingPlot(mrch_n_19, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+sightingPlot(mrch_n_19, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "blue")
 
 plot(mrch_s_19, rad = 2, tracks = T, bg = "white", detpar = list(col = "black"), title = "B) Otways south 2019", icolours = brewer.pal(12, "Paired"), randcol = TRUE, gridlines = FALSE, cappar = list(cex = 2), border = 10)
 sightingPlot(mrch_s_19, type = "Tu", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "black")
-sightingPlot(mrch_s_19, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "red")
+sightingPlot(mrch_s_19, type = "Tn", add = TRUE, scale = 200, mean = FALSE, px = 1.1, py = 1.9, title = "", col = "blue")
 
 ```
 
@@ -598,18 +598,14 @@ pander(df_fits_glenelg_aic, split.cell = 40, split.table = Inf, col.names = c("D
 ```{r aic_g}
 glenelg_fits <- readRDS("../models/glenelg_fits.RData")
 aic_tab <- AIC(glenelg_fits, criterion = "AICc")[,-2]
-# remove sigma (inefficiently) - change to detectability
-aic_tab$model <- gsub("sigma~1", "", aic_tab$model)
-aic_tab$model <- gsub("sigma~fox_predicted_mean", "", aic_tab$model)
-aic_tab$model <- gsub("sigma~fox_predicted_trapcov", "", aic_tab$model)
-aic_tab$model <- gsub("sigma~foxbaiting", "", aic_tab$model)
+# remove sigma (change to detectability)
+aic_tab$model  <-gsub("sigma.*","", aic_tab$model )
 # fix up names spaces etc
 aic_tab$model <- gsub("_trapcov", "", aic_tab$model)
 aic_tab$model <- gsub(" g0", ", g0", aic_tab$model)
 aic_tab$model <- gsub(" sigma", ", sigma", aic_tab$model)
 aic_tab$model <- gsub("~", " ~ ", aic_tab$model)
 aic_tab$model <- gsub("predicted", "occ", aic_tab$model)
-aic_tab$model <- gsub("foxbaiting", "foxbaited_01", aic_tab$model)
 aic_tab$model <- gsub("mean", "avg", aic_tab$model)
 # split detectability and density into seperate columns
 library(stringr)
@@ -629,6 +625,21 @@ pander(aic_tab,
        col.names = c("Density", "Detectability", "Parameters", "logLik", "dAICc", "AICcwt"),  
     caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region (ordered in decreasing AICc scores).")
 ```
+
+
+***session*** - *landscape (n = 4)*
+
+***1*** - *constant*
+
+***T*** - *linear time trend (g0 only)*
+
+***vegetation*** - *vegetation type (lowland forest, heathy woodland or cleared native vegetation)*
+
+***fox_occ*** - *spatial occupancy probability of foxes derived from generalised additive models*
+
+***foxbaiting_012*** - *fox-baited or not, but with seperate effects of foxbaiting for the two baited landscapes* 
+
+
 
 \newpage
 
@@ -679,11 +690,8 @@ pander(df_fits_otways_aic, split.cell = 40, split.table = Inf, col.names = c("De
 ```{r aic_o}
 otways_fits <- readRDS("../models/otways_fits.RData")
 aic_tab <- AIC(otways_fits, criterion = "AICc")[,-2]
-# remove sigma (inefficiently) - change to detectability
-aic_tab$model <- gsub("sigma~1", "", aic_tab$model)
-aic_tab$model <- gsub("sigma~fox_predicted_mean", "", aic_tab$model)
-aic_tab$model <- gsub("sigma~fox_predicted_trapcov", "", aic_tab$model)
-aic_tab$model <- gsub("sigma~foxbaiting", "", aic_tab$model)
+# remove sigma (will change to just detectability)
+aic_tab$model  <- gsub("sigma.*","", aic_tab$model )
 # fix up names spaces etc
 aic_tab$model <- gsub("_trapcov", "", aic_tab$model)
 aic_tab$model <- gsub(" g0", ", g0", aic_tab$model)
@@ -691,13 +699,15 @@ aic_tab$model <- gsub(" sigma", ", sigma", aic_tab$model)
 aic_tab$model <- gsub("~", " ~ ", aic_tab$model)
 aic_tab$model <- gsub("predicted", "occ", aic_tab$model)
 aic_tab$model <- gsub("foxbaiting", "foxbaited_01", aic_tab$model)
-aic_tab$model <- gsub("mean", "avg", aic_tab$model)
-# split detectability and density into seperate columns
+
+# split detectability and density into separate columns
 library(stringr)
 aic_tab$density <- str_split_fixed(aic_tab$model, ", g0", 2)[,1]
 aic_tab$detectability <- str_split_fixed(aic_tab$model, " g0", 2)[,2]
 aic_tab$density <- gsub("D ~ ", "", aic_tab$density)
 aic_tab$detectability <- gsub("~ ", "", aic_tab$detectability)
+aic_tab$detectability <- gsub("baiting2", "foxbaiting_012", aic_tab$detectability)
+
 # final clean
 aic_tab <- tibble::rownames_to_column(aic_tab, "fit")
 aic_tab <- subset(aic_tab, select = -c(AIC, AICc, fit, model))
@@ -711,50 +721,22 @@ pander(aic_tab,
     caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Otway region (ordered in decreasing AICc scores).")
 ```
 
+***session*** - *landscape deployment (n = 6)*
 
-```{r fig.cap="Feral cat density estimated seperately for each survey landscape in the Otway region (with fox-baiting impacting feral cat detectability)."}
-# 1) EXPERIMENTAL 
-# B) DENSITY ESTIMATES
-# Extract estimates
-estimate <- as.data.frame(unlist(sapply(predict(otways_fits$fits2_g), "[", "D","estimate")))
-names(estimate)[1] <- "estimate"
-estimate <- tibble::rownames_to_column(estimate, "grid")
-lower_bound <- as.data.frame(unlist(sapply(predict(otways_fits$fits2_g), "[", "D","lcl")))
-names(lower_bound)[1] <- "lcl"
-lower_bound <- tibble::rownames_to_column(lower_bound, "grid")
-upper_bound <- as.data.frame(unlist(sapply(predict(otways_fits$fits2_g), "[", "D","ucl")))
-names(upper_bound)[1] <- "ucl"
-upper_bound <- tibble::rownames_to_column(upper_bound, "grid")
-temp <- merge(lower_bound, upper_bound, by = "grid")
-fit_baci_vals <- merge(estimate, temp, by = "grid")
-# rename grid
-fit_baci_vals$grid <- gsub("session = ", "", fit_baci_vals$grid)
-new_grid_names <- c(mrch_n_17 = "north 2017", mrch_n_18 = "north 2018", mrch_n_19 = "north 2019", mrch_s_17 = "south 2017", mrch_s_18 = "south 2018", mrch_s_19 = "south 2019")
-fit_baci_vals$grid <- as.character(new_grid_names[fit_baci_vals$grid])
-# add treatment variable
-fit_baci_vals$Treatment <- c("Non-treatment", "Non-treatment", "Non-treatment", "Treatment", "Treatment", "Treatment")
-fit_baci_vals$Year <- c("2017", "2018", "2019", "2017", "2018", "2019")
-# covert from hectares to km2
-fit_baci_vals$estimate <- fit_baci_vals$estimate*100
-fit_baci_vals$lcl <- fit_baci_vals$lcl*100
-fit_baci_vals$ucl <- fit_baci_vals$ucl*100
-## Plot
-plot_o_cat <- ggplot(fit_baci_vals, aes(x = Year, y = estimate, color = Treatment, group = Treatment)) + 
-  geom_point(size = 4, position = position_dodge(width = 0.25)) +
-  geom_pointrange(aes(ymin = lcl, ymax = ucl), position = position_dodge(width = 0.25)) + 
-  ylim(0,1.6) + 
-  geom_line(linetype = "dashed", size = 0.5, position = position_dodge(width = 0.25)) + 
-  labs(title = "", x = "Year", y = bquote("Cats per km"^2)) +
-  scale_color_manual(values=c('blue','red'), labels = c("Non-impact", "Impact")) + 
-  theme(plot.background = element_rect(fill = 'white'),
-        legend.position = "bottom",
-        legend.title = element_blank(),
-        axis.text = element_text(size = 14),
-        axis.title = element_text(size = 16),
-        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
-plot_o_cat
-```
+***year*** - *year of deployment (2017-19)*
+
+***foxbaiting_012*** - *fox-baited or not, but with separate effects in 2018 and 2019 for the impact landscape* 
+
+***1*** - *constant*
+
+***T*** - *linear time trend (g0 only)*
+
+***vegetation*** - *vegetation type (wet forest, heathy woodland or cleared native vegetation)*
+
+***fox_occ*** - *spatial occupancy probability of foxes derived from generalised additive models*
+
+
+
 
 
 

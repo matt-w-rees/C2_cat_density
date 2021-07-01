@@ -11,19 +11,10 @@ library(dplyr)
 masks_glenelg <- readRDS("derived_data/masks_glenelg.RData")
 mrch_glenelg <- readRDS("derived_data/mrch_glenelg.RData")
 
-# get mean fox_prediceted value per grid to add a session covariate
-glenelg_mask_df <- readRDS("derived_data/glenelg_mask_df.RData")
-x <- glenelg_mask_df %>% 
-  group_by(sess) %>% 
-  mutate(fox_predicted_mean = mean(fox_predicted)) %>%
-  select(sess, fox_predicted_mean)
-x <- round(unique(x)$fox_predicted_mean, digits = 2)
-x
-
 # specify session covariates
-sesscov <- data.frame(fox_predicted_mean = x,
-                      pair = factor(c("p1", "p1", "p2", "p2")),
-                      foxbaiting = factor(c("0unbaited", "1baited", "0unbaited", "1baited")))
+sesscov <- data.frame(pair = factor(c("p1", "p1", "p2", "p2")),
+                      foxbaiting_01  = factor(c("0unbaited", "1baited", "0unbaited", "1baited")),
+                      foxbaiting_012 = factor(c("0unbaited", "1baited", "0unbaited", "2baited")))
 sesscov
 
 
@@ -49,151 +40,34 @@ fit1_adj$details$chat[1:2]
 
 # 3) fit actual models
 ## Null models
-fits1_a <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1, g0 ~ 1, sigma ~ 1))
-fits1_b <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ vegetation, g0 ~ 1, sigma ~ 1))
-fits1_c <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1, g0 ~ T, sigma ~ 1))
-fits1_d <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ vegetation, g0 ~ T, sigma ~ 1))
-AIC(fits1_a, fits1_b, fits1_c, fits1_d, criterion = "AICc")[,-2] 
+# We chose the 4 grids based on similar landscape context and management. The main differences were the:
+# a) relative proportion of vegetation type (cleared, lowland forest and heathy woodland), 
+# b) and that one pair which was surveyed at a time (but 2nd pair was survey immediately after 1st) - this slight change in the time of year may have impacted cat detectability (but would not expect any numerical pop. changes in the two months).
+# Was there an impact of vegetation on density (B)? or pair (slightly different time of the year) on detectability (C)? Compare these to the null (A). 
+fit_null         <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1,          g0 ~ 1,    sigma ~ 1))
+fit_null_Dveg    <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ vegetation, g0 ~ 1,    sigma ~ 1))
+fit_null_g0T     <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1,          g0 ~ T,    sigma ~ 1))
+AIC(fit_null, fit_null_Dveg, fit_null_detpair, fit_null_g0T, criterion = "AICc")[,-2] 
+# no model had an AICc any better than the null, so no need to carry any of these forward - and all good to compare baited treatments to both unbaited sites (they are basically the same forest anyway)
 
+## Is there an effect of foxbaiting on density and/or detectability? Was this consistent across two baited sites (fit 2) or different (fit 3) - compare to null model. 
+fit_sess1 <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat, contrasts = list(session = MASS::contr.sdif)), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ session, g0 ~ 1, sigma ~ 1)) 
+fit_sess2 <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat, contrasts = list(session = MASS::contr.sdif)), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ session, g0 ~ foxbaiting_012, sigma ~ foxbaiting_012)) 
+fit_sess3 <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat, contrasts = list(session = MASS::contr.sdif)), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ session, g0 ~ pair, sigma ~ pair)) 
+fit_sess4 <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat, contrasts = list(session = MASS::contr.sdif)), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ session, g0 ~ pair + foxbaiting_012, sigma ~ pair + foxbaiting_012)) 
+AIC(fit_null, fit_sess1, fit_sess2, fit_sess3, fit_sess4, criterion = "AICc")[,-2] 
+  
+## 5) Correlative models with fox occupancy 
+fit_fox_det  <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1,             g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov))
+fit_fox_D    <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted, g0 ~ 1,                     sigma ~ 1)) 
+fit_fox_Ddet <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted, g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov)) 
+AIC(fit_null, fit_fox_det, fit_fox_D,  fit_fox_Ddet, criterion = "AICc")[,-2] 
 
-## 4) Experimental models
-# a) same density in the unbaited sites, same effect of baiting in the baited sites
-# b) different density in the unbaited sites, same effect of baiting in the baited sites:
-# c) different density in the unbaited sites, different effect of baiting in the baited sites (i.e. D ~ session)
-fits2_a <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1, g0 ~ foxbaiting, sigma ~ foxbaiting)) 
-fits2_b <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ foxbaiting, g0 ~ 1, sigma ~ 1)) 
-fits2_c <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ foxbaiting, g0 ~ foxbaiting, sigma ~ foxbaiting)) 
-fits2_d <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ pair + foxbaiting, g0 ~ 1, sigma ~ 1)) 
-fits2_e <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ pair * foxbaiting, g0 ~ 1, sigma ~ 1)) 
-fits2_f <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ pair + foxbaiting, g0 ~ foxbaiting, sigma ~ foxbaiting)) 
-fits2_g <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ pair * foxbaiting, g0 ~ foxbaiting, sigma ~ foxbaiting)) 
-AIC(fits1_a, fits2_a, fits2_b, fits2_c, fits2_d, fits2_e, fits2_f, fits2_g, criterion = "AICc")[,-2] 
-
-
-## 5) Correlative models with fox occupancy
-fits3_a <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1, g0 ~ fox_predicted_mean, sigma ~ fox_predicted_mean))
-fits3_b <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted_mean, g0 ~ 1, sigma ~ 1)) 
-fits3_c <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted_mean, g0 ~ fox_predicted_mean, sigma ~ fox_predicted_mean))
-fits3_d <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1, g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov))
-fits3_e <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted, g0 ~ 1, sigma ~ 1)) 
-fits3_f <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted, g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov)) 
-AIC(fits1_a, fits3_a, fits3_b, fits3_c, fits3_d, fits3_e, fits3_f, criterion = "AICc")[,-2] 
-
-
-## 6) Combine models, save and compare AICc
-glenelg_fits <- secrlist(fits1_a, fits1_b, fits1_c, fits1_d, fits2_a, fits2_b, fits2_c, fits2_d, fits2_e, fits2_f, fits2_g, fits3_a, fits3_b, fits3_c, fits3_d, fits3_e, fits3_f)
+## 6) Combine models, save and compare AICc altogether
+glenelg_fits <- secrlist(fit_null, fit_null_Dveg, fit_null_g0T, fit_sess1, fit_sess2, fit_sess3, fit_sess4, fit_fox_det, fit_fox_D, fit_fox_Ddet)
 saveRDS(glenelg_fits,   "models/glenelg_fits.RData")
-#glenelg_fits <- readRDS("models/glenelg_fits.RData")
+glenelg_fits <- readRDS("models/glenelg_fits.RData")
 AIC(glenelg_fits, criterion = "AICc")[,-2] 
 
-
-
-# PLOTS -------------------------------------------------------------------
-library(ggplot2)
-library(patchwork)
-# load models
-glenelg_fits <- readRDS("models/glenelg_fits.RData")
-# Set the default theme for ggplot objects 
-theme_set(theme_bw())
-theme_update(panel.grid = element_blank())
-
-# 1) EXPERIMENTAL 
-# B) DENSITY ESTIMATES
-## Extract estimates
-# pair 1: 
-estimate <- as.data.frame(unlist(sapply(predict(glenelg_fits$fits2_e), "[", "D","estimate")))
-names(estimate)[1] <- "estimate"
-estimate <- tibble::rownames_to_column(estimate, "grid")
-lower_bound <- as.data.frame(unlist(sapply(predict(glenelg_fits$fits2_e), "[", "D","lcl")))
-names(lower_bound)[1] <- "lcl"
-lower_bound <- tibble::rownames_to_column(lower_bound, "grid")
-upper_bound <- as.data.frame(unlist(sapply(predict(glenelg_fits$fits2_e), "[", "D","ucl")))
-names(upper_bound)[1] <- "ucl"
-upper_bound <- tibble::rownames_to_column(upper_bound, "grid")
-temp <- merge(lower_bound, upper_bound, by = "grid")
-x <- merge(estimate, temp, by = "grid")
-
-# rename grid
-x$grid <- c("Annya","Cobboboonee", "Hotspur", "Mt Clay")
-# add treatment variable
-x$Treatment <- c("Non-impact", "Impact", "Non-impact", "Impact")
-# add pair variable
-x$Replicate <- c("Replicate 1", "Replicate 1", "Replicate 2", "Replicate 2")
-# covert from hectares to km2
-x$estimate <- x$estimate*100
-x$lcl <- x$lcl*100
-x$ucl <- x$ucl*100
-# plot
-plot_g_cat <- ggplot(x, aes(x = Replicate, y = estimate, color = Treatment)) + 
-  geom_point(size = 4, position = position_dodge(width = 0.25)) +
-  geom_pointrange(aes(ymin = lcl, ymax = ucl), position = position_dodge(width = 0.25)) + 
-  ylim(0,0.8) + labs(title = "", x = "", y = bquote("Cats per km"^2)) +
-  scale_color_manual(values=c('red','blue'),  labels = c("Impact", "Non-impact")) + 
-  theme(plot.background = element_rect(fill = 'white'),
-        legend.position = "bottom",
-        legend.title = element_blank(),
-        legend.text = element_text(size = 14),
-        axis.text = element_text(size = 14),
-        axis.title = element_text(size = 16),
-        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
-plot_g_cat
-
-
-
-# 2) CORRELATION 
-
-## D ~ FOX_MEAN
-# extract values
-all_predicted <- predict(glenelg_fits$fits3_b, newdata = data.frame(fox_predicted_mean = seq(min(sesscov$fox_predicted_mean), max(sesscov$fox_predicted_mean), by = 0.01)))
-predicted_values <- unlist(sapply(all_predicted, "[", "D","estimate"))*100
-lower_bound <- unlist(sapply(all_predicted, "[", "D","lcl"))*100
-upper_bound <- unlist(sapply(all_predicted, "[", "D","ucl"))*100
-pr_occ <- seq(min(sesscov$fox_predicted_mean), max(sesscov$fox_predicted_mean), by = 0.01)
-newdf <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
-# plot
-plot_cat_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
-  geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "grey85") +
-  geom_line(size = 1)+
-  ylim(0,0.8) + 
-  labs(title = "", x = "Fox Pr(occupancy) - landscape average", y = bquote("Cats per km"^2)) +
-  scale_color_manual(values=c('blue','red')) + 
-  theme(plot.background = element_rect(fill = 'white'),
-        axis.text = element_text(size = 14),
-        axis.title = element_text(size = 16),
-        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
-plot_cat_fox
-
-
-
-## D ~ FOX
-# extract values
-#all_predicted <- predict(glenelg_fits$fits3_e, newdata = data.frame(fox_predicted = seq(min(glenelg_mask_df$fox_predicted), max(glenelg_mask_df$fox_predicted), by = 0.01)))
-#predicted_values <- unlist(sapply(all_predicted, "[", "D","estimate"))*100
-#lower_bound <- unlist(sapply(all_predicted, "[", "D","lcl"))*100
-#upper_bound <- unlist(sapply(all_predicted, "[", "D","ucl"))*100
-#pr_occ <- seq(min(glenelg_mask_df$fox_predicted), max(glenelg_mask_df$fox_predicted), by = 0.01)
-#newdf <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
-## plot
-#plot_cat_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
-#  geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "grey85") +
-#  geom_line(size = 1)+
-#  ylim(0,1) + 
-#  labs(title = "", x = "Fox Pr(occupancy)", y = bquote("Cats per km"^2)) +
-#  scale_color_manual(values=c('blue','red')) + 
-#  theme(plot.background = element_rect(fill = 'white'),
-#        axis.text = element_text(size = 14),
-#        axis.title = element_text(size = 16),
-#        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-#        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
-#plot_cat_fox
-
-
-
-## Assemble plots and save
-png("C2-manuscript/figs/fig3_glenelg_600dpi.png", width = 12, height = 6, res = 600, units = "in")
-(plot_g_cat + plot_cat_fox) + plot_annotation(tag_levels = 'A', title = "Glenelg region") 
-dev.off() 
 
 # END 

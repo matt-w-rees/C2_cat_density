@@ -111,8 +111,8 @@ mrch_s_19 <- addSightings(ch_s_19, unmarked = unm_s_19, uncertain = unid_s_19)
 
 # combine capthists per region
 mrch_glenelg <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc)
-mrch_otways <- MS.capthist(mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
-mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_s_17, mrch_n_17, mrch_s_18, mrch_n_18, mrch_s_19, mrch_n_19)
+mrch_otways <- MS.capthist(mrch_n_17, mrch_s_17, mrch_n_18, mrch_s_18, mrch_n_19, mrch_s_19)
+mrch <- MS.capthist(mrch_a, mrch_c, mrch_h, mrch_mc, mrch_n_17, mrch_s_17, mrch_n_18, mrch_s_18, mrch_n_19, mrch_s_19)
 
 # load masks
 masks <- readRDS("../derived_data/masks.RData")
@@ -525,7 +525,7 @@ $~$
 ```{r, echo = FALSE, fig.cap="Condensed Ecological Vegetation Class groups used as habitat mask covariates in spatial mark-resight models."}
 # plot Vegetation class - glenelg
 forestcol <- terrain.colors(6, rev = TRUE)[c(1,3,5)]
-names(masks) <- c("Annya", "Cobboboonee", "Hotspur", "Mt Clay", "Otways: South", "Otways: North", "Otways: South '18", "Otways: North '18", "Otways: South '19", "Otways: North '19")
+names(masks) <- c("Annya", "Cobboboonee", "Hotspur", "Mt Clay", "Otways: North", "Otways: South", "Otways: North '18", "Otways: South '18", "Otways: North '19", "Otways: South '19")
 par (mfrow = c(2, 4), mar = c(0,0,5,0))
 for (sess in 1:4) {
   plot(masks[[sess]], covariate = 'vegetation', legend = FALSE, dots = FALSE, border = 100, col = forestcol) 

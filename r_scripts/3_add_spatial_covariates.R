@@ -156,7 +156,7 @@ glenelg_mask_df <- do.call(rbind.data.frame, glenelg_mask)
 glenelg_mask_df$survey_duration <- 60 
 
 # predict GAM into the dataframe 
-glenelg_mask_df <- cbind(glenelg_mask_df, predict.gam(gam_g_fox, newdata = glenelg_mask_df, se.fit = TRUE, type = "response"))
+glenelg_mask_df <- cbind(glenelg_mask_df, predict.gam(gam_g_fox, newdata = glenelg_mask_df, se.fit = TRUE, type = "link"))
 
 ## convert df to list per each session
 # but first give row values a column name
@@ -199,7 +199,7 @@ glenelg_traps_df$survey_duration <- 60
 
 # predict GAM model values into the traps dataframe
 # predict into the dataframe - exclude fox predictor in the cat prey model to avoid double counting this effect
-glenelg_traps_df <- cbind(glenelg_traps_df, predict.gam(gam_g_fox, newdata = glenelg_traps_df, se.fit = TRUE, type = "response"))
+glenelg_traps_df <- cbind(glenelg_traps_df, predict.gam(gam_g_fox, newdata = glenelg_traps_df, se.fit = TRUE, type = "link"))
 
 # rename fox_predicted to fox_predicted_trapcov for model specification
 colnames(glenelg_traps_df) <- c("station", "x", "y", "survey_duration", "fox_predicted_trapcov", "fox_predicted_trapcov_se")
@@ -245,7 +245,7 @@ otways_mask_df$station <- "T052"
 otways_mask_df$survey_duration <- 60 
 
 # predict into the dataframe 
-otways_mask_df <- cbind(otways_mask_df, predict.gam(gam_o_fox, newdata = otways_mask_df, se.fit = TRUE, type = "response", exclude = c("s(station)")))
+otways_mask_df <- cbind(otways_mask_df, predict.gam(gam_o_fox, newdata = otways_mask_df, se.fit = TRUE, type = "link", exclude = c("s(station)")))
 otways_mask_df <- rename(otways_mask_df, fox_predicted = fit,  fox_predicted_se = se.fit) # rename
 #head(otways_mask_df)
 
@@ -289,7 +289,7 @@ otways_traps_df$station <- "T052"
 otways_traps_df$survey_duration <- 60
 
 # predict GAM model values into the traps dataframe
-otways_traps_df <- cbind(otways_traps_df, predict.gam(gam_o_fox, newdata = otways_traps_df, se.fit = TRUE, type = "response", exclude = c("s(station)")))
+otways_traps_df <- cbind(otways_traps_df, predict.gam(gam_o_fox, newdata = otways_traps_df, se.fit = TRUE, type = "link", exclude = c("s(station)")))
 otways_traps_df <- rename(otways_traps_df, fox_predicted_trapcov = fit,  fox_predicted_trapcov_se = se.fit) # rename
 #head(otways_traps_df)
 

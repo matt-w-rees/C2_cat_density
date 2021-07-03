@@ -61,7 +61,7 @@ AIC(fit_null, fit_sess1, fit_sess2, fit_sess3, fit_sess4, criterion = "AICc")[,-
 fit_fox_det  <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1,             g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov))
 fit_fox_D    <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted, g0 ~ 1,                     sigma ~ 1)) 
 fit_fox_Ddet <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted, g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov)) 
-AIC(fit_null, fit_fox_det, fit_fox_D,  fit_fox_Ddet, criterion = "AICc")[,-2] 
+AIC(glenelg_fits$fit_null, fit_fox_det, fit_fox_D,  fit_fox_Ddet, criterion = "AICc")[,-2] 
 
 ## 6) Combine models, save and compare AICc altogether
 glenelg_fits <- secrlist(fit_null, fit_null_Dveg, fit_null_g0T, fit_sess1, fit_sess2, fit_sess3, fit_sess4, fit_fox_det, fit_fox_D, fit_fox_Ddet)

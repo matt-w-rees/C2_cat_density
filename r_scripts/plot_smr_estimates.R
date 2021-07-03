@@ -163,7 +163,7 @@ plot_cor <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
   geom_ribbon(data = df_otways, aes(ymin = lower_bound, ymax = upper_bound, fill = "Otway"), alpha = 0.3) + 
   geom_line(data = df_glenelg, aes(color = "Glenelg"), linetype = 1, size = 1.2) +
   geom_line(data = df_otways,  aes(color = "Otway"), linetype = 1, size = 1.2) + 
-  ylim(0,1.4) + 
+  ylim(0,1.55) + 
   scale_fill_manual(name = "Region",
                      breaks = c("Otway", "Glenelg"),
                      values = c("Glenelg" = "#482E1B", "Otway" = "#384566"),
@@ -172,7 +172,7 @@ plot_cor <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
                      breaks = c("Otway", "Glenelg"),
                      values = c("Glenelg" = "#482E1B", "Otway" = "#384566"),
                      guide = "legend") +
-  labs(title = "", x = "Fox Pr(occupancy)", y = bquote("Cats per km"^2)) +
+  labs(title = "", x = "log(fox occupancy)", y = bquote("Cats per km"^2)) +
   theme_matty()
 plot_cor 
 
@@ -196,8 +196,8 @@ newdf <- filter(newdf, year == "2019")
 plot_g0_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
   geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.3) +
   geom_line(size = 1.2, col = "#384566")+
-  ylim(0, 0.13) + 
-  labs(title = "", x = "Fox Pr(occupancy)", y = expression(paste("g", italic("0")))) +
+  ylim(0, 0.16) + 
+  labs(title = "", x = "log(fox occupancy)", y = expression(paste("g", italic("0")))) +
   theme_matty()
 
 ## sigma 
@@ -215,8 +215,8 @@ newdf <- filter(newdf, year == "2019")
 plot_sigma_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
   geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.3) +
   geom_line(size = 1.2, col = "#384566") +
-  ylim(200, 610) + 
-  labs(title = "", x = "Fox Pr(occupancy)", y = "Sigma") +
+  ylim(185, 580) + 
+  labs(title = "", x = "log(fox occupancy)", y = "Sigma") +
   theme_matty()
 
 
@@ -226,7 +226,7 @@ plot_sigma_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) +
 
 # 1) Correlation
 # 1a) Density (both)
-png("C2-manuscript/figs/foxD_600dpi.png", width = 8, height = 6, res = 600, units = "in")
+png("C2-manuscript/figs/foxD_600dpi.png", width = 7, height = 6, res = 600, units = "in")
 plot_cor
 dev.off() 
 

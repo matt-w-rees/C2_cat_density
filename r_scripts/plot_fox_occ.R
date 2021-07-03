@@ -56,14 +56,14 @@ data_glenelg_plot4 = data_glenelg_plot[with(data_glenelg_plot, inSide(buffer_df4
 data_glenelg_plot <- rbind(data_glenelg_plot1, data_glenelg_plot2, data_glenelg_plot3, data_glenelg_plot4)
 
 # predict model results into dataframe
-data_glenelg_plot <- cbind(data_glenelg_plot, predict.gam(gam_g_fox, newdata = data_glenelg_plot, se.fit = TRUE, type = "response", exclude = c("s(station)", "s(survey_duration)")))
+data_glenelg_plot <- cbind(data_glenelg_plot, predict.gam(gam_g_fox, newdata = data_glenelg_plot, se.fit = TRUE, type = "link", exclude = c("s(station)", "s(survey_duration)")))
 data_glenelg_plot <- rename(data_glenelg_plot, fox_predicted = fit,  fox_predicted_se = se.fit) # rename
 
 # fox plot
 g_fox_plot <- ggplot(aes(x, y, fill = fox_predicted),
                      data = data_glenelg_plot) +
   geom_tile()+
-  scale_fill_viridis("Pr(occupancy)", option = "viridis", limits = c(0, 0.7)) +
+  scale_fill_viridis("log(fox)", option = "viridis", limits = c(-2.19917294, 0.8425221)) +
   geom_point(data = records_glenelg, fill = NA, col = "white", size = 0.7, alpha = 0.7, shape = 3) +
   theme_bw(10) + 
   ggtitle("Glenelg region, 2018") +
@@ -77,8 +77,6 @@ g_fox_plot <- ggplot(aes(x, y, fill = fox_predicted),
   annotate("text", x = mean(data_glenelg_plot$x) - 12500, y = mean(data_glenelg_plot$y) - 14200, label = "I") + 
   annotate("text", x = mean(data_glenelg_plot$x) + 9000, y = mean(data_glenelg_plot$y) - 21500, label = "I") 
 g_fox_plot
-
-
 
 
 
@@ -113,7 +111,7 @@ data_otways_plot = expand.grid(
 # subset to just locations within buffer zone
 data_otways_plot = data_otways_plot[with(data_otways_plot, inSide(otways_buffer_df, x, y)),]
 
-data_otways_plot <- cbind(data_otways_plot, predict.gam(gam_o_fox, newdata = data_otways_plot, se.fit = TRUE, type = "response", exclude = c("s(station)", "s(survey_duration)")))
+data_otways_plot <- cbind(data_otways_plot, predict.gam(gam_o_fox, newdata = data_otways_plot, se.fit = TRUE, type = "link", exclude = c("s(station)", "s(survey_duration)")))
 data_otways_plot <- rename(data_otways_plot, fox_predicted = fit,  fox_predicted_se = se.fit) # rename
 
 
@@ -123,7 +121,7 @@ par(mar = c(5.1, 20, 4.1, 2.1))
 o_fox_plot <- ggplot(aes(x, y, fill = fox_predicted),
                      data = data_otways_plot) +
   geom_tile()+
-  scale_fill_viridis("Pr(occupancy)", option = "viridis", limits = c(0, 0.7)) +
+  scale_fill_viridis("log(fox)", option = "viridis", limits = c(-2.19917294, 0.8425221)) +
   facet_wrap(~year, nrow = 1) +
   geom_point(data = records_otways, fill = NA, col = "white", size = 0.7, alpha = 0.7, shape = 3) +
   theme_bw(10) + 

@@ -640,14 +640,14 @@ aic_tab$density <- gsub("D ~ ", "", aic_tab$density)
 aic_tab$detectability <- gsub("~ ", "", aic_tab$detectability)
 # final clean
 aic_tab <- tibble::rownames_to_column(aic_tab, "fit")
-aic_tab <- subset(aic_tab, select = -c(AIC, AICc, fit, model))
+aic_tab <- subset(aic_tab, select = -c(dAICc, fit, model))
 aic_tab <- relocate(aic_tab, density, detectability)
 # make table
 pander(aic_tab, 
        split.cell = 40, 
        split.table = Inf, 
-       round = 2,
-       col.names = c("Density", "Detectability", "Parameters", "logLik", "dAICc", "AICcwt"),  
+       digits = 6,
+       col.names = c("Density", "Detectability", "Parameters", "logLik", "AIC", "AICc", "AICcwt"),  
     caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region (ordered in decreasing AICc scores).")
 ```
 
@@ -726,7 +726,6 @@ aic_tab$model <- gsub(" sigma", ", sigma", aic_tab$model)
 aic_tab$model <- gsub("~", " ~ ", aic_tab$model)
 aic_tab$model <- gsub("predicted", "occ", aic_tab$model)
 aic_tab$model <- gsub("foxbaiting", "foxbaited_01", aic_tab$model)
-
 # split detectability and density into separate columns
 library(stringr)
 aic_tab$density <- str_split_fixed(aic_tab$model, ", g0", 2)[,1]
@@ -734,17 +733,16 @@ aic_tab$detectability <- str_split_fixed(aic_tab$model, " g0", 2)[,2]
 aic_tab$density <- gsub("D ~ ", "", aic_tab$density)
 aic_tab$detectability <- gsub("~ ", "", aic_tab$detectability)
 aic_tab$detectability <- gsub("baiting2", "foxbaiting_012", aic_tab$detectability)
-
 # final clean
 aic_tab <- tibble::rownames_to_column(aic_tab, "fit")
-aic_tab <- subset(aic_tab, select = -c(AIC, AICc, fit, model))
+aic_tab <- subset(aic_tab, select = -c(dAICc, fit, model))
 aic_tab <- relocate(aic_tab, density, detectability)
 # make table
 pander(aic_tab, 
        split.cell = 40, 
        split.table = Inf, 
-       round = 2,
-       col.names = c("Density", "Detectability", "Parameters", "logLik", "dAICc", "AICcwt"),  
+       digits = 6,
+       col.names = c("Density", "Detectability", "Parameters", "logLik", "AIC", "AICc", "AICcwt"),  
     caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Otway region (ordered in decreasing AICc scores).")
 ```
 

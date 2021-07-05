@@ -61,10 +61,13 @@ AIC(fit_null, fit_sess1, fit_sess2, fit_sess3, fit_sess4, criterion = "AICc")[,-
 fit_fox_det  <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1,             g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov))
 fit_fox_D    <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted, g0 ~ 1,                     sigma ~ 1)) 
 fit_fox_Ddet <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ fox_predicted, g0 ~ fox_predicted_trapcov, sigma ~ fox_predicted_trapcov)) 
-AIC(glenelg_fits$fit_null, fit_fox_det, fit_fox_D,  fit_fox_Ddet, criterion = "AICc")[,-2] 
+fit_nl_fox_det  <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ 1,             g0 ~ s(fox_predicted_trapcov, k = 3), sigma ~ s(fox_predicted_trapcov, k = 3)))
+fit_nl_fox_D    <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ s(fox_predicted, k = 3), g0 ~ 1,                     sigma ~ 1)) 
+fit_nl_fox_Ddet <- secr.fit(mrch_glenelg, mask = masks_glenelg, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 3, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ s(fox_predicted, k = 3), g0 ~ s(fox_predicted_trapcov, k = 3), sigma ~ s(fox_predicted_trapcov, k = 3))) 
+AIC(fit_null, fit_fox_det, fit_fox_D,  fit_fox_Ddet, fit_nl_fox_det, fit_nl_fox_D, fit_nl_fox_Ddet, criterion = "AICc")[,-2] 
 
 ## 6) Combine models, save and compare AICc altogether
-glenelg_fits <- secrlist(fit_null, fit_null_Dveg, fit_null_g0T, fit_sess1, fit_sess2, fit_sess3, fit_sess4, fit_fox_det, fit_fox_D, fit_fox_Ddet)
+glenelg_fits <- secrlist(fit_null, fit_null_Dveg, fit_null_g0T, fit_sess1, fit_sess2, fit_sess3, fit_sess4, fit_fox_det, fit_fox_D, fit_fox_Ddet, fit_nl_fox_det, fit_nl_fox_D, fit_nl_fox_Ddet)
 saveRDS(glenelg_fits,   "models/glenelg_fits.RData")
 glenelg_fits <- readRDS("models/glenelg_fits.RData")
 AIC(glenelg_fits, criterion = "AICc")[,-2] 

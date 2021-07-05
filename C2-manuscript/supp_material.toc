@@ -22,5 +22,5 @@
 \contentsline {subsection}{\numberline {7.2}Otway region}{19}{subsection.7.2}%
 \contentsline {subsubsection}{\numberline {7.2.1}Detector function fits}{19}{subsubsection.7.2.1}%
 \contentsline {subsubsection}{\numberline {7.2.2}Candidate model fits}{20}{subsubsection.7.2.2}%
-\contentsline {section}{\numberline {8}Session information}{21}{section.8}%
-\contentsline {section}{References}{21}{section*.2}%
+\contentsline {section}{\numberline {8}Session information}{22}{section.8}%
+\contentsline {section}{References}{22}{section*.2}%

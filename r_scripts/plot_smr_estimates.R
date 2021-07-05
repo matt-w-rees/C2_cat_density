@@ -137,7 +137,7 @@ plot_o_response
 
 
 # FOX CORRELATION PLOT -------------------------------------------------------------------
-# get estimates:
+# get linear estimates:
 # glenelg:
 all_predicted <- predict(glenelg_fits$fit_fox_D, newdata = data.frame(fox_predicted = seq(min(glenelg_mask_df$fox_predicted), max(glenelg_mask_df$fox_predicted), by = 0.01)))
 predicted_values <- unlist(sapply(all_predicted, "[", "D","estimate"))*100
@@ -157,12 +157,37 @@ df_otways <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ
 df_otways$year <- rep(c("2017", "2018", "2019"), nrow(df_otways)/3)
 df_otways <- filter(df_otways, year == "2019")
 
+# get non-linear estimates:
+# glenelg:
+all_predicted <- predict(glenelg_fits$fit_nl_fox_D, newdata = data.frame(fox_predicted = seq(min(glenelg_mask_df$fox_predicted), max(glenelg_mask_df$fox_predicted), by = 0.01)))
+predicted_values <- unlist(sapply(all_predicted, "[", "D","estimate"))*100
+lower_bound <- unlist(sapply(all_predicted, "[", "D","lcl"))*100
+upper_bound <- unlist(sapply(all_predicted, "[", "D","ucl"))*100
+pr_occ <- round(seq(min(glenelg_mask_df$fox_predicted), max(glenelg_mask_df$fox_predicted), by = 0.01), digits = 2)
+df_nl_glenelg <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
+# Otways:
+all_predicted <- predict(otways_fits$fit_nl_fox_Ddet, newdata = data.frame(fox_predicted =         seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), 
+                                                                           fox_predicted_trapcov = seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), 
+                                                                           year = factor(c("2017", "2018", "2019"))))
+predicted_values <- unlist(sapply(all_predicted, "[", "D","estimate"))*100
+lower_bound <- unlist(sapply(all_predicted, "[", "D","lcl"))*100
+upper_bound <- unlist(sapply(all_predicted, "[", "D","ucl"))*100
+pr_occ <- round(seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), digits = 2)
+df_nl_otways <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
+df_nl_otways$year <- rep(c("2017", "2018", "2019"), nrow(df_nl_otways)/3)
+df_nl_otways <- filter(df_nl_otways, year == "2019")
+
+
 ## PLOT
 plot_cor <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) + 
-  geom_ribbon(data = df_glenelg, aes(ymin = lower_bound, ymax = upper_bound, fill = "Glenelg"), alpha = 0.3) +
-  geom_ribbon(data = df_otways, aes(ymin = lower_bound, ymax = upper_bound, fill = "Otway"), alpha = 0.3) + 
+  geom_ribbon(data = df_glenelg, aes(ymin = lower_bound, ymax = upper_bound, fill = "Glenelg"), alpha = 0.2) +
+  geom_ribbon(data = df_otways, aes(ymin = lower_bound, ymax = upper_bound, fill = "Otway"), alpha = 0.2) + 
+  geom_ribbon(data = df_nl_glenelg, aes(ymin = lower_bound, ymax = upper_bound, fill = "Glenelg"), alpha = 0.2) +
+  geom_ribbon(data = df_nl_otways, aes(ymin = lower_bound, ymax = upper_bound, fill = "Otway"), alpha = 0.2) + 
   geom_line(data = df_glenelg, aes(color = "Glenelg"), linetype = 1, size = 1.2) +
   geom_line(data = df_otways,  aes(color = "Otway"), linetype = 1, size = 1.2) + 
+  geom_line(data = df_nl_glenelg, aes(color = "Glenelg"), linetype = 2, size = 1.2) +
+  geom_line(data = df_nl_otways,  aes(color = "Otway"), linetype = 2, size = 1.2) + 
   ylim(0,1.55) + 
   scale_fill_manual(name = "Region",
                      breaks = c("Otway", "Glenelg"),
@@ -181,6 +206,7 @@ plot_cor
 # COR - DETECTABILITY -----------------------------------------------------
 # (otways)
 ## g0 
+# linear 
 all_predicted <- predict(otways_fits$fit_fox_Ddet, newdata = data.frame(fox_predicted =         seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), 
                                                                         fox_predicted_trapcov = seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), 
                                                                         year = factor(c("2017", "2018", "2019"))))
@@ -191,16 +217,29 @@ pr_occ <- seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicte
 newdf <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
 newdf$year <- rep(c("2017", "2018", "2019"), nrow(newdf)/3)
 newdf <- filter(newdf, year == "2019")
-
+# non-linear
+all_predicted <- predict(otways_fits$fit_nl_fox_Ddet, newdata = data.frame(fox_predicted =         seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), 
+                                                                           fox_predicted_trapcov = seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), 
+                                                                           year = factor(c("2017", "2018", "2019"))))
+predicted_values <- unlist(sapply(all_predicted, "[", "g0","estimate"))
+lower_bound <- unlist(sapply(all_predicted, "[", "g0","lcl"))
+upper_bound <- unlist(sapply(all_predicted, "[", "g0","ucl"))
+pr_occ <- seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01)
+newdf_nl <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
+newdf_nl$year <- rep(c("2017", "2018", "2019"), nrow(newdf_nl)/3)
+newdf_nl <- filter(newdf_nl, year == "2019")
 # plot
-plot_g0_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
-  geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.3) +
-  geom_line(size = 1.2, col = "#384566")+
-  ylim(0, 0.16) + 
+plot_g0_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) + 
+  geom_ribbon(data = newdf, aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.2) +
+  geom_line(data = newdf, size = 1.2, col = "#384566") +
+  geom_ribbon(data = newdf_nl, aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.2) +
+  geom_line(data = newdf_nl, size = 1.2, col = "#384566", linetype = 2)+
+  ylim(0, 0.32) + 
   labs(title = "", x = "log(fox occupancy)", y = expression(paste("g", italic("0")))) +
   theme_matty()
 
 ## sigma 
+# linear
 all_predicted <- predict(otways_fits$fit_fox_Ddet, newdata = data.frame(fox_predicted =         seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), 
                                                                         fox_predicted_trapcov = seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), 
                                                                         year = factor(c("2017", "2018", "2019"))))
@@ -211,14 +250,27 @@ pr_occ <- seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicte
 newdf <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
 newdf$year <- rep(c("2017", "2018", "2019"), nrow(newdf)/3)
 newdf <- filter(newdf, year == "2019")
-# plot
-plot_sigma_fox <- ggplot(newdf, aes(x = pr_occ, y = predicted_values)) + 
-  geom_ribbon(aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.3) +
-  geom_line(size = 1.2, col = "#384566") +
-  ylim(185, 580) + 
-  labs(title = "", x = "log(fox occupancy)", y = "Sigma") +
-  theme_matty()
+# non-linear
+all_predicted <- predict(otways_fits$fit_nl_fox_Ddet, newdata = data.frame(fox_predicted =         seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), 
+                                                                           fox_predicted_trapcov = seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01), 
+                                                                           year = factor(c("2017", "2018", "2019"))))
+predicted_values <- unlist(sapply(all_predicted, "[", "sigma","estimate"))
+lower_bound <- unlist(sapply(all_predicted, "[", "sigma","lcl"))
+upper_bound <- unlist(sapply(all_predicted, "[", "sigma","ucl"))
+pr_occ <- seq(min(otways_mask_df$fox_predicted), max(otways_mask_df$fox_predicted), by = 0.01)
+newdf_nl <- cbind.data.frame(predicted_values, lower_bound, upper_bound, pr_occ)
+newdf_nl$year <- rep(c("2017", "2018", "2019"), nrow(newdf_nl)/3)
+newdf_nl <- filter(newdf_nl, year == "2019")
 
+# plot
+plot_sigma_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) + 
+  geom_ribbon(data = newdf, aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.2) +
+  geom_line(data = newdf, size = 1.2, col = "#384566") +
+  geom_ribbon(data = newdf_nl, aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.2) +
+  geom_line(data = newdf_nl, size = 1.2, col = "#384566", linetype = 2)+
+  ylim(100, 580) + 
+  labs(title = "", x = "log(fox occupancy)", y = expression(paste("g", italic("0")))) +
+  theme_matty()
 
 
 

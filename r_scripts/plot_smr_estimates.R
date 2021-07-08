@@ -269,7 +269,7 @@ plot_sigma_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
   geom_ribbon(data = newdf_nl, aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.2) +
   geom_line(data = newdf_nl, size = 1.2, col = "#384566", linetype = 2)+
   ylim(100, 580) + 
-  labs(title = "", x = "log(fox occupancy)", y = expression(paste("g", italic("0")))) +
+  labs(title = "", x = "log(fox occupancy)", y = "sigma") +
   theme_matty()
 
 

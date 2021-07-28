@@ -63,7 +63,7 @@ data_glenelg_plot <- rename(data_glenelg_plot, fox_predicted = fit,  fox_predict
 g_fox_plot <- ggplot(aes(x, y, fill = fox_predicted),
                      data = data_glenelg_plot) +
   geom_tile()+
-  scale_fill_viridis("log(fox)", option = "viridis", limits = c(-2.19917294, 0.8425221)) +
+  scale_fill_viridis("log(fox occurrence)", option = "viridis", limits = c(-2.19917294, 0.8425221)) +
   geom_point(data = records_glenelg, fill = NA, col = "white", size = 0.7, alpha = 0.7, shape = 3) +
   theme_bw(10) + 
   ggtitle("Glenelg region, 2018") +
@@ -121,7 +121,7 @@ par(mar = c(5.1, 20, 4.1, 2.1))
 o_fox_plot <- ggplot(aes(x, y, fill = fox_predicted),
                      data = data_otways_plot) +
   geom_tile()+
-  scale_fill_viridis("log(fox)", option = "viridis", limits = c(-2.19917294, 0.8425221)) +
+  scale_fill_viridis("log(fox occurrence)", option = "viridis", limits = c(-2.19917294, 0.8425221)) +
   facet_wrap(~year, nrow = 1) +
   geom_point(data = records_otways, fill = NA, col = "white", size = 0.7, alpha = 0.7, shape = 3) +
   theme_bw(10) + 

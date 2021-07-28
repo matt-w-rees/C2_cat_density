@@ -197,7 +197,7 @@ plot_cor <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
                      breaks = c("Otway", "Glenelg"),
                      values = c("Glenelg" = "#482E1B", "Otway" = "#384566"),
                      guide = "legend") +
-  labs(title = "", x = "log(fox occupancy)", y = bquote("Cats per km"^2)) +
+  labs(title = "", x = "log(fox occurrence)", y = bquote("Cats per km"^2)) +
   theme_matty()
 plot_cor 
 
@@ -235,7 +235,7 @@ plot_g0_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
   geom_ribbon(data = newdf_nl, aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.2) +
   geom_line(data = newdf_nl, size = 1.2, col = "#384566", linetype = 2)+
   ylim(0, 0.32) + 
-  labs(title = "", x = "log(fox occupancy)", y = expression(paste("g", italic("0")))) +
+  labs(title = "", x = "log(fox occurrence)", y = expression(paste("g", italic("0")))) +
   theme_matty()
 
 ## sigma 
@@ -269,7 +269,7 @@ plot_sigma_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
   geom_ribbon(data = newdf_nl, aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.2) +
   geom_line(data = newdf_nl, size = 1.2, col = "#384566", linetype = 2)+
   ylim(100, 580) + 
-  labs(title = "", x = "log(fox occupancy)", y = "sigma") +
+  labs(title = "", x = "log(fox occurrence)", y = "sigma") +
   theme_matty()
 
 

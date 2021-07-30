@@ -93,7 +93,6 @@ x$year <- factor(c("2017", "2018", "2019"))
 plot_o_difference <- ggplot(x, aes(x = beta, y = reorder(year, desc(year)))) + 
   geom_pointrange(aes(xmin = lcl, xmax = ucl), size = 1, col = "black") +  
   xlim(-1.2,1.2) + 
-  geom_vline(xintercept = 0, colour = "darkgrey", linetype = "dashed") + 
   labs(title = "", x = "Difference between impact and non-impact landscapes", y = "") +
   theme_matty()
 plot_o_difference

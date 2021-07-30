@@ -640,15 +640,41 @@ aic_tab$density <- gsub("D ~ ", "", aic_tab$density)
 aic_tab$detectability <- gsub("~ ", "", aic_tab$detectability)
 # final clean
 aic_tab <- tibble::rownames_to_column(aic_tab, "fit")
-aic_tab <- subset(aic_tab, select = -c(dAICc, fit, model))
+aic_tab <- subset(aic_tab, select = -c(AIC, AICcwt, fit, model))
 aic_tab <- relocate(aic_tab, density, detectability)
-# make table
-pander(aic_tab, 
+
+# split to model sets
+aic_tab1 <- filter(aic_tab, grepl("T", aic_tab$detectability) | grepl("vegetation", aic_tab$density) | (grepl("1", aic_tab$detectability) & grepl("1", aic_tab$density)))
+aic_tab2 <- filter(aic_tab, grepl("fox_occ", aic_tab$density) | grepl("fox_occ", aic_tab$detectability) | (grepl("1", aic_tab$detectability) & grepl("1", aic_tab$density)))
+aic_tab3 <- filter(aic_tab, grepl("session", aic_tab$density))
+
+# recalculate dAICc for each set
+aic_tab1 <- aic_tab1 %>% arrange(AICc) %>% mutate(dAICc = AICc - min(AICc)) 
+aic_tab2 <- aic_tab2 %>% arrange(AICc) %>% mutate(dAICc = AICc - min(AICc)) 
+aic_tab3 <- aic_tab3 %>% arrange(AICc) %>% mutate(dAICc = AICc - min(AICc)) 
+
+# make tables
+pander(aic_tab1, 
        split.cell = 40, 
        split.table = Inf, 
        digits = 6,
-       col.names = c("Density", "Detectability", "Parameters", "logLik", "AIC", "AICc", "AICcwt"),  
-    caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region (ordered in decreasing AICc scores).")
+       col.names = c("Density", "Detectability", "Parameters", "logLik", "AICc", "dAICc"),  
+    caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region; model set 1 (ordered in decreasing AICc scores).")
+
+pander(aic_tab2, 
+       split.cell = 40, 
+       split.table = Inf, 
+       digits = 6,
+       col.names = c("Density", "Detectability", "Parameters", "logLik", "AICc"," dAICc"),  
+    caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region; model set 2 (ordered in decreasing AICc scores).")
+
+pander(aic_tab3, 
+       split.cell = 40, 
+       split.table = Inf, 
+       digits = 6,
+       col.names = c("Density", "Detectability", "Parameters", "logLik", "AICc", "dAICc"),  
+    caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region; model set 3 (ordered in decreasing AICc scores).")
+
 ```
 
 
@@ -735,15 +761,40 @@ aic_tab$detectability <- gsub("~ ", "", aic_tab$detectability)
 aic_tab$detectability <- gsub("baiting2", "foxbaiting_012", aic_tab$detectability)
 # final clean
 aic_tab <- tibble::rownames_to_column(aic_tab, "fit")
-aic_tab <- subset(aic_tab, select = -c(dAICc, fit, model))
+aic_tab <- subset(aic_tab, select = -c(AIC, AICcwt, fit, model))
 aic_tab <- relocate(aic_tab, density, detectability)
-# make table
-pander(aic_tab, 
+
+# split to model sets
+aic_tab1 <- filter(aic_tab, grepl("T", aic_tab$detectability) | grepl("vegetation", aic_tab$density) | (grepl("1", aic_tab$detectability) & grepl("^year$", aic_tab$density)))
+aic_tab2 <- filter(aic_tab, grepl("fox_occ", aic_tab$density) | grepl("fox_occ", aic_tab$detectability) | (grepl("1", aic_tab$detectability) & grepl("^year$", aic_tab$density)))
+aic_tab3 <- filter(aic_tab, grepl("session", aic_tab$density))
+
+# recalculate dAICc for each set
+aic_tab1 <- aic_tab1 %>% arrange(AICc) %>% mutate(dAICc = AICc - min(AICc))
+aic_tab2 <- aic_tab2 %>% arrange(AICc) %>% mutate(dAICc = AICc - min(AICc))
+aic_tab3 <- aic_tab3 %>% arrange(AICc) %>% mutate(dAICc = AICc - min(AICc))
+
+# make tables
+pander(aic_tab1, 
        split.cell = 40, 
        split.table = Inf, 
        digits = 6,
-       col.names = c("Density", "Detectability", "Parameters", "logLik", "AIC", "AICc", "AICcwt"),  
-    caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Otway region (ordered in decreasing AICc scores).")
+       col.names = c("Density", "Detectability", "Parameters", "logLik", "AICc", "dAICc"),  
+    caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Otway region; model set 1 (ordered in decreasing AICc scores).")
+
+pander(aic_tab2, 
+       split.cell = 40, 
+       split.table = Inf, 
+       digits = 6,
+       col.names = c("Density", "Detectability", "Parameters", "logLik", "AICc"," dAICc"),  
+    caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Otway region; model set 2 (ordered in decreasing AICc scores).")
+
+pander(aic_tab3, 
+       split.cell = 40, 
+       split.table = Inf, 
+       digits = 6,
+       col.names = c("Density", "Detectability", "Parameters", "logLik", "AICc", "dAICc"),  
+    caption = "Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Otway region; model set 3 (ordered in decreasing AICc scores).")
 ```
 
 ***session*** - *landscape deployment (n = 6)*

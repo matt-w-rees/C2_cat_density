@@ -5,6 +5,7 @@ library(sp)
 library(sf)
 library(ggplot2)
 library(viridis)
+library(patchwork)
 
 
 # LOAD  -------------------------------------------------------------
@@ -72,10 +73,10 @@ g_fox_plot <- ggplot(aes(x, y, fill = fox_predicted),
   annotate("text", x = mean(data_glenelg_plot$x) - 10000, y = mean(data_glenelg_plot$y) - 500, label = "Replicate 1") +
   annotate("text", x = mean(data_glenelg_plot$x) - 7200, y = mean(data_glenelg_plot$y) + 26000, label = "Replicate 2") +
   annotate("text", x = mean(data_glenelg_plot$x) + 10000, y = mean(data_glenelg_plot$y) - 7500, label = "Replicate 2") + 
-  annotate("text", x = mean(data_glenelg_plot$x) - 9000, y = mean(data_glenelg_plot$y) + 13000, label = "NI") + 
-  annotate("text", x = mean(data_glenelg_plot$x) + 3450, y = mean(data_glenelg_plot$y) + 300, label = "NI") + 
-  annotate("text", x = mean(data_glenelg_plot$x) - 12500, y = mean(data_glenelg_plot$y) - 14200, label = "I") + 
-  annotate("text", x = mean(data_glenelg_plot$x) + 9000, y = mean(data_glenelg_plot$y) - 21500, label = "I") 
+  annotate("text", x = mean(data_glenelg_plot$x) - 5500, y = mean(data_glenelg_plot$y) + 13000, label = "Hotpsur (NI)") + 
+  annotate("text", x = mean(data_glenelg_plot$x) + 5200, y = mean(data_glenelg_plot$y) + 300, label = "Annya (NI)") + 
+  annotate("text", x = mean(data_glenelg_plot$x) - 9000, y = mean(data_glenelg_plot$y) - 14200, label = "Cobboboonee (I)") + 
+  annotate("text", x = mean(data_glenelg_plot$x) + 10000, y = mean(data_glenelg_plot$y) - 21500, label = "Mt Clay (I)") 
 g_fox_plot
 
 

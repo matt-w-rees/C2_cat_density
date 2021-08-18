@@ -234,7 +234,7 @@ plot_g0_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
   geom_ribbon(data = newdf_nl, aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.2) +
   geom_line(data = newdf_nl, size = 1.2, col = "#384566", linetype = 2)+
   ylim(0, 0.32) + 
-  labs(title = "", x = "log(fox occurrence)", y = expression(paste("g", italic("0")))) +
+  labs(title = "", x = "log(fox occurrence)", y = expression(paste(italic("g")["0"]))) +
   theme_matty()
 
 ## sigma 
@@ -283,18 +283,18 @@ dev.off()
 
 # 1b (Detectability (otways only)
 png("C2-manuscript/figs/foxDet_otways_600dpi.png", width = 12, height = 5, res = 600, units = "in")
-plot_g0_fox + plot_sigma_fox + plot_annotation(tag_levels = "A")
+plot_g0_fox + plot_sigma_fox + plot_annotation(tag_levels = "a")
 dev.off() 
 
 
 # 2) glenelg experimental 
 png("C2-manuscript/figs/glenelg_estimates_600dpi.png", width = 13, height = 6, res = 600, units = "in")
-plot_g_difference + plot_g_response + plot_annotation(tag_levels = "A")
+plot_g_difference + plot_g_response + plot_annotation(tag_levels = "a")
 dev.off() 
 
 # 3) otways experimental
 png("C2-manuscript/figs/otways_estimates_600dpi.png", width = 13, height = 6, res = 600, units = "in")
-plot_o_difference + plot_o_response +  plot_annotation(tag_levels = "A")
+plot_o_difference + plot_o_response +  plot_annotation(tag_levels = "a")
 dev.off() 
 
 

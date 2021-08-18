@@ -138,12 +138,12 @@ o_fox_plot
 
 png("C2-manuscript/figs/fig2A_600dpi.png", width = 7, height = 7, res = 600, units = "in")
 g_fox_plot +
-  plot_annotation(title = 'A') 
+  plot_annotation(title = 'a') 
 dev.off()
 
 png("C2-manuscript/figs/fig2B_600dpi.png", width = 10, height = 4.75, res = 600, units = "in")
 o_fox_plot +
-  plot_annotation(title = 'B') 
+  plot_annotation(title = 'b') 
 dev.off()
 
 # to merge, using imagemagick - type in the terminal:

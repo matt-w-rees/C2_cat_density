@@ -39,12 +39,12 @@ theme_matty <- function () {
 #  EFFECT SIZE -----------------------------------------------------
 ## GLENELG
 # difference between NI and I landscapes: 
-x <- coef(glenelg_fits$fit_sess1)[c(2,4),c(1,3:4)]
-x$pair <- factor(c("Replicate 1", "Replicate 2"))
+x <- coef(glenelg_fits$fit_sess1)[c(2,4,6),c(1,3:4)]
+x$pair <- factor(c("Replicate 1", "Replicate 2", "Replicate 3"))
 # plot
 plot_g_difference <- ggplot(x, aes(x = beta, y = reorder(pair, desc(pair)))) + 
   geom_pointrange(aes(xmin = lcl, xmax = ucl), size = 1, col = "black") +  
-  xlim(-1.2,1.2) + 
+  xlim(-2,2.2) + 
   geom_vline(xintercept = 0, colour = "darkgrey", linetype = "dashed") + 
   labs(title = "", x = "Difference between impact and non-impact landscapes", y = "") +
   theme_matty()
@@ -64,15 +64,16 @@ upper_bound <- tibble::rownames_to_column(upper_bound, "grid")
 temp <- merge(lower_bound, upper_bound, by = "grid")
 x <- merge(estimate, temp, by = "grid")
 # rename grid
-x$grid <- c("Annya","Cobboboonee", "Hotspur", "Mt Clay")
+x$grid <- c("LGNP north", "LGNP south", "Annya","Cobboboonee", "Hotspur", "Mt Clay")
 # add treatment variable
-x$Treatment <- c("Non-impact", "Impact", "Non-impact", "Impact")
+x$Treatment <- c("Non-impact", "Impact", "Non-impact", "Impact", "Non-impact", "Impact")
 # add pair variable
-x$Replicate <- c("Replicate 1", "Replicate 1", "Replicate 2", "Replicate 2")
+x$Replicate <- c("Replicate 3", "Replicate 3", "Replicate 1", "Replicate 1", "Replicate 2", "Replicate 2")
 # covert from hectares to km2
 x$estimate <- x$estimate*100
 x$lcl <- x$lcl*100
 x$ucl <- x$ucl*100
+
 # plot
 plot_g_response <- ggplot(x, aes(x = Replicate, y = estimate, color = Treatment)) + 
   geom_point(size = 4, position = position_dodge(width = 0.25)) +

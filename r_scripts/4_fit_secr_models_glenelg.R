@@ -12,9 +12,9 @@ masks_glenelg <- readRDS("derived_data/masks_glenelg.RData")
 mrch_glenelg <- readRDS("derived_data/mrch_glenelg.RData")
 
 # specify session covariates
-sesscov <- data.frame(pair = factor(c("p1", "p1", "p2", "p2")),
-                      foxbaiting_01  = factor(c("0unbaited", "1baited", "0unbaited", "1baited")),
-                      foxbaiting_012 = factor(c("0unbaited", "1baited", "0unbaited", "2baited")))
+sesscov <- data.frame(pair = factor(c("p1", "p1", "p2", "p2", "p3", "p3")),
+                      foxbaiting_01  = factor(c("0unbaited", "1baited", "0unbaited", "1baited", "0unbaited", "1baited")),
+                      foxbaiting_012 = factor(c("0unbaited", "1baited", "0unbaited", "2baited", "0unbaited", "3baited")))
 sesscov
 
 

@@ -1,26 +1,27 @@
 \contentsline {section}{\numberline {1}Survey methods}{2}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Timeline}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.1}Otway Ranges timeline}{2}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2}Camera-trap deployment}{3}{subsection.1.2}%
 \contentsline {section}{\numberline {2}Individual cat identification}{4}{section.2}%
 \contentsline {section}{\numberline {3}Summary statistics}{6}{section.3}%
 \contentsline {section}{\numberline {4}Feral cat detection plots}{7}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Glenelg region}{7}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1}Pair 1}{7}{subsubsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}Pair 2}{8}{subsubsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.2}Otway region}{9}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}2017}{9}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}2018}{10}{subsubsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.3}2019}{11}{subsubsection.4.2.3}%
-\contentsline {section}{\numberline {5}Fox spatial occurrence}{12}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Glenelg region}{12}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Otway Region}{14}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {4.1.1}Replicate 1}{7}{subsubsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}Replicate 2}{8}{subsubsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.3}Replicate 3}{9}{subsubsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.2}Otway region}{10}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}2017}{10}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}2018}{11}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}2019}{12}{subsubsection.4.2.3}%
+\contentsline {section}{\numberline {5}Fox spatial occurrence}{13}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Glenelg region}{13}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Otway Region}{15}{subsection.5.2}%
 \contentsline {section}{\numberline {6}Vegetation categories}{16}{section.6}%
 \contentsline {section}{\numberline {7}Spatial mark-resight models}{17}{section.7}%
 \contentsline {subsection}{\numberline {7.1}Glenelg region}{17}{subsection.7.1}%
 \contentsline {subsubsection}{\numberline {7.1.1}Detector function fits}{17}{subsubsection.7.1.1}%
 \contentsline {subsubsection}{\numberline {7.1.2}Candidate model fits}{18}{subsubsection.7.1.2}%
-\contentsline {subsection}{\numberline {7.2}Otway region}{19}{subsection.7.2}%
-\contentsline {subsubsection}{\numberline {7.2.1}Detector function fits}{19}{subsubsection.7.2.1}%
-\contentsline {subsubsection}{\numberline {7.2.2}Candidate model fits}{20}{subsubsection.7.2.2}%
-\contentsline {section}{\numberline {8}Session information}{22}{section.8}%
-\contentsline {section}{References}{22}{section*.2}%
+\contentsline {subsection}{\numberline {7.2}Otway region}{20}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}Detector function fits}{20}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.2}Candidate model fits}{21}{subsubsection.7.2.2}%
+\contentsline {section}{\numberline {8}Session information}{23}{section.8}%
+\contentsline {section}{References}{23}{section*.2}%

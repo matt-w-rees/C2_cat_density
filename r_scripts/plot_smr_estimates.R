@@ -1,3 +1,5 @@
+## Plot estimates from spatial mark-resight models - glenelg and otways
+
 library(secr)  
 library(ggplot2)
 library(patchwork)
@@ -36,29 +38,61 @@ theme_matty <- function () {
 
 
 
-#  EFFECT SIZE -----------------------------------------------------
-## GLENELG
-# difference between NI and I landscapes: 
-x <- coef(glenelg_fits$fit_sess1)[c(2,4,6),c(1,3:4)]
-x$pair <- factor(c("Replicate 1", "Replicate 2", "Replicate 3"))
-# plot
-plot_g_difference <- ggplot(x, aes(x = beta, y = reorder(pair, desc(pair)))) + 
-  geom_pointrange(aes(xmin = lcl, xmax = ucl), size = 1, col = "black") +  
-  xlim(-2,2.2) + 
-  geom_vline(xintercept = 0, colour = "darkgrey", linetype = "dashed") + 
-  labs(title = "", x = "Difference between impact and non-impact landscapes", y = "") +
+#  EFFECT SIZES -----------------------------------------------------
+
+# extract dataframe and change from log to response scale
+rr_g <- coef(glenelg_fits$fit_sess2)[c(2,4,6),] %>%
+  mutate(beta.resp = exp(beta),
+         lcl.resp = exp(lcl),
+         ucl.resp = exp(ucl),
+         pair = factor(c("Replicate 1", "Replicate 2", "Replicate 3")),
+         region = "Glenelg")
+
+rr_o <- coef(otways_fits$fit_sess2)[c(2,4,6),] %>%
+  mutate(beta.resp = exp(beta),
+         lcl.resp = exp(lcl),
+         ucl.resp = exp(ucl),
+         year = factor(c("2017", "2018", "2019")),
+         region = "Otway")
+
+# mean response ratio
+rr <- bind_rows(rr_g, rr_o)
+rr
+rr2 <- filter(rr, !(region == "Otway" & year == "2017"))
+min(rr2$beta.resp)
+mean(rr2$beta.resp)
+round(max(rr2$beta.resp), digits = 1)
+
+
+# plot - glenelg
+plot_g_difference <- ggplot(rr_g, aes(y = beta.resp, x = pair)) + 
+  geom_pointrange(aes(ymin = lcl.resp, ymax = ucl.resp), size = 1, col = "black") +  
+  scale_y_continuous(limits = c(0,10), breaks = seq(0, 10, by = 1)) +
+  geom_hline(yintercept = 1, colour = "darkgrey", linetype = "dashed") + 
+  labs(title = "", y = "Response ratio", x = "") +
   theme_matty()
 plot_g_difference
 
-# density estimates 
-# pair 1: 
-estimate <- as.data.frame(unlist(sapply(predict(glenelg_fits$fit_sess1), "[", "D","estimate")))
+# plot - otways
+plot_o_difference <- ggplot(rr_o, aes(y = beta.resp, x = year)) + 
+  geom_pointrange(aes(ymin = lcl.resp, ymax = ucl.resp), size = 1, col = "black") +  
+  geom_hline(yintercept = 1, colour = "darkgrey", linetype = "dashed") + 
+  labs(title = "", y = "Response ratio", x = "") +
+  theme_matty()
+plot_o_difference
+
+
+
+# DENSITY ESTIMATES -------------------------------------------------------
+
+## GLENELG
+estimate <- as.data.frame(unlist(sapply(predict(glenelg_fits$fit_sess2), "[", "D","estimate")))
 names(estimate)[1] <- "estimate"
 estimate <- tibble::rownames_to_column(estimate, "grid")
-lower_bound <- as.data.frame(unlist(sapply(predict(glenelg_fits$fit_sess1), "[", "D","lcl")))
+lower_bound <- as.data.frame(unlist(sapply(predict(glenelg_fits$fit_sess2), "[", "D","lcl")))
 names(lower_bound)[1] <- "lcl"
 lower_bound <- tibble::rownames_to_column(lower_bound, "grid")
-upper_bound <- as.data.frame(unlist(sapply(predict(glenelg_fits$fit_sess1), "[", "D","ucl")))
+upper_bound <- as.data.frame(unlist(sapply(predict(glenelg_fits$fit_sess2), "[", "D","ucl")))
 names(upper_bound)[1] <- "ucl"
 upper_bound <- tibble::rownames_to_column(upper_bound, "grid")
 temp <- merge(lower_bound, upper_bound, by = "grid")
@@ -73,39 +107,25 @@ x$Replicate <- c("Replicate 3", "Replicate 3", "Replicate 1", "Replicate 1", "Re
 x$estimate <- x$estimate*100
 x$lcl <- x$lcl*100
 x$ucl <- x$ucl*100
-
 # plot
 plot_g_response <- ggplot(x, aes(x = Replicate, y = estimate, color = Treatment)) + 
   geom_point(size = 4, position = position_dodge(width = 0.25)) +
   geom_pointrange(aes(ymin = lcl, ymax = ucl), position = position_dodge(width = 0.25)) + 
-  ylim(0,0.8) + 
-  labs(title = "", x = "", y = bquote("Cats per km"^2)) +
+  scale_y_continuous(limits = c(0,0.9), breaks = seq(0, 1, by = 0.1)) +
+  labs(title = "", x = "", y = bquote("Cats km"^-2)) +
   scale_color_manual(values=c('red','blue'),  labels = c("Impact", "Non-impact")) +
   theme_matty()
 plot_g_response
 
 
-
-
-## OTWAY
-# extract coefficients 
-x <- coef(otways_fits$fit_sess4)[c(2, 4, 6),c(1,3:4)]
-x$year <- factor(c("2017", "2018", "2019"))
-plot_o_difference <- ggplot(x, aes(x = beta, y = reorder(year, desc(year)))) + 
-  geom_pointrange(aes(xmin = lcl, xmax = ucl), size = 1, col = "black") +  
-  xlim(-1.2,1.2) + 
-  labs(title = "", x = "Difference between impact and non-impact landscapes", y = "") +
-  theme_matty()
-plot_o_difference
-
-## Extract estimates
-estimate <- as.data.frame(unlist(sapply(predict(otways_fits$fit_sess4), "[", "D","estimate")))
+## OTWAYS
+estimate <- as.data.frame(unlist(sapply(predict(otways_fits$fit_sess2), "[", "D","estimate")))
 names(estimate)[1] <- "estimate"
 estimate <- tibble::rownames_to_column(estimate, "grid")
-lower_bound <- as.data.frame(unlist(sapply(predict(otways_fits$fit_sess4), "[", "D","lcl")))
+lower_bound <- as.data.frame(unlist(sapply(predict(otways_fits$fit_sess2), "[", "D","lcl")))
 names(lower_bound)[1] <- "lcl"
 lower_bound <- tibble::rownames_to_column(lower_bound, "grid")
-upper_bound <- as.data.frame(unlist(sapply(predict(otways_fits$fit_sess4), "[", "D","ucl")))
+upper_bound <- as.data.frame(unlist(sapply(predict(otways_fits$fit_sess2), "[", "D","ucl")))
 names(upper_bound)[1] <- "ucl"
 upper_bound <- tibble::rownames_to_column(upper_bound, "grid")
 temp <- merge(lower_bound, upper_bound, by = "grid")
@@ -122,21 +142,19 @@ fit_baci_vals$year <- c("2017", "2018", "2019", "2017", "2018", "2019")
 fit_baci_vals$estimate <- fit_baci_vals$estimate*100
 fit_baci_vals$lcl <- fit_baci_vals$lcl*100
 fit_baci_vals$ucl <- fit_baci_vals$ucl*100
-## Plot
+# plot
 plot_o_response <- ggplot(fit_baci_vals, aes(x = year, y = estimate, color = landscape, group = landscape)) + 
   geom_point(size = 4, position = position_dodge(width = 0.25)) +
   geom_pointrange(aes(ymin = lcl, ymax = ucl), position = position_dodge(width = 0.25)) + 
-  ylim(0,1.8) + 
+  scale_y_continuous(limits = c(0,1.4), breaks = seq(0, 1.5, by = 0.2)) +
   geom_line(linetype = "dashed", size = 0.5, position = position_dodge(width = 0.25)) + 
-  labs(title = "", x = "Year", y = bquote("Cats per km"^2)) +
-  scale_color_manual(values=c('blue','red')) + 
+  labs(title = "", x = "Year", y = bquote("Cats km"^-2)) +
+  scale_color_manual(values=c('red','blue')) + 
   theme_matty()
 plot_o_response
 
 
-
-
-# FOX CORRELATION PLOT -------------------------------------------------------------------
+# DENSITY - FOX-CAT CORRELATION -------------------------------------------------------------------
 # get linear estimates:
 # glenelg:
 all_predicted <- predict(glenelg_fits$fit_fox_D, newdata = data.frame(fox_predicted = seq(min(glenelg_mask_df$fox_predicted), max(glenelg_mask_df$fox_predicted), by = 0.01)))
@@ -197,13 +215,13 @@ plot_cor <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
                      breaks = c("Otway", "Glenelg"),
                      values = c("Glenelg" = "#482E1B", "Otway" = "#384566"),
                      guide = "legend") +
-  labs(title = "", x = "log(fox occurrence)", y = bquote("Cats per km"^2)) +
+  labs(title = "", x = "log(fox occurrence)", y = bquote("Cats km"^-2)) +
   theme_matty()
 plot_cor 
 
 
 
-# COR - DETECTABILITY -----------------------------------------------------
+# DETECTABILITY - FOX-CAT CORRELATION -------------------------------------------------------------------
 # (otways)
 ## g0 
 # linear 
@@ -290,12 +308,12 @@ dev.off()
 
 # 2) glenelg experimental 
 png("C2-manuscript/figs/glenelg_estimates_600dpi.png", width = 13, height = 6, res = 600, units = "in")
-plot_g_difference + plot_g_response + plot_annotation(tag_levels = "a")
+plot_g_response + plot_g_difference + plot_annotation(tag_levels = "a")
 dev.off() 
 
 # 3) otways experimental
 png("C2-manuscript/figs/otways_estimates_600dpi.png", width = 13, height = 6, res = 600, units = "in")
-plot_o_difference + plot_o_response +  plot_annotation(tag_levels = "a")
+plot_o_response + plot_o_difference + plot_annotation(tag_levels = "a")
 dev.off() 
 
 

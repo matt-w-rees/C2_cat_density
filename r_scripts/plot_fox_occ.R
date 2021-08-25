@@ -32,14 +32,6 @@ glenelg_river <- st_union(glenelg_river)
 glenelg_river <- st_as_sf(glenelg_river)
 plot(glenelg_river)
 
-
-#poly_north <- st_read(dsn='raw_data/lower_glenelg_shp', layer='LGNPN_mask') %>% st_transform(crs = 32754)
-#poly_south <- st_read(dsn='raw_data/lower_glenelg_shp', layer='LGNPS_mask') %>% st_transform(crs = 32754)
-#lgnp <- rbind(poly_north, poly_south) 
-#lgnp <- st_union(lgnp, by_feature = TRUE)
-#plot(lgnp)
-
-
 # load models
 gam_g_fox <- readRDS("models/gam_g_fox.RData")
 gam_o_fox <- readRDS("models/gam_o_fox.RData")

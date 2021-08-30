@@ -5,7 +5,6 @@ library(ggplot2)
 library(patchwork)
 library(dplyr)
 
-
 # load models
 glenelg_fits <- readRDS("models/glenelg_fits.RData")
 glenelg_mask_df <- readRDS("derived_data/glenelg_mask_df.RData")
@@ -13,28 +12,9 @@ otways_fits <- readRDS("models/otways_fits.RData")
 otways_mask_df <- readRDS("derived_data/otway_mask_df.RData")
 
 
-# Customise ggplot theme -----------------------------------------------------
-theme_matty <- function () { 
-  theme_bw(base_size=14) %+replace% 
-    theme(
-           # background / panels
-           panel.background = element_blank(),
-           panel.grid.major = element_blank(),
-           panel.grid.minor = element_blank(),
-           panel.border = element_rect(colour = "lightgrey", fill=NA, size=1),
-           # font sizes
-           axis.text = element_text(size = 14),
-           axis.title = element_text(size = 14),
-           title = element_text(size = 12),
-           # margins
-           axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-           axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)),
-           # legend
-           legend.title = element_blank(),
-           legend.text = element_text(size = 12),
-           legend.position = "bottom"
-  )
-}
+# Set the default theme for ggplot objects 
+theme_set(theme_bw())
+theme_update(panel.grid = element_blank())
 
 
 
@@ -70,15 +50,16 @@ plot_g_difference <- ggplot(rr_g, aes(y = beta.resp, x = pair)) +
   scale_y_continuous(limits = c(0,10), breaks = seq(0, 10, by = 1)) +
   geom_hline(yintercept = 1, colour = "darkgrey", linetype = "dashed") + 
   labs(title = "", y = "Response ratio", x = "") +
-  theme_matty()
+  theme(plot.title = element_text(size=11),           
+        axis.title = element_text(size = 10))
 plot_g_difference
 
 # plot - otways
 plot_o_difference <- ggplot(rr_o, aes(y = beta.resp, x = year)) + 
   geom_pointrange(aes(ymin = lcl.resp, ymax = ucl.resp), size = 1, col = "black") +  
   geom_hline(yintercept = 1, colour = "darkgrey", linetype = "dashed") + 
-  labs(title = "", y = "Response ratio", x = "") +
-  theme_matty()
+  labs(title = "", y = "Response Ratio", x = "") +
+  theme(plot.title = element_text(size=11),           axis.title = element_text(size = 10))
 plot_o_difference
 
 
@@ -114,7 +95,10 @@ plot_g_response <- ggplot(x, aes(x = Replicate, y = estimate, color = Treatment)
   scale_y_continuous(limits = c(0,0.9), breaks = seq(0, 1, by = 0.1)) +
   labs(title = "", x = "", y = bquote("Cats km"^-2)) +
   scale_color_manual(values=c('red','blue'),  labels = c("Impact", "Non-impact")) +
-  theme_matty()
+  theme(plot.title = element_text(size=11),           
+        axis.title = element_text(size = 10),
+        legend.title = element_blank(),
+        legend.position = "bottom")
 plot_g_response
 
 
@@ -148,9 +132,12 @@ plot_o_response <- ggplot(fit_baci_vals, aes(x = year, y = estimate, color = lan
   geom_pointrange(aes(ymin = lcl, ymax = ucl), position = position_dodge(width = 0.25)) + 
   scale_y_continuous(limits = c(0,1.4), breaks = seq(0, 1.5, by = 0.2)) +
   geom_line(linetype = "dashed", size = 0.5, position = position_dodge(width = 0.25)) + 
-  labs(title = "", x = "Year", y = bquote("Cats km"^-2)) +
+  labs(title = "", x = "", y = bquote("Cats km"^-2)) +
   scale_color_manual(values=c('red','blue')) + 
-  theme_matty()
+  theme(plot.title = element_text(size=11),           
+        axis.title = element_text(size = 10),
+        legend.title = element_blank(),
+        legend.position = "bottom")
 plot_o_response
 
 
@@ -202,10 +189,10 @@ plot_cor <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
   geom_ribbon(data = df_otways, aes(ymin = lower_bound, ymax = upper_bound, fill = "Otway"), alpha = 0.2) + 
   geom_ribbon(data = df_nl_glenelg, aes(ymin = lower_bound, ymax = upper_bound, fill = "Glenelg"), alpha = 0.2) +
   geom_ribbon(data = df_nl_otways, aes(ymin = lower_bound, ymax = upper_bound, fill = "Otway"), alpha = 0.2) + 
-  geom_line(data = df_glenelg, aes(color = "Glenelg"), linetype = 1, size = 1.2) +
-  geom_line(data = df_otways,  aes(color = "Otway"), linetype = 1, size = 1.2) + 
-  geom_line(data = df_nl_glenelg, aes(color = "Glenelg"), linetype = 2, size = 1.2) +
-  geom_line(data = df_nl_otways,  aes(color = "Otway"), linetype = 2, size = 1.2) + 
+  geom_line(data = df_glenelg, aes(color = "Glenelg"), linetype = 1, size = 1) +
+  geom_line(data = df_otways,  aes(color = "Otway"), linetype = 1, size = 1) + 
+  geom_line(data = df_nl_glenelg, aes(color = "Glenelg"), linetype = 2, size = 1) +
+  geom_line(data = df_nl_otways,  aes(color = "Otway"), linetype = 2, size = 1) + 
   ylim(0,1.55) + 
   scale_fill_manual(name = "Region",
                      breaks = c("Otway", "Glenelg"),
@@ -216,7 +203,10 @@ plot_cor <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
                      values = c("Glenelg" = "#482E1B", "Otway" = "#384566"),
                      guide = "legend") +
   labs(title = "", x = "log(fox occurrence)", y = bquote("Cats km"^-2)) +
-  theme_matty()
+  theme(axis.title = element_text(size = 12),       
+        axis.title.y = element_text(angle = 0, vjust = 0.5),
+        legend.title = element_text(size = 10),
+        legend.text = element_text(size = 8))
 plot_cor 
 
 
@@ -254,7 +244,7 @@ plot_g0_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
   geom_line(data = newdf_nl, size = 1.2, col = "#384566", linetype = 2)+
   ylim(0, 0.32) + 
   labs(title = "", x = "log(fox occurrence)", y = expression(paste(italic("g")["0"]))) +
-  theme_matty()
+  theme(plot.title = element_text(size=11),           axis.title = element_text(size = 10))
 
 ## sigma 
 # linear
@@ -288,7 +278,7 @@ plot_sigma_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
   geom_line(data = newdf_nl, size = 1.2, col = "#384566", linetype = 2)+
   ylim(100, 580) + 
   labs(title = "", x = "log(fox occurrence)", y = "sigma") +
-  theme_matty()
+  theme(plot.title = element_text(size=11),           axis.title = element_text(size = 10))
 
 
 
@@ -296,24 +286,27 @@ plot_sigma_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
 
 # 1) Correlation
 # 1a) Density (both)
-png("C2-manuscript/figs/foxD_600dpi.png", width = 7, height = 6, res = 600, units = "in")
-plot_cor
+png("C2-manuscript/figs/foxD_600dpi.png", width = 6.5, height = 4, res = 600, units = "in") 
+plot_cor + 
+  theme(plot.margin = margin(20, 30, 30, 30))
 dev.off() 
 
 # 1b (Detectability (otways only)
-png("C2-manuscript/figs/foxDet_otways_600dpi.png", width = 12, height = 5, res = 600, units = "in")
-plot_g0_fox + plot_sigma_fox + plot_annotation(tag_levels = "a")
+png("C2-manuscript/figs/foxDet_otways_600dpi.png", width = 8.3, height = 5, res = 600, units = "in")
+plot_g0_fox + plot_sigma_fox + plot_annotation(tag_levels = "a") + 
+  theme(plot.margin = margin(40, 0, 40, 0))
 dev.off() 
 
-
 # 2) glenelg experimental 
-png("C2-manuscript/figs/glenelg_estimates_600dpi.png", width = 13, height = 6, res = 600, units = "in")
-plot_g_response + plot_g_difference + plot_annotation(tag_levels = "a")
+png("C2-manuscript/figs/glenelg_estimates_600dpi.png", width = 8.3, height = 4.5, res = 600, units = "in")
+plot_g_response + plot_g_difference + plot_annotation(tag_levels = "a") + 
+  theme(plot.margin = margin(0, 0, 0, 0))
 dev.off() 
 
 # 3) otways experimental
-png("C2-manuscript/figs/otways_estimates_600dpi.png", width = 13, height = 6, res = 600, units = "in")
-plot_o_response + plot_o_difference + plot_annotation(tag_levels = "a")
+png("C2-manuscript/figs/otways_estimates_600dpi.png", width = 8.3, height = 4.5, res = 600, units = "in")
+plot_o_response + plot_o_difference + plot_annotation(tag_levels = "a") + 
+  theme(plot.margin = margin(0, 0, 0, 0))
 dev.off() 
 
 

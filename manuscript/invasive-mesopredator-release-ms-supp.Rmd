@@ -32,12 +32,11 @@ address:
   - code: ARI 
     address: Department of Environment, Land, Water and Planning, Arthur Rylah Institute for Environmental Research, Heidelberg, Australia
 footnote:
-    
   - code: 1
     text: "Corresponding Author"
 abstract: 
-keywords: "camera trap; *Felis catus*; invasive predator; interspecific competition; mesopredator release; population density; spatial capture-recapture; spatial mark-resight; species interactions; *Vulpes vulpes*."
-journal: "Ecology Letters"
+keywords: "feral cat; invasive predator; mesopredator release; population density; red fox; spatial capture-recapture; species interactions; 1080 poison"
+journal: "Journal of Applied Ecology"
 date: "`r Sys.Date()`"
 bibliography: mybibfile.bib
 header-includes:
@@ -47,7 +46,7 @@ header-includes:
     - \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}} \setcounter{section}{0} \renewcommand{\thesection}{S\arabic{section}}}
     - \usepackage{lineno}
 linenumbers: false
-csl: ecology_letters.csl
+csl: journal-of-applied-ecology.csl
 geometry: margin=1.1in
 fontsize: 12pt
 output:
@@ -84,11 +83,11 @@ library(terra)
 
 \parskip=12pt 
 
-*Article type*: Letter 
+*Article type*: Research Article 
 
 *Running title*: Invasive mesopredator release
 
-*Word count (abstract, body)*: 149, 4991
+*Word count (abstract, body)*: 321, 5620
 
 *References*: 71  
 
@@ -108,7 +107,17 @@ library(terra)
 
 ABSTRACT {-}
 ========
-The mesopredator release hypothesis predicts that subordinate predator density will increase as apex predators decline. We replicated field experiments across two regions with a simple predator guild comprising the introduced red fox *Vulpes vulpes* and feral cat *Felis catus*. We identified 160 individual cats from 68,504 camera-trap nights and estimated cat density using spatial mark-resight models. Targeted lethal fox control was associated with a negligible to 3.7-fold increase in feral cat density, mirroring variation in the duration and intensity of fox suppression. Correlative models confirmed this--feral cat density was negatively associated with fox occurrence at a fine spatial scale. We also observed changes in feral cat detectability across the (artificial) apex predator activity gradient. Our results suggest integrated predator management would help protect shared native prey and highlights that mesopredator release can manifest as changes in both behaviour and density, distorting inference if these processes are not distinguished.
+1. The mesopredator release hypothesis predicts that subordinate predator density will increase as apex predators decline. Persistent debate around mesopredator release in part reflects the lack of robust, replicated experiments to test this theory, and the use of population indices which confound changes in mesopredator density and detectability. This uncertainty has immediate impacts for conservationists who are faced with managing sympatric invasive predators. 
+
+2. We used replicating experimental designs and spatially explicit detection modelling to examine whether mesopredator release of the feral cat *Felis catus* occurs in response to targeted control of the introduced red fox *Vulpes vulpes*.  We surveyed three Control-Impact paired landscapes in a region with long-term fox control (1080 poison-baiting), and conducted a Before-After-Control-Impact Paired Series experiment in another region. We identified 160 individual feral cats from 68,504 camera-trap nights to estimate feral cat density with spatial mark-resight models. 
+
+3. At a landscape scale (mean size: 169 km^2^), lethal fox control was associated with a range of responses from a negligible to 3.7-fold increase in feral cat density. Consistent with the mesopredator release hypothesis, the degree of increase corresponded with variation in the duration and intensity of fox suppression. At a fine spatial scale (200 m), feral cat density had a consistent negative association with fox activity across both regions. 
+
+4. Feral cat detectability also varied across the (artificially manipulated) fox activity gradient. In one region, nonlinear models indicated that feral cats exhibited avoidance behaviours when foxes were rare, giving way to density suppression at high fox activity. 
+
+5. *Synthesis and applications.* Our study provides replicated, experimental evidence that that apex predator suppression is associated with an increase in the density of a mesopredator. Mesopredator release can manifest as changes in both behaviour and density, distorting inference if these processes are not distinguished. Our results help explain why fox control does not consistently improve native prey persistence, suggesting integrated pest management may be necessary to improve conservation outcomes.
+
+
 
 \newpage
 
@@ -117,7 +126,7 @@ INTRODUCTION
 
 Understanding species interactions is critical for effective invasive species management [@zavaleta2001viewing]. When several invasive species co-occur, management actions that suppress the dominant invasive species may inadvertently benefit subordinate invasive species [@jackson2015interactions; @kuebbing2015negative]. For example, the removal of a dominant invasive predator may increase the abundance of a subordinate invasive species directly by reducing top-down pressure, or indirectly by increasing the availability of shared resources; these are often referred to as mesopredator or competitor release, respectively [@crooks1999mesopredator; @ruscoe2011unexpected; @doherty2017stop]. The release of subordinate invasive species, particularly predators, can have serious negative implications for native taxa and ecosystem function [@ballari2016potential; @courchamp1999cats]. However, integrated invasive predator management is often far more costly and less feasible than single species control, and so it is important to identify when the extra cost is justified [@bode2015eradicating]. 
 
-Most knowledge of mesopredator release stems from unreplicated 'natural experiments' [e.g. range contractions - @crooks1999mesopredator] or ad-hoc management interventions [e.g. invasive species eradications - @rayner2007spatial]. However, the occurrence, nature (positive or negative, direct or indirect) and strength of predator interactions can vary among species assemblages, predation risk, environmental productivity, management regimes and other landscape contexts [@hastings2001transient; @finke2004predator; @alston2019reciprocity; @newsome2017top]. Replicating management programs in an experimental framework is logistically challenging, but important for understanding these complexities, discriminating between plausible hypotheses and producing generalisable results to inform effective pest management [@glen2005complex; @christie2019simple; @smith2020zooming].
+Most knowledge of mesopredator release stems from unreplicated 'natural experiments' [e.g. range contractions - @crooks1999mesopredator] or ad-hoc management interventions [e.g. invasive species eradications - @rayner2007spatial]. Does mesopredator release still occur when apex predators are suppressed but not completely removed? The occurrence, nature (positive or negative, direct or indirect) and strength of predator interactions can vary among species assemblages, predation risk, environmental productivity, management regimes and other landscape contexts [@hastings2001transient; @finke2004predator; @alston2019reciprocity; @newsome2017top; @elmhagen2007trophic]. Replicating management programs in an experimental framework is logistically challenging, but important for understanding these complexities, discriminating between plausible hypotheses and producing generalisable results to inform effective pest management [@glen2005complex; @christie2019simple; @smith2020zooming; @hayward2015ecologists].
 
 Another source of uncertainty around the mesopredator release hypothesis stems from the inability of traditional survey and modelling approaches to distinguish behavioural from numerical population processes [@stephens2015management; @hayward2015ecologists]. Suppression of an apex predator may simultaneously change the behaviour and the density of a mesopredator, both of which influence detection rates [@broadley2019density; @rogan2019influence]. This makes it difficult to interpret observed changes in naive indices of mesopredator activity or occupancy in relation to changes in apex predator populations, even if the study has an experimental design. Unbiased estimates of invasive predator density are also important for setting meaningful control targets and inferring impacts on native prey [@moseby2019understanding]. Spatial capture-recapture methods offer a solution by separating behavioural and observational processes from population density, which is estimated within a defined spatial resolution [@borchers2008spatially]. 
 
@@ -422,7 +431,7 @@ knitr::include_graphics("/Users/mrees2/Dropbox/personal/matt/github/phd-thesis/i
 
 # Individual cat identification {#density-app-id}
 
-We first labelled every camera-trap image with a species metadata tag using [DigiKam software](https://www.digikam.org){target="_blank"}. We also added metadata tags for each cat coat type: black, mackerel tabby, classic tabby, ginger and other (coats with multiple colour blends; Fig. 3). This allowed us to summarise species records and extract cat images using the 'camtrapR' R-package [@niedballa2016].
+We first labelled every camera-trap image with a species metadata tag using [DigiKam software](https://www.digikam.org){target="_blank"}. We also added metadata tags for each cat coat type: black, mackerel tabby, classic tabby, ginger and other (coats with multiple colour blends; Fig. 3). This allowed us to summarise species records and extract cat images using the 'camtrapR' R-package (Niedballa et al. 2016).
 
 We considered all black cats to be of the 'unmarked' category in spatial mark-resight models - even the few with white splotches on their underside (as these couldn't always be seen as cats move with their head down).
 
@@ -622,7 +631,7 @@ knitr::include_graphics("/Users/mrees2/Dropbox/personal/matt/github/phd-thesis/i
 
 # Vegetation categories {#density-app-veg}
 
-We condensed the main Ecological Vegetation Class groupings [@delwp2020] present into three categories for each region: cleared land, heathy woodlands, lowland forests (Glenelg region only) and wet forests (Otways region only). We merged similar groups to reduce the number of categories for each region. In the Glenelg region, we merged dry forests with lowland forests. In the Otway region, we merged rainforests with wet forests, as well as merged dry forests and heathy woodlands. 
+We condensed the main Ecological Vegetation Class groupings (DELWP 2020) present into three categories for each region: cleared land, heathy woodlands, lowland forests (Glenelg region only) and wet forests (Otways region only). We merged similar groups to reduce the number of categories for each region. In the Glenelg region, we merged dry forests with lowland forests. In the Otway region, we merged rainforests with wet forests, as well as merged dry forests and heathy woodlands. 
 
 A very small proportion of other Ecological Vegetation Class groupings were present in the habitat masks: riparian scrubs or swampy scrubs and woodlands, coastal scrubs grasslands and woodlands, wetlands, riverine grassy woodlands or forests, plains woodlands or forests, herb-rich woodlands. We removed these groups, and interpolated cell values from the nearest of the three vegetation categories. 
 

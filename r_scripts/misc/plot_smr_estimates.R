@@ -20,46 +20,55 @@ theme_update(panel.grid = element_blank())
 
 #  EFFECT SIZES -----------------------------------------------------
 
-# extract dataframe and change from log to response scale
-rr_g <- coef(glenelg_fits$fit_sess2)[c(2,4,6),] %>%
+# extract dataframe and change from log to response scale (95% CI)
+rr_g <- coef(glenelg_fits$fit_sess2, alpha = 0.05)[c(2,4,6),] %>%
   mutate(beta.resp = exp(beta),
          lcl.resp = exp(lcl),
          ucl.resp = exp(ucl),
          pair = factor(c("Replicate 1", "Replicate 2", "Replicate 3")),
          region = "Glenelg")
 
-rr_o <- coef(otways_fits$fit_sess2)[c(2,4,6),] %>%
+# 95% CI's
+rr_o_95 <- coef(otways_fits$fit_sess2, alpha = 0.05)[c(2,4,6),] %>%
   mutate(beta.resp = exp(beta),
          lcl.resp = exp(lcl),
          ucl.resp = exp(ucl),
          year = factor(c("2017", "2018", "2019")),
-         region = "Otway")
+         region = "Otway",
+         CI = "95%")
 
-# mean response ratio
-rr <- bind_rows(rr_g, rr_o)
-rr
-rr2 <- filter(rr, !(region == "Otway" & year == "2017"))
-min(rr2$beta.resp)
-mean(rr2$beta.resp)
-round(max(rr2$beta.resp), digits = 1)
+# 83% CI's
+rr_o_83 <- coef(otways_fits$fit_sess2, alpha = 0.17)[c(2,4,6),] %>%
+  mutate(beta.resp = exp(beta),
+         lcl.resp = exp(lcl),
+         ucl.resp = exp(ucl),
+         year = factor(c("2017", "2018", "2019")),
+         region = "Otway",
+         CI = "83%")
+
+# combine 
+rr_o <- rbind(rr_o_95, rr_o_83)
 
 
 # plot - glenelg
 plot_g_difference <- ggplot(rr_g, aes(y = beta.resp, x = pair)) + 
   geom_pointrange(aes(ymin = lcl.resp, ymax = ucl.resp), size = 1, col = "black") +  
   scale_y_continuous(limits = c(0,10), breaks = seq(0, 10, by = 1)) +
-  geom_hline(yintercept = 1, colour = "darkgrey", linetype = "dashed") + 
+  geom_hline(yintercept = 1, colour = "grey", linetype = "dashed") + 
   labs(title = "", y = "Response ratio", x = "") +
   theme(plot.title = element_text(size=11),           
         axis.title = element_text(size = 10))
 plot_g_difference
 
 # plot - otways
-plot_o_difference <- ggplot(rr_o, aes(y = beta.resp, x = year)) + 
-  geom_pointrange(aes(ymin = lcl.resp, ymax = ucl.resp), size = 1, col = "black") +  
-  geom_hline(yintercept = 1, colour = "darkgrey", linetype = "dashed") + 
+plot_o_difference <- ggplot(rr_o, aes(y = beta.resp, x = year, group = CI)) + 
+  geom_pointrange(aes(ymin = lcl.resp, ymax = ucl.resp, col = CI), size = 1) +  
+  geom_hline(yintercept = 1, colour = "grey", linetype = "dashed") + 
+  scale_color_manual(values=c('black','darkgrey')) +
   labs(title = "", y = "Response ratio", x = "") +
-  theme(plot.title = element_text(size=11),           axis.title = element_text(size = 10))
+  theme(plot.title = element_text(size=11),           
+        axis.title = element_text(size = 10),
+        legend.position = "bottom")
 plot_o_difference
 
 

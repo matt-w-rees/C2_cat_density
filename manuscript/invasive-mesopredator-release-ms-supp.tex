@@ -10,7 +10,6 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 \usepackage{graphicx}
-\usepackage{booktabs} % book-quality tables
 %%%%%%%%%%%%%%%% end my additions to header
 
 \usepackage[T1]{fontenc}
@@ -34,7 +33,16 @@
 \IfFileExists{microtype.sty}{\usepackage{microtype}}{}
 \usepackage[margin=1.1in]{geometry}
 \bibliographystyle{elsarticle-harv}
-\usepackage{longtable}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \ifxetex
   \usepackage[setpagesize=false, % page size defined by xetex
               unicode=false, % unicode breaks when used with xetex
@@ -1130,5 +1138,4 @@ south 2019 & 0.98 & 0.76 & 1.27 & Impact & 2019\\
 
 
 \end{document}
-
 

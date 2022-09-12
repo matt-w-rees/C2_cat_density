@@ -1,4 +1,4 @@
-# Quantifying mesopredator release: lethal control of an invasive apex predator alters feral cat density and detectability
+# Mesopredator release among invasive predators: controlling red foxes can increase feral cat density and alter their behaviour
 
 ### Matthew W. Rees, Jack H. Pascoe, Mark Le Pla, Alan Robley, Emma K. Birnbaum, Brendan A. Wintle, Bronwyn A. Hradsky
 

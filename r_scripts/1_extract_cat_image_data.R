@@ -7,17 +7,50 @@ library(sf)
 library(secr)
 
 # Load survey info and do some cleaning (dirtying more like it)
-camdata <- read_csv("/Users/mrees2/Dropbox/personal/matt/github/compile-camera-records-matt/derived_data/capthists/records_matt_clean.csv")
+#camdata <- read_csv("/Users/mrees2/Dropbox/personal/matt/github/compile-camera-records-matt/derived_data/capthists/records_matt_clean.csv")
+camdata <- read_csv("/Users/ree140/Dropbox/personal/matt/github/unlinked/compile-camera-records-matt/derived_data/records_matt_clean.csv") 
 camdata <- distinct(camdata, station_year, .keep_all = TRUE)
 camdata$Station <- ifelse(camdata$region == "otways", gsub("_", "x", camdata$station_year), camdata$station)
 camdata$block <- camdata$grid 
+
+#  Load CT model info and do some cleaning 
+cam_models <- read_csv("/Users/ree140/Dropbox/personal/matt/github/unlinked/compile-camera-records-matt/derived_data/sp_records_model.csv") %>%
+  select(c(Station, model = Model))  %>%
+  distinct(Station, .keep_all = TRUE)
+
+# fix na's where cam model is diplayed in picture
+cam_models$model <- if_else(cam_models$Station == "T005x2019", "PC900 PROFESSIONAL", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "T034x2019", "PC900 PROFESSIONAL", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "T035x2019", "HC600 HYPERFIRE", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "T041x2019", "HC600 HYPERFIRE", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "T045x2019", "PC900 PROFESSIONAL", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "T050x2019", "HC600 HYPERFIRE", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "T062x2019", "PC900 PROFESSIONAL", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "T099x2019", "PC900 PROFESSIONAL", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "T100x2019", "HC500 HYPERFIRE", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "TN01x2019", "PC900 PROFESSIONAL", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "TN10x2019", "HC600 HYPERFIRE", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "TN12x2019", "HC600 HYPERFIRE", cam_models$model)
+cam_models$model <- if_else(cam_models$Station == "UND11x2019", "HC600 HYPERFIRE", cam_models$model)
+# hows that leave us?
+table(is.na(cam_models$model))
+# 30 stations with unknown NA's - I know none of them are HYPERFIRE HYPERFIRE 2, can't leave them as NA - so assume HC600 HYPERFIRE
+cam_models$model <- if_else(is.na(cam_models$model), "HC600 HYPERFIRE", cam_models$model)
+## append camdata with models
+camdata <- left_join(camdata, cam_models)
+# lets make cam models per region into a nice dataframe for an appendix table
+df <- as.data.frame(xtabs(~camdata$model + camdata$region)) %>% 
+  rename("Camera Model" = camdata.model, "Region" = camdata.region, "Frequency" = Freq) %>%
+  relocate("Region") %>%
+  filter(!(Frequency == 0))
+df$Region <- if_else(df$Region == "glenelg", "Glenelg", "Otway")
+write.csv(df, "derived_data/cam_models.csv")
 
 # also add xy coords
 camdata_sf <- st_as_sf(camdata, coords = c("long", "lat"), crs = 4326) %>% 
   st_transform(crs = 32754)
 camdata$xcoord <- st_coordinates(camdata_sf)[,1]
 camdata$ycoord <- st_coordinates(camdata_sf)[,2]
-head(camdata)
 
 
 # LOAD IMAGES ---------------------------------------------------------------
@@ -101,16 +134,16 @@ rt_unm_s_19 <- recordTable(inDir = images_s_19, IDfrom = "metadata", metadataSpe
 
 
 # MAKE SECR CAPTHIST ------------------------------------------------------
-ch_mc    <- spatialDetectionHistory(recordTableIndividual = rt_id_mc,   camOp = camop_mc,   CTtable = camdata_mc,   species = "cat", output = "binary", stationCol = "Station", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
-ch_h     <- spatialDetectionHistory(recordTableIndividual = rt_id_h,    camOp = camop_h,    CTtable = camdata_h,    species = "cat", output = "binary", stationCol = "Station", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
-ch_a     <- spatialDetectionHistory(recordTableIndividual = rt_id_a,    camOp = camop_a,    CTtable = camdata_a,    species = "cat", output = "binary", stationCol = "Station", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
-ch_c     <- spatialDetectionHistory(recordTableIndividual = rt_id_c,    camOp = camop_c,    CTtable = camdata_c,    species = "cat", output = "binary", stationCol = "Station", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
-ch_n_17  <- spatialDetectionHistory(recordTableIndividual = rt_id_n_17, camOp = camop_n_17, CTtable = camdata_n_17, species = "cat", output = "binary", stationCol = "Station", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
-ch_n_18  <- spatialDetectionHistory(recordTableIndividual = rt_id_n_18, camOp = camop_n_18, CTtable = camdata_n_18, species = "cat", output = "binary", stationCol = "Station", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
-ch_n_19  <- spatialDetectionHistory(recordTableIndividual = rt_id_n_19, camOp = camop_n_19, CTtable = camdata_n_19, species = "cat", output = "binary", stationCol = "Station", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
-ch_s_17  <- spatialDetectionHistory(recordTableIndividual = rt_id_s_17, camOp = camop_s_17, CTtable = camdata_s_17, species = "cat", output = "binary", stationCol = "Station", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
-ch_s_18  <- spatialDetectionHistory(recordTableIndividual = rt_id_s_18, camOp = camop_s_18, CTtable = camdata_s_18, species = "cat", output = "binary", stationCol = "Station", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
-ch_s_19  <- spatialDetectionHistory(recordTableIndividual = rt_id_s_19, camOp = camop_s_19, CTtable = camdata_s_19, species = "cat", output = "binary", stationCol = "Station", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
+ch_mc    <- spatialDetectionHistory(recordTableIndividual = rt_id_mc,   camOp = camop_mc,   CTtable = camdata_mc,   species = "cat", output = "binary", stationCol = "Station", stationCovariateCols = "model", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
+ch_h     <- spatialDetectionHistory(recordTableIndividual = rt_id_h,    camOp = camop_h,    CTtable = camdata_h,    species = "cat", output = "binary", stationCol = "Station", stationCovariateCols = "model", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
+ch_a     <- spatialDetectionHistory(recordTableIndividual = rt_id_a,    camOp = camop_a,    CTtable = camdata_a,    species = "cat", output = "binary", stationCol = "Station", stationCovariateCols = "model", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
+ch_c     <- spatialDetectionHistory(recordTableIndividual = rt_id_c,    camOp = camop_c,    CTtable = camdata_c,    species = "cat", output = "binary", stationCol = "Station", stationCovariateCols = "model", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
+ch_n_17  <- spatialDetectionHistory(recordTableIndividual = rt_id_n_17, camOp = camop_n_17, CTtable = camdata_n_17, species = "cat", output = "binary", stationCol = "Station", stationCovariateCols = "model", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
+ch_n_18  <- spatialDetectionHistory(recordTableIndividual = rt_id_n_18, camOp = camop_n_18, CTtable = camdata_n_18, species = "cat", output = "binary", stationCol = "Station", stationCovariateCols = "model", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
+ch_n_19  <- spatialDetectionHistory(recordTableIndividual = rt_id_n_19, camOp = camop_n_19, CTtable = camdata_n_19, species = "cat", output = "binary", stationCol = "Station", stationCovariateCols = "model", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
+ch_s_17  <- spatialDetectionHistory(recordTableIndividual = rt_id_s_17, camOp = camop_s_17, CTtable = camdata_s_17, species = "cat", output = "binary", stationCol = "Station", stationCovariateCols = "model", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
+ch_s_18  <- spatialDetectionHistory(recordTableIndividual = rt_id_s_18, camOp = camop_s_18, CTtable = camdata_s_18, species = "cat", output = "binary", stationCol = "Station", stationCovariateCols = "model", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
+ch_s_19  <- spatialDetectionHistory(recordTableIndividual = rt_id_s_19, camOp = camop_s_19, CTtable = camdata_s_19, species = "cat", output = "binary", stationCol = "Station", stationCovariateCols = "model", speciesCol = "metadata_species", Xcol = "xcoord", Ycol = "ycoord", individualCol = "metadata_individual_ID", recordDateTimeCol = "DateTimeOriginal", recordDateTimeFormat = "%Y-%m-%d %H:%M:%S", occasionLength = 1,  occasionStartTime = 12, day1 = "station", includeEffort = TRUE, timeZone = "Australia/Brisbane")
 
 # add markocc attribute for mark-resight
 markocc(traps(ch_mc)) <- rep(0, 58)

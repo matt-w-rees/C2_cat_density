@@ -14,6 +14,15 @@ masks_otways <- readRDS("derived_data/masks_otways.RData")
 ## specify session covariates
 sesscov <- data.frame(year = factor(c("2017", "2017", "2018", "2018", "2019", "2019")))
 
+# need to do this for cam models
+traps(mrch_otways) <- shareFactorLevels(traps(mrch_otways), columns = "model", stringsAsFactors = TRUE)
+# check it worked
+verify(traps(mrch_otways))
+# it did, but it converted the capthist class to a list, incompatible with secr.fit... so need to do this:
+mrch_otways <- MS.capthist(mrch_otways)
+# but this removes session names - add back in:
+names(mrch_otways) <- c("mrch_n_17", "mrch_s_17", "mrch_n_18", "mrch_s_18", "mrch_n_19", "mrch_s_19")
+
 
 # FIT MARK-RESIGHT MODELS -------------------------------------------------
 # 1) Choose best detector function
@@ -37,11 +46,14 @@ fit1_adj$details$chat[1:2]
 
 # 3) Fit actual models
 ## Null models
-fit_null <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year, g0 ~ 1, sigma ~ 1))
-fit_null_Dveg <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year + vegetation, g0 ~ 1, sigma ~ 1))
-fit_null_g0T <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year, g0 ~ T, sigma ~ 1))
-fit_null_Dveg_g0T <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year, g0 ~ T, sigma ~ 1))
-otways_set1 <- secrlist(fit_null, fit_null_Dveg, fit_null_g0T, fit_null_Dveg_g0T)
+fit_null          <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year,              g0 ~ 1,                   sigma ~ 1))
+fit_null_Dveg     <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year + vegetation, g0 ~ 1,                   sigma ~ 1))
+fit_null_g0T      <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year,              g0 ~ s(T, k = 3),         sigma ~ 1))
+fit_null_mod      <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year,              g0 ~ model,               sigma ~ 1))
+fit_null_Dveg_mod <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year + vegetation, g0 ~ model,               sigma ~ 1))
+fit_null_Dveg_g0T <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year + vegetation, g0 ~ s(T, k = 3),         sigma ~ 1))
+fit_null_g0T_mod  <- secr.fit(mrch_otways, mask = masks_otways, sessioncov = sesscov, detectfn = 2, trace = FALSE, ncores = 6, details = list(knownmarks = FALSE, chat = fit1_adj$details$chat), fixed = list(pID = 1), start = fit1_adj, model = list(D ~ year,              g0 ~ s(T, k = 3) + model, sigma ~ 1))
+otways_set1 <- secrlist(fit_null, fit_null_Dveg, fit_null_g0T, fit_null_mod, fit_null_Dveg_mod, fit_null_Dveg_g0T, fit_null_g0T_mod)
 AIC(otways_set1, criterion = "AICc")[,-2] 
 saveRDS(otways_set1,   "models/otways_set1.RData")
 
@@ -64,7 +76,7 @@ AIC(otways_set3, criterion = "AICc")[,-2]
 saveRDS(otways_set3,   "models/otways_set3.RData")
 
 ## Combine all models and save 
-otways_fits <- secrlist(fit_null, fit_null_Dveg, fit_null_g0T, fit_null_Dveg_g0T, fit_sess1, fit_sess2, fit_fox_det, fit_fox_D, fit_fox_Ddet, fit_nl_fox_det, fit_nl_fox_D, fit_nl_fox_Ddet)
+otways_fits <- secrlist(fit_null, fit_null_Dveg, fit_null_mod, fit_null_g0T, fit_null_Dveg_mod, fit_null_Dveg_g0T, fit_null_g0T_mod, fit_sess1, fit_sess2, fit_fox_det, fit_fox_D, fit_fox_Ddet, fit_nl_fox_det, fit_nl_fox_D, fit_nl_fox_Ddet)
 AIC(otways_fits, criterion = "AICc")[,-2] 
 saveRDS(otways_fits,   "models/otways_fits.RData")
 

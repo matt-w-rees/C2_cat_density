@@ -1,0 +1,1210 @@
+\documentclass[preprint, 3p, authoryear]{elsarticle} %review=doublespace preprint=single 5p=2 column
+%%% Begin My package additions %%%%%%%%%%%%%%%%%%%
+
+\usepackage[hyphens]{url}
+
+  \journal{Journal of Applied Ecology} % Sets Journal name
+
+\usepackage{lineno} % add
+  \linenumbers % turns line numbering on
+
+\usepackage{graphicx}
+%%%%%%%%%%%%%%%% end my additions to header
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{fontspec}
+  \ifxetex
+    \usepackage{xltxtra,xunicode}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={Mesopredator release among invasive predators: controlling red foxes can increase feral cat density and alter their behaviour},
+            colorlinks=false,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+
+\setcounter{secnumdepth}{5}
+% Pandoc toggle for numbering sections (defaults to be off)
+
+
+% tightlist command for lists without linebreak
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% From pandoc table feature
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+
+% Pandoc citation processing
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+% for Pandoc 2.8 to 2.10.1
+\newenvironment{cslreferences}%
+  {}%
+  {\par}
+% For Pandoc 2.11+
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\usepackage{setspace}\doublespacing
+\usepackage{lineno}
+\usepackage{float}
+\floatplacement{figure}{H}
+\newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}} \setcounter{section}{1} \renewcommand{\thesection}{S\arabic{section}}}
+\usepackage{pdflscape}
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+
+
+\begin{document}
+
+
+\begin{frontmatter}
+
+  \title{Mesopredator release among invasive predators: controlling red foxes can increase feral cat density and alter their behaviour}
+    \author[UOM]{Matthew W. Rees}
+   \ead{matt.wayne.rees@gmail.com} 
+    \author[UOM,CEC]{Jack H. Pascoe}
+  
+    \author[UOM,CEC]{Mark Le Pla}
+  
+    \author[ARI]{Alan Robley}
+  
+    \author[CEC]{Emma K. Birnbaum}
+  
+    \author[UOM]{Brendan A. Wintle}
+  
+    \author[UOM]{Bronwyn A. Hradsky}
+  
+      \affiliation[UOM]{Quantitative and Applied Ecology Group, School of Ecosystem and Forest Sciences, The University of Melbourne, Parkville, VIC, 3010, Australia}
+    \affiliation[CEC]{Conservation Ecology Centre, Lighthouse Rd, Cape Otway, VIC, 3233, Australia}
+    \affiliation[ARI]{Department of Environment, Land, Water and Planning, Arthur Rylah Institute for Environmental Research, Heidelberg, VIC, 3084, Australia}
+    \cortext[cor1]{Corresponding author}
+  
+  \begin{abstract}
+  \emph{Data accessibility}: Data and code will be deposited on the Dryad Digital Repository after acceptance and can be viewed here: \href{https://github.com/matt-w-rees/invasive\%20-mesopredator-release}{https://github.com/matt-w-rees/invasive-mesopredator-release}.
+  \end{abstract}
+    \begin{keyword}
+    1080 poison \sep feral cat \sep red fox \sep invasive predator \sep intraguild predator interactions \sep lethal predator control \sep mesopredator release \sep 
+    spatial capture-recapture
+  \end{keyword}
+  
+ \end{frontmatter}
+
+\parskip=12pt
+
+\newpage
+
+\hypertarget{abstract}{%
+\section*{ABSTRACT}\label{abstract}}
+\addcontentsline{toc}{section}{ABSTRACT}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The mesopredator release theory predicts that the density of subordinate predators will increase as dominant predators decline. Persistent debate around mesopredator release in part reflects the lack of robust, replicated experiments to test this theory, and use of population indices which confound changes in mesopredator density and detectability. This uncertainty has immediate impacts for conservationists who are faced with managing sympatric invasive predators.
+\item
+  We used replicated experimental designs and spatially-explicit models to examine whether mesopredator release of the feral cat \emph{Felis catus} occurs in response to targeted control of the introduced red fox \emph{Vulpes vulpes}. We surveyed three Control-Impact paired landscapes in a region with long-term fox control (1080 poison baiting), and conducted a Before-After Control-Impact Paired-Series experiment in another region. We used fox occurrence as a simple metric of fox populations and estimated feral cat density with spatial mark-resight models.
+\item
+  Lethal fox control had varying effects on fox occurrence, consistent with variation in the duration and intensity of poison baiting. Correspondingly, responses in feral cat density ranged from negligible to a 3.7-fold higher density in fox-baited landscapes. At a fine spatial scale (200 m\textsuperscript{2}), feral cat density was negatively associated with fox occurrence probability across both regions. These results were consistent with mesopredator release, although uncertainty was high in the region where fox control had only recently commenced.
+\item
+  Feral cat detectability also varied across the (artificially-manipulated) gradients of fox occurrence probability. In one region, nonlinear models indicated that feral cats had lower detection and increased movement rates when foxes were uncommon, giving way to density suppression at high fox occurrence probabilities.
+\item
+  Our study provides replicated, experimental evidence that dominant predator suppression can be associated with a higher mesopredator density. Mesopredator release can manifest as changes in both behaviour and density, distorting inference if these processes are not distinguished. Our results may help explain why fox control does not consistently improve native prey persistence, suggesting integrated pest management may be necessary to improve conservation outcomes.
+\end{enumerate}
+
+\hypertarget{introduction}{%
+\section{INTRODUCTION}\label{introduction}}
+
+Understanding species interactions is critical for effective invasive species management (Zavaleta, Hobbs, \& Mooney 2001). Where several invasive species co-occur, management actions that suppress the dominant invasive species may inadvertently benefit subordinate invasive species (Jackson 2015). For example, the removal of a dominant invasive predator may increase the density of subordinate invasive predators directly by reducing top-down pressure, or indirectly by increasing the availability of shared resources; often referred to as mesopredator release (Soulé \emph{et al.} 1988; Prugh \emph{et al.} 2009). The release of subordinate invasive predators can have serious negative implications for native taxa and ecosystem function (Doherty \& Ritchie 2017; Takimoto \& Nishijima 2022). However, integrated invasive predator management is often far more costly and less feasible than single species control, and so it is important to identify when the extra cost is justified (Bode, Baker, \& Plein 2015).
+
+Most knowledge of mesopredator release stems from unreplicated `natural experiments' (e.g., range contractions - Crooks \& Soulé 1999) or ad-hoc management interventions (e.g., invasive species eradications - Rayner \emph{et al.} 2007) where dominant predators have become largely absent from the system. It is particularly unclear whether mesopredator release still occurs when dominant predators are suppressed but not completely removed. The occurrence, nature (positive or negative, direct or indirect) and strength of predator interactions can vary among species assemblages, environmental productivity, management regimes and other landscape contexts (Finke \& Denno 2004; Baum \& Worm 2009; Ritchie \& Johnson 2009). Replicating management programs in an experimental framework is logistically challenging, but important for understanding these complexities, discriminating between plausible hypotheses and producing generalisable results to inform effective pest management (Glen \& Dickman 2005; Ford \& Goheen 2015).
+
+Another source of uncertainty around the mesopredator release hypothesis stems from the inability of traditional survey and modelling approaches to distinguish behavioural from numerical population processes (Anderson 2001; Hayward \emph{et al.} 2015). Suppression of a dominant predator may simultaneously change the behaviour and the density of a mesopredator, both of which influence detection rates (Broadley \emph{et al.} 2019). This makes it difficult to interpret observed changes in naïve indices of mesopredator activity or occurrence in relation to changes in dominant predator populations, even if the study has an experimental design. Unbiased estimates of invasive predator density are also important for setting meaningful control targets and inferring impacts on native prey (Moseby \emph{et al.} 2019). Spatial capture-recapture methods offer a solution by separating behavioural and observational processes from population density, estimated within a defined spatial unit (Gardner, Royle, \& Wegan 2009).
+
+Predation by two invasive species, the red fox \emph{Vulpes vulpes} (hereafter `fox') and feral cat \emph{Felis catus} (hereafter `cat'), has played a major role in Australia's high rates of mammalian extinction (Woinarski, Burbidge, \& Harrison 2015). Integrated pest management programs are rare; instead, foxes are far more commonly controlled than cats, as they are more susceptible to poison baiting, have greater direct economic impacts and fewer legal impediments to control (Reddiex \emph{et al.} 2007; McLeod \& Saunders 2014). Nonetheless, cats are one of the most widespread and damaging vertebrate predator species (Medina \emph{et al.} 2011; Doherty \emph{et al.} 2017; Legge \emph{et al.} 2020). As foxes are larger-bodied (\textasciitilde2 kg difference) and have high dietary overlap with cats (Stobo-Wilson \emph{et al.} 2021b; Stobo-Wilson \emph{et al.} 2021a; Woinarski \emph{et al.} 2021), the mesopredator release hypothesis (Soulé \emph{et al.} 1988) predicts cat density, will increase as fox populations are suppressed (Molsher \emph{et al.} 2017). A mesopredator release of cats would likely dampen the conservation benefits of fox control, and could even worsen outcomes for some native prey species (Takimoto \& Nishijima 2022), as has previously been suspected (e.g., Wayne \emph{et al.} 2017).
+
+Evidence that foxes suppress cats is inconclusive. In parts of Australia where the apex mammalian predator (the dingo \emph{Canis familiaris}) is locally extinct and introduced foxes are the largest terrestrial mammalian predator, four studies found that fox control was associated with higher cat detection rates (Risbey \emph{et al.} 2000; Marlow \emph{et al.} 2015; Norton \emph{et al.} 2015; Stobo-Wilson \emph{et al.} 2020). However, two other studies in similar systems did not see any change (Towerton \emph{et al.} 2011; Molsher \emph{et al.} 2017). A further study with spatial replication detected an increase at one site but not another (Davey \emph{et al.} 2006), and another observed a decrease in cat activity (Claridge \emph{et al.} 2010). No prior studies have directly estimated changes in cat density in response to fox control. More reliable and standardised population measurements need to be deployed across different landscapes to understand what factors drive the variable responses of cats to dominant predator control (Hayward \emph{et al.} 2015).
+
+We experimentally investigated the role of introduced foxes in top-down suppression of cat density across eight landscapes within two regions of south-eastern Australia. Our experiment had a replicated Control-Impact design in the region with long-term fox control, and a Before-After Control-Impact Paired-Series (BACIPS) design in the region with newly implemented fox control. Foxes and cats are the only terrestrial mammalian predators in these regions heavier than one kilogram. Each region included at least one area in which foxes were subject to continuous lethal poison baiting (hereafter `impact landscape'), and a paired area where foxes were not controlled (hereafter `non-impact landscape'). This allowed focus on the associations between the two invasive predators, across an artificially-manipulated gradient of dominant predator (fox) occurrence probability. In accordance with mesopredator release theory, we predicted that: (1) fox control would be associated with higher cat densities at the landscape-scale, and (2) cat density would be negatively correlated with fox occurrence probability at a fine spatial scale (which could help explain cat responses to fox control). We based inference on direct estimates of cat density using spatially explicit mark-resight models.
+
+\newpage
+
+\hypertarget{materials-and-methods}{%
+\section{MATERIALS AND METHODS}\label{materials-and-methods}}
+
+\hypertarget{study-area}{%
+\subsection{Study area}\label{study-area}}
+
+We conducted our study across two regions of south-west Victoria, Australia (Fig. \ref{fig:density-map}). The native temperate forests in both regions are fragmented to varying degrees, primarily by livestock farming and timber plantations. Native dingoes are now absent throughout southwest Victoria (Cairns \emph{et al.} 2018). A native mesopredator, the tiger quoll \emph{Dasyurus maculatus} is long absent from the Glenelg region and extremely rare in the Otway Ranges (last sighted in 2014 despite extensive camera-trapping). The terrestrial mammalian predator guild is therefore depauperate, with foxes and cats being the primary mammalian terrestrial predators heavier than one kilogram; birds of prey and snakes are the only other medium-large carnivores present.
+
+Our study landscapes in the Glenelg region were primarily lowland forest and heathy woodland. The area receives an average annual rainfall of 700 mm (Bureau of Meteorology 2021, Cashmore Airport) and has gently undulating terrain. The region frequently experiences prescribed burns and wildfires, creating a mosaic of fire histories and vegetation complexity. Our study landscapes in the Otway region were in the western section of the Otway Ranges. Rainfall here is more than twice as high as the Glenelg region (Bureau of Meteorology 2021, Cape Otway). The vegetation is a mosaic of shrubby wet forest and cool temperate rainforest, with the northern landscape bordering on a large heathy woodland. This region rarely experiences fire and is nearly ten times more rugged than the Glenelg region (based on the terrain ruggedness index, Riley, DeGloria, \& Elliot 1999).
+
+Government land managers conduct ongoing targeted fox control for biodiversity conservation across broad landscapes within each region (detailed in Section 2.2 below). In these landscapes, manufactured poison baits (`FoxOff', Animal Control Technologies, Somerton) containing 3 mg of sodium fluroacetate (compound 1080) are buried at a depth of 12 - 15 cm at 1-km intervals along accessible forest tracks and roads (Fig. \ref{fig:density-map}). Different road densities across the two regions result in variable poison bait densities. Other large sections within each region are maintained without fox control.
+
+\hypertarget{study-design-and-camera-trapping}{%
+\subsection{Study design and camera-trapping}\label{study-design-and-camera-trapping}}
+
+We designed experiments around the implementation of fox-baiting in each region. We simultaneously surveyed one impact and one non-impact landscape at a time. Each pair of impact and non-impact landscapes were chosen based on similarity in vegetation groups, while aiming to maximise spatial independence with respect to predator daily movements.
+
+In the Glenelg region, we used a spatially replicated Control-Impact design to compare three impact landscapes that had been poison baited for foxes at fortnightly intervals for more than 13 years with three paired non-impact landscapes. The pairing of these landscapes was based on similarities in vegetation classes, and specified in the original design of the Glenelg Ark monitoring program (Robley \emph{et al.} 2014). We surveyed Cobboboonee National Park (impact) and Annya State Forest (non-impact) in January -- April 2018 (`replicate 1'), Mt Clay State Forest / Narrawong Flora Reserve (hereafter `Mt Clay'; impact) and Hotspur State Forest (non-impact) in April -- June 2018 (`replicate 2'), and Lower Glenelg National Park (LGNP) South (impact) and LGNP North (non-impact) in March -- May 2021 (`replicate 3'). For replicates 1 and 2, the paired landscapes were separated by at least 8 km, a distance unlikely to be frequently traversed regularly by these invasive predators (Hradsky \emph{et al.} 2017). Lower Glenelg National Park South and North are separated by the Glenelg River, which is unlikely to be regularly crossed by most terrestrial animals.
+
+In the Otway region, we used a Before-After Control-Impact Paired-Series (BACIPS) design to assess changes related to the introduction of a fox control program. We deployed camera-trap grids in a pair of impact -- non-impact landscapes from June to September in three years (2017, 2018, 2019), in the Great Otway National Park and Otway Forest Park. Our first survey occurred approximately three months before fox-baiting began. Fox-baiting commenced for the first time in the impact landscape in November 2017. Poison baits were replaced weekly for six weeks until December 2017, before changing to monthly bait replacement until July 2018. The second survey was conducted six months after fox-baiting commenced, however poison bait replacement ceased from near the beginning of the survey until nearly three months afterwards. Fox-baiting at monthly intervals recommenced in December 2018, six months prior to the start of the final survey (Fig. \ref{fig:density-camop}). The impact (southern) and non-impact (northern) landscapes were at least 4.2 km apart through dense forest. In this study, and a concurrent study which identified individual foxes through genetic sampling (Le Pla \emph{et al.} 2022), we found no evidence that either foxes or cats moved between the impact and non-impact landscapes.
+
+In each landscape, we established a grid of 49 -- 110 sites (mean: 88). We aimed to space camera-traps 500 m apart, but distances ranged from 194 -- 770 m (mean spacing: 448 m) due to accessibility and logistical constraints. We situated each site in the forest interior, at least 30 m from roads and tracks. At each site, we set up a Reconyx (Holmen, Wisconsin) infrared camera-trap on a tree, facing a tuna oil lure; see Appendix C section \ref{density-app-field} for details. Overall, we deployed 1,051 functional camera-traps, which operated for an average of 65 days (ranging 12 -- 93 days), totalling 68,504 trap nights (Table \ref{tab:tab-dates}).
+
+\hypertarget{individual-feral-cat-identification}{%
+\subsection{Individual feral cat identification}\label{individual-feral-cat-identification}}
+
+We sorted the camera-trap images of cats into five categories based on coat type (Fig. \ref{fig:density-cat-photo}), and identified individual feral cats within each category; see Appendix C section \ref{density-app-id} for details. In the Otway region, 40\% of cat detections were of black cats with few identifiable markings, so we did not attempt to identify any black cats here. In the Glenelg region, black cats were rarer (not detected at two landscapes) and often more distinctive, and so we could identify some individuals (Table \ref{tab:tab-dates}).
+
+\hypertarget{density-methods-fox}{%
+\subsection{Fox spatial occurrence}\label{density-methods-fox}}
+
+To (i) investigate effects of poison-baiting on foxes, (ii) test for negative correlations between foxes and cat density (prediction 2) and (iii) account for potential effects of foxes on cat detectability, we modelled fine-scale and spatially-explicit fox occurrence probabilities. We used fox occurrence probability as a simple metric of fox populations in lieu of simultaneous, reliable fox density estimates. Foxes are not individually identifiable from camera-trap images (Güthlin, Storch, \& Küchenhoff 2014) and, while density estimates can be derived from unmarked populations, their reliability remains questionable (Barker \emph{et al.} 2018; Sun \emph{et al.} 2022). We modelled fox occurrence probabilities (from presence-absence records) rather than detection counts as we considered this more conservative: a greater change in fox density is likely required to alter occurrence. In some circumstances, predator occurrence probability scales with population density (e.g., Linden \emph{et al.} 2017), although we acknowledge this remains unknown in our study.
+
+We could not use raw fox presence-absence data from the camera-traps as a response variable for cat density as spatial mark-resight models require covariate values for each grid cell in which density is estimated (see Section \ref{density-methods-smr}). Instead, we generated a spatially-interpolated layer of the probability of fox occurrence for each study landscape, using fox presence-absence data for each camera-trap site and binomial generalised additive mixed-effects models (Wood 2017). These models allow efficient nonlinear spatial estimates, but do not account for imperfect detection. Nonetheless, naïve fox occurrence probabilities may relate to how cats perceive the risk of fox encounter for the survey duration.
+
+We built fox occurrence models using the `mgcv' R-package (version 1.3.1, Wood 2011). We modelled fox presences and absences (response variable) across space (explanatory variable) separately for each region, with a duchon spline spatial smooth (which provide better predictions at the edge of surveyed space than other splines, Miller \& Wood 2014). In the Otway region, we included a random intercept for each camera-trap site to account for repeat sampling and did not share spatial information across years. Differences in camera-trap deployment lengths were accounted for using a model offset.
+
+\hypertarget{density-methods-smr}{%
+\subsection{Spatial mark-resight models of feral cat density}\label{density-methods-smr}}
+
+We used a spatial capture-recapture approach to estimate cat density (Gardner, Royle, \& Wegan 2009). These models use counts of detections and non-detections of individual animals at trap locations (accounting for trap-specific survey effort) to estimate the location of each individual's activity centre. They commonly assume that individuals have approximately circular home ranges, spend the majority of time in the centre of their range (`activity centre'), and that the probability of observing an individual decreases with distance from the activity centre. Two detectability parameters govern this process: \emph{g}\textsubscript{0}, the probability of detecting an individual per occasion in their activity centre, and sigma: a spatial scale parameter which relates to home range size. Multiple candidate shapes for the decline in detectability with distance from the activity centre (`detection function') can be modelled, although half-normal and exponential are most commonly used. Spatial capture-recapture models have been extended to consider situations where not all individuals in a population are identifiable (i.e., some are unmarked, Efford \& Hunter 2018). These models typically assume unmarked individuals to be a random sample of the population, sharing the same detection process as marked individuals, allowing density to be estimated for the entire population.
+
+We used sighting-only spatial mark-resight models to estimate cat density using the maximum likelihood `secr' R-package (Efford 2021). We used closed population models as open population spatial mark-resight models have not yet been developed. Detections of the `mark status uncertain' category (unidentifiable cats), cannot be handled in the `secr' R package; we added them to as `unmarked' detections (black cats) rather than discard them (following Moseby, McGregor, \& Read 2020). We condensed unmarked detection histories to a binary presence-absence record per each camera-trap for a 24-hour length duration (`occasion'), beginning at midday. We ran separate models for each region and treated each camera-trap grid deployment as a `session'. We created a 4000-m buffer zone around each site (which was truncated by the river in LGNP), and estimated cat density at a 200-m grid cell resolution within this area. These habitat mask specifications were based on initial model trials and our knowledge of cat behaviour in these regions; the aim was to ensure density was estimated over a large enough area to encompass the activity centres of all cats exposed to our camera-traps, at a fine enough spatial scale to minimise bias in density estimates.
+
+For each region, we ran four sets of models. We (1) chose between half-normal and exponential detection functions and (2) chose `base model' covariates to carry through to subsequent model sets. We then (3) evaluated the effect of fox control on cat density at the landscape scale with traditional experimental approaches (prediction 1), and (4) tested for associations between fox occurrence probabilities and cat density at a fine spatial scale (prediction 2). To choose between competing model specifications, we used small-sample corrected Akaike Information Criterion (hereafter `AIC\textsubscript{c}') scores (Burnham \& Anderson 2004); carrying forward or presenting the top-ranked model (i.e., model with the lowest AIC\textsubscript{c} score). In addition to examining confidence intervals around estimated model coefficients, we also used AIC\textsubscript{c} scores to assess statistical evidence; models within two AIC\textsubscript{c} units are generally considered equivalent in terms of predictive power (Burnham \& Anderson 2004). Steps two to four are described in more detail below.
+
+The second set of models (base models) established the base covariates for each region. We hypothesised that cat detectability might decrease over each survey due to the scent of the tuna oil lure fading. To account for this, we modelled a nonlinear trend in \emph{g}\textsubscript{0} over the survey duration for each camera-trap. We also used a range of camera-trap models which may impact detection rates (Table \ref{tab:cam-models}). We tested whether camera-trap model impacted cat detection rates in the Otways, but not the Glenelg region as 97\% of cameras here were the HC600 model (3\% were the PC900 model which primarily differ only in software settings, Seidlitz \emph{et al.} 2020), using camera-trap model as a categorical variable (n = 5) on \emph{g}\textsubscript{0}. We further hypothesised that cat density might differ between vegetation types. We classed the vegetation into three dominant types for each region: cleared land, heathy vegetation, and either dry forest (Glenelg region) or wet forest (Otway region); see Appendix \ref{density-app-veg} for details. We compared these covariates as single and additive models, as well as to a `null model' (density and detectability constant), and carried the supported covariates forward to subsequent model sets.
+
+The third set of models inferred the effects of fox-baiting on cat density at a landscape scale within each region using traditional experimental designs (prediction 1). We fit models which estimated cat density separately for each landscape, and used AIC\textsubscript{c} scores to choose whether to model detectability as a function of predicted fox occurrence probability or constant. For the top-ranked model, we then calculated the estimated difference in cat density between paired landscape surveys. We assessed the weight of statistical evidence using associated confidence intervals and a p-value threshold of 0.05. In CI experiments (Glenelg region), a p-value below 0.05 is achieved when the 95\% confidence interval of the estimated difference does not cross zero (on the natural logarithmic scale). We repeated this analysis three times in the Glenelg region, once for each spatially replicated landscape pair. In BACI experiments (Otway region), changes in successive estimates of difference provide inference of an effect; a p-value below 0.05 is reached once 83\% confidence intervals do not overlap each other (Goldstein \& Healy 1995).
+
+The fourth set of models directly tested the associations between fine-scale fox occurrence and cats within each region (prediction 2). We tested three models where (i) fox occurrence probability affected cat density, (ii) fox occurrence probability affected cat detectability (both \emph{g}\textsubscript{0} and sigma concurrently, Efford \& Mowat 2014), (iii) fox occurrence probability affected both the density and the detectability of cats, against the null model with no association between fox occurrence and cats. We used the spatial fox occurrence probability estimates (detailed in Section \ref{density-methods-fox}) as the explanatory variable. As predator associations may be nonlinear (Johnson \& VanDerWal 2009), we tested these effects as linear and nonlinear terms using regression splines (generalised additive models called within the `secr' R-package). We included year as a cat density covariate in all the Otway region models to account for repeat sampling. A limitation of this approach is that uncertainty from fox occurrence probability models was not propagated into the spatial mark-resight models - a full Bayesian integration of the fox occurrence analysis and the spatial mark-resight model to address this is not yet implemented.
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{../figs/fig1} 
+
+}
+
+\caption{Locations of our eight study landscapes in south-west Victoria, Australia (red outlines). Note the two Lower Glenelg National Park landscapes in the far west are shown as one but are separated by a river (which the poison-baits closely follow along the southern bank). Locations of fox poison bait stations are denoted by black dots. The Glenelg region is to the west and Otway region to the east. Native vegetation is indicated by dark green, with hill shading. \textit{Map tiles by Stamen Design, under CC BY 3.0, map data by OpenStreetMap, under CC BY SA.}}\label{fig:density-map}
+\end{figure}
+
+\newpage
+
+\hypertarget{results}{%
+\section{RESULTS}\label{results}}
+
+\hypertarget{glenelg-region}{%
+\subsection{Glenelg region}\label{glenelg-region}}
+
+\hypertarget{red-fox}{%
+\subsubsection{Red Fox}\label{red-fox}}
+
+In the Glenelg region, foxes were detected at 48 -- 57\% of sites (i.e., naïve occupancy) within the three non-impact (unbaited) landscapes (Table \ref{tab:tab-dates}). Naïve occupancy rates were more than two and three times lower in the paired impact (poison baited) landscape for replicates 1 and 3, respectively, but only 27\% lower in replicate 2 (Table \ref{tab:tab-dates}). The fox spatial occurrence probability model explained 13.1\% of the null deviance, with an adjusted R-squared value of 0.13 (spatial standard error estimates are presented in Appendix \ref{density-app-fox}). The fox occurrence model highlighted fine-scale variation in fox occurrence probabilities within landscapes (for example, fox occurrence probability was low in the centre of Mt Clay, but higher closer to the forest edge) and demonstrated a strong effect of the Glenelg River in separating fox populations in the Lower Glenelg National Park landscapes (Fig. \ref{fig:foxplot}).
+
+\hypertarget{feral-cat}{%
+\subsubsection{Feral cat}\label{feral-cat}}
+
+Across the six landscapes in the Glenelg region, we recorded 251 cat detections from 32,232 camera-trap nights (Table \ref{tab:tab-dates}). We were able to identify 64\% of cat detections to the individual-level; a total of 67 cats (6 -- 13 individuals per landscape). The exponential detector function was supported over the half-normal function (Table \ref{tab:density-aic-g-1}). The null model was more strongly supported than models with vegetation impacts on cat density and/or linear time trends on \emph{g}\textsubscript{0} (Table \ref{tab:density-aic-g-2}).
+
+Our prediction (1) that cat density would be higher in landscapes with fox control was supported for the first and third spatial replicates: estimated cat densities were 2.5 (95\% CI: 1.5 - 4.2) and 3.7 (95\% CI: 1.4 - 9.5) times higher in the impact landscape than the paired non-impact landscape, respectively (Fig. \ref{fig:diffg}). There was no difference in cat density between landscape pairs in the second spatial replicate (1.1; 95\% CI: 0.69 - 1.69; Fig. \ref{fig:diffg}); this pair also had the smallest difference in naïve fox occupancy occurrence rates (Table \ref{tab:tab-dates}). At the landscape-level, there was little evidence that cat detectability was associated with fox occurrence; although this model ranked more highly than the constant detectability model (Table \ref{tab:density-aic-g-4}), the difference in AICc scores was only 0.95 units and the estimated effects were weak with high uncertainty, i.e., detectability (\emph{g}\textsubscript{0}): 0.24 (95\% CI: -0.32 - 0.80); movement (sigma): 0.13 (95\% CI: -0.14 - 0.41).
+
+Our prediction (2) that cat density would be negatively correlated with fox occurrence probability at a fine spatial scale was supported (4.26 AIC\textsubscript{c} units better than the null; Table \ref{tab:density-aic-g-3}). The top-ranked model indicated that cat density declined as the probability of fox occurrence increased (-0.32; 95\% CI: -0.57 - -0.07; Fig. \ref{fig:dcor}), and that there was no association between fox occurrence and cat detectability (Table \ref{tab:density-aic-g-3}). Nonlinear regression splines added additional model parameters without changing predictions (Fig. \ref{fig:dcor}); all nonlinear models ranked below their linear counterparts (Table \ref{tab:density-aic-g-3}).
+
+\hypertarget{otway-region}{%
+\subsection{Otway region}\label{otway-region}}
+
+\hypertarget{red-fox-1}{%
+\subsubsection{Red fox}\label{red-fox-1}}
+
+In the Otway region, the probability of fox occurrence declined by 43\% over three years in the impact landscape, and increased by 22\% in the non-impact landscape (where they were not lethally controlled) over the same period (averaged at each camera-trap site in the landscape; Fig. \ref{fig:foxplot}b). Fox occurrence probability in the Otway region was generally lower than the Glenelg region and had less fine-scale spatial variation. For example, fox occurrence was predicted to be spatially consistent across the entire Otway region in 2018 (i.e., fox occurrence probability was the same in both the impact and non-impact landscape, Fig. \ref{fig:foxplot}; as were naïve occupancy rates, Table \ref{tab:tab-dates}). The fox spatial occurrence model explained 27.8\% of the null deviance, with an adjusted R-squared value of 0.24 (spatial standard error estimates are presented in Appendix \ref{density-app-fox}).
+
+\hypertarget{feral-cat-1}{%
+\subsubsection{Feral cat}\label{feral-cat-1}}
+
+In the Otway region, we recorded 970 cat detections from 36,272 camera-trap nights (Table \ref{tab:tab-dates}). We were able to identify 53\% of cat detections to the individual-level; a total of 93 cats (20 -- 30 individuals per landscape survey session, with some individual detected in multiple years). The exponential detector function was strongly supported over the half-normal function (Table \ref{tab:density-aic-o-1}). The null model was more strongly supported than the models with vegetation impacts on cat density, or camera-trap model or linear time trends on \emph{g}\textsubscript{0} (Table \ref{tab:density-aic-o-2}).
+
+Our prediction (1) that fox control would be associated with higher cat densities was supported in 2019 (\textasciitilde1.5 years after fox baiting commenced), but not 2018 (six months after fox-baiting commenced, and during a break in the baiting program). Within each year, there was no statistical evidence that cat densities differed between the impact and non-impact landscapes (95\% confidence intervals overlapped zero; Fig. 4a). However, a consistent upward trend in cat density in the impact landscape over three years and a simultaneous downward trend in the non-impact landscape (Fig. \ref{fig:diffo}a), meant that there was a significant increase in cat density in the impact landscape 1.5 years after fox-baiting commenced, relative to changes in the non-impact landscape (i.e., 83\% CIs for the estimated difference for 2017 and 2019 do not overlap; (Fig. \ref{fig:diffo}b). There was strong evidence that cat detectability was associated with fox occurrence probability (Table \ref{tab:density-aic-o-4}), detailed below.
+
+Our prediction (2) that cat density would be negatively correlated with fox occurrence probability at a fine spatial scale had weak support. The top-ranked model included a negative linear association between cat density and fox occurrence, supporting our prediction. However, statistical evidence was weak: this model had similar predictive performance to a model without the association between cat density and fox occurrence probability (dAIC\textsubscript{c} = 0.80; Table \ref{tab:density-aic-o-3}). In addition, the 95\% confidence interval around the linear coefficient from the top-ranked model marginally overlapped zero (-0.26; 95\% CI: -0.55 - 0.02). The nonlinear version of this model also marginally ranked above the null model (dAIC\textsubscript{c} = 0.47; Table \ref{tab:density-aic-o-3}). This nonlinear model predicted that cat density only declined (at a steeper rate) in the mid-high range of fox occurrence probability (greater than \textasciitilde0.25 on the response scale; Fig. \ref{fig:dcor}).
+
+There was strong support for an effect of fox occurrence probability on cat detectability at a fine spatial scale (Fig. \ref{fig:detcor}; Table \ref{tab:density-aic-o-4}). Where fox occurrence probability was higher, cats were less detectable in their activity centres (i.e., negative association with \emph{g}\textsubscript{0}; -0.69; 95\% CI: -1.11 - -0.27; Fig. \ref{fig:detcor}a) and ranged further (i.e., positive association with sigma; coefficient 0.30; 95\% CI: 0.13 - 0.47; Fig. \ref{fig:detcor}b). The equivalent nonlinear model predicted that detectability changes occurred only in the low-mid range of fox occurrence probabilities (less than \textasciitilde0.25 on the response scale; Fig. \ref{fig:detcor}).
+
+\newpage
+\blandscape
+
+\begin{table}
+
+\caption{\label{tab:tab-dates}Summary of experimental camera-trap surveys and invasive predator detections in the Glenelg and Otway regions, Australia.}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{llllllrrrrrrrr}
+\toprule
+\multicolumn{8}{c}{ } & \multicolumn{1}{c}{Red fox} & \multicolumn{5}{c}{Feral cats (max. 1 detection per 24-hr)} \\
+\cmidrule(l{3pt}r{3pt}){9-9} \cmidrule(l{3pt}r{3pt}){10-14}
+Region & Landscape & Replicate & Treatment & Start date & End date & Camera-traps & Trap-nights & Naïve occupancy & Individuals & Moves & Prop. unidentified & Prop. unmarked  & Total detections\\
+\midrule
+Glenelg & Cobboboonee & 1 & impact & 2018-02-13 & 2018-04-29 & 110 & 7752 & 0.26 & 13 & 19 & 0.11 & 0.46 & 81\\
+ & Annya & 1 & non-impact & 2018-01-26 & 2018-04-13 & 110 & 8000 & 0.55 & 9 & 11 & 0.07 & 0.43 & 46\\
+ & Mt Clay & 2 & impact & 2018-04-30 & 2018-06-27 & 106 & 5451 & 0.35 & 10 & 16 & 0.13 & 0.00 & 38\\
+ & Hotspur & 2 & non-impact & 2018-04-16 & 2018-06-21 & 99 & 6085 & 0.48 & 8 & 12 & 0.08 & 0.34 & 38\\
+ & LGNP South & 3 & impact & 2021-03-25 & 2021-05-12 & 64 & 2842 & 0.17 & 21 & 4 & 0.00 & 0.00 & 37\\
+\addlinespace
+ & LGNP North & 3 & non-impact & 2021-03-30 & 2021-05-14 & 49 & 2102 & 0.57 & 6 & 3 & 0.00 & 0.00 & 11\\
+Otways & South & 1 & impact & 2017-06-23 & 2017-08-30 & 73 & 4543 & 0.36 & 20 & 18 & 0.04 & 0.42 & 114\\
+ & North & 1 & non-impact & 2017-07-05 & 2017-09-02 & 67 & 3565 & 0.13 & 26 & 12 & 0.07 & 0.40 & 114\\
+ & South & 2 & impact & 2018-06-28 & 2018-09-13 & 85 & 6077 & 0.27 & 24 & 37 & 0.11 & 0.39 & 151\\
+ & North & 2 & non-impact & 2018-07-09 & 2018-09-21 & 103 & 7099 & 0.27 & 30 & 32 & 0.07 & 0.38 & 164\\
+\addlinespace
+ & South & 3 & impact & 2019-06-07 & 2019-09-17 & 86 & 7150 & 0.17 & 25 & 69 & 0.11 & 0.27 & 214\\
+ & North & 3 & non-impact & 2019-06-13 & 2019-09-15 & 99 & 7838 & 0.43 & 27 & 39 & 0.10 & 0.47 & 213\\
+\bottomrule
+\multicolumn{14}{l}{\rule{0pt}{1em}\textit{Note: }}\\
+\multicolumn{14}{l}{\rule{0pt}{1em}Naïve occupancy - proportion of camera-trap sites which detected foxes}\\
+\multicolumn{14}{l}{\rule{0pt}{1em}Individuals - Number of identified feral cat individuals}\\
+\multicolumn{14}{l}{\rule{0pt}{1em}Moves - successive recaptures of individuals at different sites}\\
+\multicolumn{14}{l}{\rule{0pt}{1em}Prop. unidentified - proportion of feral cat detections in the 'marked' spatial mark-resight category which could not be identified to the individual-level}\\
+\multicolumn{14}{l}{\rule{0pt}{1em}Prop. unmarked - proportion of feral cat detections in the 'unmarked' spatial mark-resight category}\\
+\end{tabular}}
+\end{table}
+
+\thispagestyle{empty}
+\elandscape
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{../figs/fig2_600dpi} 
+
+}
+
+\caption{Predicted red fox \textit{Vulpes vulpes} occurrence probabilities derived from generalised additive models within each impact (I) and paired non-impact (NI) landscape in the Glenelg (a) and Otway (b) regions, Australia. White dots represent camera-trap sites. The black line (a) respresents the Glenelg River which seperates the impact (south) and non-impact (north) landscape pair in the Lower Glenelg National Park.}\label{fig:foxplot}
+\end{figure}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{../figs/glenelg_estimates_600dpi} 
+
+}
+
+\caption{Feral cat \textit{Felis catus} density in response to long-term fox control in the Glenelg region, Australia (replicated Control-Impact analysis). Poison baiting for foxes \textit{Vulpes vulpes} had been conducted continuously in the impact landscapes for more than 13 years for the first two replicates, and 16 years for the third replicate. (a) Cat density estimates with 95\% confidence intervals for each landscape derived from spatial mark-resight models. (b) Estimates of difference in cat density (impact landscape relative to the paired non-impact landscape) for each replicate. Error bars show 95\% confidence intervals. In (b), confidence intervals that do not overlap 0 (grey dashed line) indicate that that cat density was higher in the impact landscape than the associated non-impact landscape (p < 0.05).}\label{fig:diffg}
+\end{figure}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{../figs/otways_estimates_600dpi} 
+
+}
+
+\caption{Feral cat \textit{Felis catus} density in response to fox control in the Otway Ranges, Australia (Before-After Control-Impact Paired-Series analysis). The 2017 surveys were conducted approximately two months before lethal red fox \textit{Vulpes vulpes} control began in the impact landscape. Baiting ceased July - November 2018 before resuming approximately five months prior to the 2019 survey. (a) Cat density estimates with 95\% confidence intervals for each survey, derived from spatial mark-resight models. (b) Estimates of the difference (on the natural logarithmic scale) between landscape pairs in each survey year (impact landscape relative to the non-impact landscape) with 83\% confidence intervals. In (b), confidence intervals that do not overlap each other (visualised horizontally) indicates evidence for a change in cat density at the impact landscape relative to change at the non-impact landscape (p < 0.05).}\label{fig:diffo}
+\end{figure}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{../figs/foxD_600dpi} 
+
+}
+
+\caption{Feral cat \textit{Felis catus} density in relation to the probability of red fox \textit{Vulpes vulpes} occurrence, Glenelg and Otway regions, Australia.  Lines show estimates from top-ranked linear (solid) and nonlinear (dashed) models, shaded areas indicate 95\% confidence intervals}\label{fig:dcor}
+\end{figure}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{../figs/foxDet_otways_600dpi} 
+
+}
+
+\caption{Linear (solid lines) and nonlinear (dashed lines) models of feral cat \textit{Felis catus} detectability as a function of log-scaled red fox \textit{Vulpes vulpes} occurrence probability in the Otway region, Australia. The probability of detecting a feral cat in its activity centre per 24-hour occasion (\textit{g}\textsubscript{0}) decreased with the probability of fox occurrence (a), while sigma (which is related to home range size; exponential detection function) increased (b). Shaded areas indicate 95\% confidence intervals.}\label{fig:detcor}
+\end{figure}
+
+\newpage
+
+\hypertarget{discussion}{%
+\section{DISCUSSION}\label{discussion}}
+
+Our study is one of the first to provide replicated, experimental evidence that dominant predator suppression is associated with higher mesopredator densities. We provide two lines of evidence that foxes can exert top-down control on feral cats in the forests of south-eastern Australia: feral cat density was (1) commonly higher in landscapes where fox control occurred, and (2) higher where fine-scale fox occurrence probability was lowest, although this association was only weakly supported in the Otway region. Targeted fox control is a widely used conservation strategy in Australia, and so unintended mesopredator release of feral cats is concerning, as it is likely to increase impacts on some native prey (e.g., Marlow \emph{et al.} 2015). More broadly, our study illustrates how experimental (landscape-scale) and correlative (fine-scale) approaches provide complementary lines of evidence when investigating interactions between predator species, and highlights the importance of disentangling changes in mesopredator density from changes in detectability.
+
+In the Glenelg region where fox-baiting had occurred for more than 13 years, feral cat density was considerably higher in two out of three baited landscapes than their unbaited pairs. The lack of difference for Pair 2 was likely due to limited suppression of foxes at Mt Clay despite ongoing fox control (Fig. \ref{fig:foxplot}a). Mt Clay is a small forest block surrounded entirely by unbaited farmland; simulation modelling indicates that the size of the baited area is a key driver of the degree of reduction in the fox population (Francis, Robley, \& Hradsky 2020), including at Mt Clay (Hradsky \emph{et al.} 2019). There was also strong support for a negative association between cat density and fox occurrence probability at a fine spatial scale in this region, consistent with the mesopredator release hypothesis. Studies of fox-cat (and other intraguild predator) interactions often use the presence of a management program as a proxy for dominant predator suppression (e.g., Hunter \emph{et al.} 2018). Our findings indicate the need to directly measure the dominant predator population in order to reliably interpret the responses of subordinate species (Salo \emph{et al.} 2010).
+
+In the Otway region, cat density had increased significantly in the impact landscape two years after baiting commenced, relative to changes in the non-impact landscape. However, this increase was relatively small compared to differences between cat densities in impact and non-impact landscapes in Glenelg. Evidence for a fine-scale negative association with fox occurrence was also much weaker. There are two possible explanations for this. Firstly, changes in fox and adult cat density may not have fully manifested yet. Fox occurrence rates in the impact landscape continued to decline over our three years of surveys. We found some evidence for a sequential response: a reduction in foxes occurrence probability may relax cat behaviour, potentially improving hunting success, leading to higher recruitment rates, subsequently higher cat densities. Also, younger cats are more vulnerable to fox predation than adult cats (Sogliani \& Mori 2019), and so foxes may have a greater impact on recruitment rates than the adult population, leading to a delayed effect on density. Further, cats may respond to an increase in shared prey availability following fox suppression (Stobo-Wilson \emph{et al.} 2020). A time-lagged release of cats following fox control would explain eruptions and subsequent crashes commonly observed in shared mammalian prey populations two to ten years following fox control commencement (Duncan \emph{et al.} 2020).
+
+Secondly, foxes may have a weaker suppressive effect on cats in the highly productive Otway region than the dry forests of Glenelg. Fox occurrence was already relatively low prior to fox control in the Otways compared to Glenelg (Fig. \ref{fig:foxplot}). Additionally, competition theory predicts competitive interactions to be weaker with high prey availability: there may be less imperative for foxes to be aggressive towards or prey upon cats when there is enough food to share (Johnson \& VanDerWal 2009; Greenville \emph{et al.} 2014; Sogliani \& Mori 2019). Conversely, foxes may have a higher capacity to maintain vigilance against cats when they are not food stressed, and top-down control from dominant predators could be the primary limiting factor for feral cats (a generalist mesopredator) in resource-rich environments (Oksanen \& Oksanen 2000; Feit, Feit, \& Letnic 2019). Prey availability is likely a strong mediator of mesopredator release, although it remains unclear whether mesopredator release would be stronger where prey availability is low or high---severely limiting our ability to predict mesopredator release across different landscapes.
+
+Because subordinate predators may only be suppressed when dominant predator abundance is high, there is contention around whether linear regression is appropriate for investigating correlations between different predator species (Johnson \& VanDerWal 2009; Letnic \emph{et al.} 2011). We found no evidence of nonlinear associations between foxes and cats in the Glenelg region, while linear and nonlinear models performed equally well in the Otway region. Nonlinear models in the Otway region predicted that cat density declined only in the mid-high range of fox occurrence (Fig. \ref{fig:dcor}), while behavioural changes were seen in the low-mid range of fox occurrence probability (Fig. \ref{fig:detcor}). Perhaps cats can successfully avoid foxes through behavioural change where foxes are rare, but this is ineffective where foxes are common. This could explain the lack of evidence for foxes impacting cat detectability in the Glenelg region where fox occupancy was relatively high. Alternatively, behavioural changes may be untenable for cats in the Glenelg region because small mammal abundance is relatively low (M.Rees, unpublished data) and fox avoidance strategies likely come at the expense of hunting success (Sih 1980; Wilson \emph{et al.} 2010). Negative spatial associations between species may simply reflect differences in niche preference rather than exclusion or avoidance, although is less likely in our case given we observed the relationship across an artificial gradient of fox occurrence probability caused by lethal control.
+
+In the Otway region, we observed seemingly opposing trends in fox occurrence probabilities and cat densities in the impact and non-impact landscapes over time (Fig. \ref{fig:foxplot}b; Fig. \ref{fig:diffo}). We are unsure what drove the increase in fox occurrence probability in the non-impact landscape and whether it was related to fox control in the nearby impact landscape. The effects observed in our BACIPS study may therefore only partly be due to mesopredator release in the strict sense (i.e., due to fox suppression in the impact landscape), although may demonstrate reciprocity in responses of cats to both increases and declines in foxes, which is rarely observed (Alston \emph{et al.} 2019). Perhaps changes in the non-impact landscape were due to changes in prey availability, however we do not expect large fluctuations in prey here given the low seasonality and consistent climatic conditions relative to other parts of the country.
+
+Where fox occurrence probabilities were higher at a fine spatial scale in the Otway Ranges, cats were less detectable in their activity centres and ranged further (Fig. \ref{fig:detcor}). Low detectability is likely to correlate with fewer dominant predator encounters, and has been observed in other predator interaction studies (e.g., Lombardi \emph{et al.} 2017). An increase in cat ranging behaviour (sigma) with fox control supports observations made by Molsher \emph{et al.} (2017) using telemetry, and may reflect a direct avoidance strategy. Animal movement rates are expected to increase in response to unpredictable threats (Riotte-Lambert \& Matthiopoulos 2020). Alternatively, cats may consider foxes predictable and avoid locations they frequent, thus having to range further to obtain the same amount of food. In a similar forest habitat, Buckmaster (2012) observed large `holes' in the home range of each GPS-collared cat; they confirmed that this was not due to an absence of prey and hypothesised it was due to dominant predator avoidance. In contrast, cats in another similar forest habitat without foxes or dingoes have compact home ranges within which intensity of use is reasonably uniformly spread, (Hamer \emph{et al.} 2021), suggesting this to be an optimal strategy for cats. Regardless of the cause, changes in mesopredator detectability and movement rates when dominant predators are suppressed have serious implications for the interpretation of studies that simply compare relative activity, occurrence or spatial overlap indices of predator species (Efford \& Dawson 2012; Broadley \emph{et al.} 2019).
+
+Our findings may explain why pest management that only targets foxes---one of the most prevalent conservation actions in Australia---does not consistently improve native prey persistence (Dexter \& Murray 2009; Robley \emph{et al.} 2014; Wayne \emph{et al.} 2017; Lindenmayer \emph{et al.} 2018; Duncan \emph{et al.} 2020). More evidence is required to understand the circumstances in which lethal fox control increases cat density, particularly the role of baseline fox and prey densities. A more integrated approach to invasive predator management, where foxes and cats are simultaneously or otherwise optimally controlled could substantially improve biodiversity outcomes (Risbey \emph{et al.} 2000; Comer \emph{et al.} 2020). If this is not feasible, changes in invasive mesopredator density and native prey populations should be closely monitored as part of invasive predator control programs, with triggers for ceasing dominant predator control or commencing integrated management if single-species control proves counter-productive for threatened native prey.
+
+This study is among very few which have used a direct measure of density to test mesopredator release. Previous studies have mostly used live capture-rates to infer population density, without accounting for behavioural or detectability changes (e.g., Arjo \emph{et al.} 2007; Karki, Gese, \& Klavetter 2007; Thompson \& Gese 2007; Berger, Gese, \& Berger 2008; Jones, Van Vuren, \& Crooks 2008). Contention about mesopredator release has centred on such methods (Hayward \emph{et al.} 2015), as well as unaccounted species interactions in complex predator guilds (Levi \& Wilmers 2012; Jachowski \emph{et al.} 2020). In contrast, our study tests the mesopredator release theory using a combined behavioural and numerical approach, in a system with a simplified carnivore guild. Further replication of our approach in new landscapes, as well as explicitly accounting for dominant predator density, prey availability and landscape productivity is a priority for improving understanding of mesopredator release.
+
+\newpage
+
+\hypertarget{acknowledgements}{%
+\section*{ACKNOWLEDGEMENTS}\label{acknowledgements}}
+\addcontentsline{toc}{section}{ACKNOWLEDGEMENTS}
+
+We acknowledge and pay respect to the Gunditjmara and Gadabanut Peoples on whose traditional lands this study took place. This experiment was conducted in cooperation with the Glenelg Ark (Department of Environment, Land Water and Planning) and Otway Ark (Parks Victoria) working groups. Surveys were conducted under University of Melbourne Animal Ethics Committee approval 1714119 and Victorian Government Department of Environment, Land Water and Planning Research Permit 10008273. Ethan Le Duc, Michael Murrell, Dylan Thomas, Rhys Weber, Chris Johansson, Lachlan Levings and Liz Beever carried out the Lower Glenelg National Park surveys, with Luke Woodford identifying cats. We are grateful to our field assistants: Shauni Omond, Shayne Neal, Asitha Samarawickrama, Shelley Thompson, Erin Harris, Hannah Killian, Lani Watson, Mark Dorman, Jack Davis,Carl Roffey, Bruce Edley, Larissa Oliveira Gonçalves, Ben Lake, Chantelle Geissler, Aviya Naccarella, Emily Gronow, Harley England, David Pitts, Annie Hobby, Louise Falls, Thomas McKinnon, Jimmy Downie, Marney Hradsky, Stephanie Samson, Robin Sinclair, Asmaa Alhusainan, Kelly Forrester, Tammana Wadawani, Emily McColl-Gausden, Emily Gregg, Hannah Edwards, Adam Beck, Vishnu Memnon, Sandy Lu, Pia Lentini, Nick Golding, Emily McColl-Gausden, Nina Page, Maggie Campbell-Jones, Kyle Quinn and Jack Dickson. This manuscript was improved by comments from William Geary, two PhD examiners and three peer-reviewers. Joanne Potts also provided advice on fitting spatial mark-resight models. Our study was generously supported by the Conservation Ecology Centre, the Victorian Government Department of Environment, Land Water and Planning, Arthur Rylah Institute for Environmental Research, Parks Victoria, Holsworth Wildlife Research Endowment -- Equity Trustees Charitable Foundation and Ecological Society of Australia, the Australian Government's National Environmental Science Program through the Threatened Species Recovery Hub, and ARC Linkage Project LP170101134. M.W.R also received support from an Australian Government Research Training Program Scholarship.
+
+\newpage
+
+\hypertarget{references}{%
+\section*{REFERENCES}\label{references}}
+\addcontentsline{toc}{section}{REFERENCES}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-alston2019reciprocity}{}}%
+Alston, J., Maitland, B., Brito, B., Esmaeili, S., Ford, A., Hays, B., Jesmer, B., Molina, F. \& Goheen, J. (2019) \href{https://doi.org/10.1016/j.biocon.2019.03.021}{Reciprocity in restoration ecology: When might large carnivore reintroduction restore ecosystems?} \emph{Biological Conservation}, \textbf{234}, 82--89.
+
+\leavevmode\vadjust pre{\hypertarget{ref-anderson2001need}{}}%
+Anderson, D.R. (2001) \href{https://doi.org/10.2307/3784156}{The need to get the basics right in wildlife field studies}. \emph{Wildlife Society Bulletin}, 1294--1297.
+
+\leavevmode\vadjust pre{\hypertarget{ref-arjo2007changes}{}}%
+Arjo, W.M., Gese, E.M., Bennett, T.J. \& Kozlowski, A.J. (2007) \href{https://doi.org/10.3398/1527-0904(2007)67\%5B389:CIKFRI\%5D2.0.CO;2}{{Changes in kit fox--coyote--prey relationships in the Great Basin Desert, Utah}}. \emph{Western North American Naturalist}, \textbf{67}, 389--401.
+
+\leavevmode\vadjust pre{\hypertarget{ref-barker2018reliability}{}}%
+Barker, R.J., Schofield, M.R., Link, W.A. \& Sauer, J.R. (2018) \href{https://doi.org/10.1111/biom.12734}{On the reliability of n-mixture models for count data}. \emph{Biometrics}, \textbf{74}, 369--377.
+
+\leavevmode\vadjust pre{\hypertarget{ref-baum2009cascading}{}}%
+Baum, J.K. \& Worm, B. (2009) \href{https://doi.org/10.1111/j.1365-2656.2009.01531.x}{Cascading top-down effects of changing oceanic predator abundances}. \emph{Journal of Animal Ecology}, \textbf{78}, 699--714.
+
+\leavevmode\vadjust pre{\hypertarget{ref-berger2008indirect}{}}%
+Berger, K.M., Gese, E.M. \& Berger, J. (2008) \href{https://doi.org/10.1890/07-0193.1}{Indirect effects and traditional trophic cascades: A test involving wolves, coyotes, and pronghorn}. \emph{Ecology}, \textbf{89}, 818--828.
+
+\leavevmode\vadjust pre{\hypertarget{ref-bode2015eradicating}{}}%
+Bode, M., Baker, C.M. \& Plein, M. (2015) \href{https://doi.org/10.1111/1365-2664.12429}{Eradicating down the food chain: Optimal multispecies eradication schedules for a commonly encountered invaded island ecosystem}. \emph{Journal of Applied Ecology}, \textbf{52}, 571--579.
+
+\leavevmode\vadjust pre{\hypertarget{ref-broadley2019density}{}}%
+Broadley, K., Burton, A.C., Avgar, T. \& Boutin, S. (2019) \href{https://doi.org/10.1002/ece3.5840}{Density-dependent space use affects interpretation of camera trap detection rates}. \emph{Ecology and Evolution}, \textbf{9}, 14031--14041.
+
+\leavevmode\vadjust pre{\hypertarget{ref-buckmaster2012ecology}{}}%
+Buckmaster, A.J. (2012) \emph{\href{http://hdl.handle.net/2123/8123}{Ecology of the Feral Cat (Felis Catus) in the Tall Forests of {Far East Gippsland}}}. PhD thesis, School of Biological Sciences; University of Sydney.
+
+\leavevmode\vadjust pre{\hypertarget{ref-BOM2021}{}}%
+Bureau of Meteorology. (2021) Climate data online, \url{http://www.bom.gov.au/climate/data/}
+
+\leavevmode\vadjust pre{\hypertarget{ref-burnham2004multimodel}{}}%
+Burnham, K.P. \& Anderson, D.R. (2004) \href{https://doi.org/10.1177/0049124104268644}{Multimodel inference: Understanding {AIC} and {BIC} in model selection}. \emph{Sociological Methods \& Research}, \textbf{33}, 261--304.
+
+\leavevmode\vadjust pre{\hypertarget{ref-cairns2018elucidating}{}}%
+Cairns, K.M., Shannon, L.M., Koler-Matznick, J., Ballard, J.W.O. \& Boyko, A.R. (2018) \href{https://doi.org/10.1371/journal.pone.0198754}{Elucidating biogeographical patterns in australian native canids using genome wide SNPs}. \emph{PLoS One}, \textbf{13}, e0198754.
+
+\leavevmode\vadjust pre{\hypertarget{ref-claridge2010trends}{}}%
+Claridge, A.W., Cunningham, R.B., Catling, P.C. \& Reid, A.M. (2010) Trends in the activity levels of forest-dwelling vertebrate fauna against a background of intensive baiting for foxes. \emph{Forest Ecology and Management}, \textbf{260}, 822--832.
+
+\leavevmode\vadjust pre{\hypertarget{ref-comer2020integrating}{}}%
+Comer, S., Clausen, L., Cowen, S., Pinder, J., Thomas, A., Burbidge, A.H., Tiller, C., Algar, D. \& Speldewinde, P. (2020) \href{https://doi.org/10.1071/WR19217}{Integrating feral cat \emph{({Felis catus})} control into landscape-scale introduced predator management to improve conservation prospects for threatened fauna: A case study from the south coast of {Western {A}ustralia}}. \emph{Wildlife Research}, \textbf{47}, 762--778.
+
+\leavevmode\vadjust pre{\hypertarget{ref-crooks1999mesopredator}{}}%
+Crooks, K.R. \& Soulé, M.E. (1999) Mesopredator release and avifaunal extinctions in a fragmented system. \emph{Nature}, \textbf{400}, 563--566.
+
+\leavevmode\vadjust pre{\hypertarget{ref-davey2006exotic}{}}%
+Davey, C., Sinclair, A., Pech, R.P., Arthur, A.D., Krebs, C.J., Newsome, A., Hik, D., Molsher, R. \& Allcock, K. (2006) Do exotic vertebrates structure the biota of {{A}ustralia}? An experimental test in {New South Wales}. \emph{Ecosystems}, \textbf{9}, 992--1008.
+
+\leavevmode\vadjust pre{\hypertarget{ref-delwp2020bioregions}{}}%
+Department of Environment, Land, Water \& Planning. (2020) {Bioregions and EVC Benchmarks}, \url{https://www.environment.vic.gov.au/biodiversity/bioregions-and-evc-benchmarks}
+
+\leavevmode\vadjust pre{\hypertarget{ref-dexter2009impact}{}}%
+Dexter, N. \& Murray, A. (2009) \href{https://doi.org/10.1071/WR08135}{The impact of fox control on the relative abundance of forest mammals in {East Gippsland, Victoria}}. \emph{Wildlife Research}, \textbf{36}, 252--261.
+
+\leavevmode\vadjust pre{\hypertarget{ref-doherty2017impacts}{}}%
+Doherty, T.S., Dickman, C.R., Johnson, C.N., Legge, S.M., Ritchie, E.G. \& Woinarski, J.C.Z. (2017) \href{https://doi.org/10.1111/mam.12080}{Impacts and management of feral cats \emph{({Felis catus})} in {{A}ustralia}}. \emph{Mammal Review}, \textbf{47}, 83--97.
+
+\leavevmode\vadjust pre{\hypertarget{ref-doherty2017stop}{}}%
+Doherty, T.S. \& Ritchie, E.G. (2017) \href{https://doi.org/10.1111/conl.12251}{Stop jumping the gun: A call for evidence-based invasive predator management}. \emph{Conservation Letters}, \textbf{10}, 15--22.
+
+\leavevmode\vadjust pre{\hypertarget{ref-duncan2020eruptive}{}}%
+Duncan, R.P., Dexter, N., Wayne, A. \& Hone, J. (2020) \href{https://doi.org/10.1002/ecy.3175}{Eruptive dynamics are common in managed mammal populations}. \emph{Ecology}, \textbf{101}, e03175.
+
+\leavevmode\vadjust pre{\hypertarget{ref-efford2021secr}{}}%
+Efford, M.G. (2021) {secr: spatially explicit capture-recapture models. R package version 4.4.4}, \url{http://CRAN.R-project.org/package=secr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-efford2012occupancy}{}}%
+Efford, M.G. \& Dawson, D.K. (2012) \href{https://doi.org/10.1890/ES11-00308.1}{Occupancy in continuous habitat}. \emph{Ecosphere}, \textbf{3}, 1--15.
+
+\leavevmode\vadjust pre{\hypertarget{ref-efford2018spatial}{}}%
+Efford, M.G. \& Hunter, C.M. (2018) \href{https://doi.org/10.1111/biom.12766}{Spatial capture--mark--resight estimation of animal population density}. \emph{Biometrics}, \textbf{74}, 411--420.
+
+\leavevmode\vadjust pre{\hypertarget{ref-efford2014compensatory}{}}%
+Efford, M.G. \& Mowat, G. (2014) \href{https://doi.org/10.1890/13-1497.1}{Compensatory heterogeneity in spatially explicit capture--recapture data}. \emph{Ecology}, \textbf{95}, 1341--1348.
+
+\leavevmode\vadjust pre{\hypertarget{ref-feit2019apex}{}}%
+Feit, B., Feit, A. \& Letnic, M. (2019) \href{https://doi.org/10.1007/s10021-019-00360-2}{Apex predators decouple population dynamics between mesopredators and their prey}. \emph{Ecosystems}, \textbf{22}, 1606--1617.
+
+\leavevmode\vadjust pre{\hypertarget{ref-finke2004predator}{}}%
+Finke, D.L. \& Denno, R.F. (2004) \href{https://doi.org/10.1038/nature02554}{Predator diversity dampens trophic cascades}. \emph{Nature}, \textbf{429}, 407--410.
+
+\leavevmode\vadjust pre{\hypertarget{ref-ford2015trophic}{}}%
+Ford, A.T. \& Goheen, J.R. (2015) \href{https://doi.org/10.1016/j.tree.2015.09.012}{Trophic cascades by large carnivores: A case for strong inference and mechanism}. \emph{Trends in Ecology \& Evolution}, \textbf{30}, 725--735.
+
+\leavevmode\vadjust pre{\hypertarget{ref-francis2020evaluating}{}}%
+Francis, L., Robley, A. \& Hradsky, B. (2020) \emph{Evaluating Fox Management Strategies Using a Spatially Explicit Population}. Arthur Rylah Institute for Environmental Research Technical Report Series No. 304. Department of Environment, Land, Water; Planning, Heidelberg, Victoria.
+
+\leavevmode\vadjust pre{\hypertarget{ref-gardner2009hierarchical}{}}%
+Gardner, B., Royle, J.A. \& Wegan, M.T. (2009) \href{https://doi.org/10.1890/07-2112.1}{Hierarchical models for estimating density from DNA mark--recapture studies}. \emph{Ecology}, \textbf{90}, 1106--1115.
+
+\leavevmode\vadjust pre{\hypertarget{ref-glen2005complex}{}}%
+Glen, A.S. \& Dickman, C.R. (2005) \href{https://doi.org/10.1017/S1464793105006718}{Complex interactions among mammalian carnivores in {{A}ustralia}, and their implications for wildlife management}. \emph{Biological Reviews}, \textbf{80}, 387--401.
+
+\leavevmode\vadjust pre{\hypertarget{ref-goldstein1995graphical}{}}%
+Goldstein, H. \& Healy, M.J. (1995) \href{https://doi.org/10.2307/2983411}{The graphical presentation of a collection of means}. \emph{Journal of the Royal Statistical Society: Series A (Statistics in Society)}, \textbf{158}, 175--177.
+
+\leavevmode\vadjust pre{\hypertarget{ref-greenville2014bottom}{}}%
+Greenville, A.C., Wardle, G.M., Tamayo, B. \& Dickman, C.R. (2014) \href{https://doi.org/10.1007/s00442-014-2977-8}{Bottom-up and top-down processes interact to modify intraguild interactions in resource-pulse environments}. \emph{Oecologia}, \textbf{175}, 1349--1358.
+
+\leavevmode\vadjust pre{\hypertarget{ref-guthlin2014possible}{}}%
+Güthlin, D., Storch, I. \& Küchenhoff, H. (2014) \href{https://doi.org/10.1002/wsb.377}{Is it possible to individually identify red foxes from photographs?} \emph{Wildlife Society Bulletin}, \textbf{38}, 205--210.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hamer2021triple}{}}%
+Hamer, R.P., Gardiner, R.Z., Proft, K.M., Johnson, C.N. \& Jones, M.E. (2021) \href{https://doi.org/10.1098/rspb.2020.1194}{A triple threat: High population density, high foraging intensity and flexible habitat preferences explain high impact of feral cats on prey}. \emph{Proceedings of the Royal Society B}, \textbf{288}, 20201194.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hayward2015ecologists}{}}%
+Hayward, M.W., Boitani, L., Burrows, N.D., Funston, P.J., Karanth, K.U., MacKenzie, D.I., Pollock, K.H. \& Yarnell, R.W. (2015) \href{https://doi.org/10.1111/1365-2664.12408}{Ecologists need robust survey designs, sampling and analytical methods}. \emph{Journal of Applied Ecology}, \textbf{52}, 286--290.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hradsky2019foxnet}{}}%
+Hradsky, B.A., Kelly, L.T., Robley, A. \& Wintle, B.A. (2019) \href{https://doi.org/10.1111/1365-2664.13374}{FoxNet: An individual-based model framework to support management of an invasive predator, the red fox}. \emph{Journal of Applied Ecology}, \textbf{56}, 1460--1470.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hradsky2017human}{}}%
+Hradsky, B.A., Robley, A., Alexander, R., Ritchie, E.G., York, A. \& Di Stefano, J. (2017) \href{https://doi.org/10.1038/s41598-017-12464-7}{Human-modified habitats facilitate forest-dwelling populations of an invasive predator, \emph{{V}ulpes vulpes}}. \emph{Scientific Reports}, \textbf{7}, 1--12.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hunter2018not}{}}%
+Hunter, D.O., Lagisz, M., Leo, V., Nakagawa, S. \& Letnic, M. (2018) \href{https://doi.org/10.1111/mam.12115}{Not all predators are equal: A continent-scale analysis of the effects of predator control on {{A}ustralian} mammals}. \emph{Mammal Review}, \textbf{48}, 108--122.
+
+\leavevmode\vadjust pre{\hypertarget{ref-jachowski2020identifying}{}}%
+Jachowski, D.S., Butler, A., Eng, R.Y.Y., Gigliotti, L., Harris, S. \& Williams, A. (2020) \href{https://doi.org/10.1111/mam.12207}{Identifying mesopredator release in multi-predator systems: A review of evidence from {North America}}. \emph{Mammal Review}, \textbf{50}, 367--381.
+
+\leavevmode\vadjust pre{\hypertarget{ref-jackson2015interactions}{}}%
+Jackson, M.C. (2015) \href{https://doi.org/10.1890/15-0171.1}{Interactions among multiple invasive animals}. \emph{Ecology}, \textbf{96}, 2035--2041.
+
+\leavevmode\vadjust pre{\hypertarget{ref-johnson2009evidence}{}}%
+Johnson, C.N. \& VanDerWal, J. (2009) \href{https://doi.org/10.1111/j.1365-2664.2009.01650.x}{Evidence that dingoes limit abundance of a mesopredator in eastern {{A}ustralian} forests}. \emph{Journal of Applied Ecology}, \textbf{46}, 641--646.
+
+\leavevmode\vadjust pre{\hypertarget{ref-jones2008sudden}{}}%
+Jones, K.L., Van Vuren, D.H. \& Crooks, K.R. (2008) \href{https://doi.org/10.1644/07-MAMM-A-034.1}{{Sudden Increase in a Rare Endemic Carnivore: Ecology of the Island Spotted Skunk}}. \emph{Journal of Mammalogy}, \textbf{89}, 75--86.
+
+\leavevmode\vadjust pre{\hypertarget{ref-karki2007effects}{}}%
+Karki, S.M., Gese, E.M. \& Klavetter, M.L. (2007) \href{https://doi.org/10.2193/2006-275}{Effects of coyote population reduction on swift fox demographics in {Southeastern Colorado}}. \emph{The Journal of Wildlife Management}, \textbf{71}, 2707--2718.
+
+\leavevmode\vadjust pre{\hypertarget{ref-le2022genetic}{}}%
+Le Pla, M.N., Birnbaum, E.K., Rees, M.W., Hradsky, B.A., Weeks, A.R., Van Rooyen, A. \& Pascoe, J.H. (2022) \href{https://doi.org/10.1111/aec.13182}{Genetic sampling and an activity index indicate contrasting outcomes of lethal control for an invasive predator}. \emph{Austral Ecology}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-legge2020cat}{}}%
+Legge, S., Taggart, P.L., Dickman, C.R., Read, J.L. \& Woinarski, J.C. (2020) \href{https://doi.org/10.1071/WR20089}{Cat-dependent diseases cost {Australia AU \$6} billion per year through impacts on human health and livestock production}. \emph{Wildlife Research}, \textbf{47}, 731--746.
+
+\leavevmode\vadjust pre{\hypertarget{ref-letnic2011does}{}}%
+Letnic, M., Greenville, A., Denny, E., Dickman, C.R., Tischler, M., Gordon, C. \& Koch, F. (2011) \href{https://doi.org/10.1111/j.1466-8238.2010.00600.x}{Does a top predator suppress the abundance of an invasive mesopredator at a continental scale?} \emph{Global Ecology and Biogeography}, \textbf{20}, 343--353.
+
+\leavevmode\vadjust pre{\hypertarget{ref-levi2012wolves}{}}%
+Levi, T. \& Wilmers, C.C. (2012) \href{https://doi.org/10.1890/11-0165.1}{Wolves--coyotes--foxes: A cascade among carnivores}. \emph{Ecology}, \textbf{93}, 921--929.
+
+\leavevmode\vadjust pre{\hypertarget{ref-linden2017examining}{}}%
+Linden, D.W., Fuller, A.K., Royle, J.A. \& Hare, M.P. (2017) \href{https://doi.org/10.1111/1365-2664.12883}{Examining the occupancy--density relationship for a low-density carnivore}. \emph{Journal of applied ecology}, \textbf{54}, 2043--2052.
+
+\leavevmode\vadjust pre{\hypertarget{ref-lindenmayer2018conservation}{}}%
+Lindenmayer, D.B., Wood, J., MacGregor, C., Foster, C., Scheele, B., Tulloch, A., Barton, P., Banks, S., Robinson, N., Dexter, N., O'Loughlin, L.S. \& Legge, S. (2018) \href{https://doi.org/10.1016/j.biocon.2018.03.007}{Conservation conundrums and the challenges of managing unexplained declines of multiple species}. \emph{Biological Conservation}, \textbf{221}, 279--292.
+
+\leavevmode\vadjust pre{\hypertarget{ref-lombardi2017coyote}{}}%
+Lombardi, J.V., Comer, C.E., Scognamillo, D.G. \& Conway, W.C. (2017) \href{https://doi.org/10.1007/s11252-017-0676-z}{Coyote, fox, and bobcat response to anthropogenic and natural landscape features in a small urban area}. \emph{Urban Ecosystems}, \textbf{20}, 1239--1248.
+
+\leavevmode\vadjust pre{\hypertarget{ref-marlow2015cats}{}}%
+Marlow, N.J., Thomas, N.D., Williams, A.A., Macmahon, B., Lawson, J., Hitchen, Y., Angus, J. \& Berry, O. (2015) \href{https://doi.org/10.1071/ZO14024}{Cats \emph{({Felis catus})} are more abundant and are the dominant predator of woylies \emph{({Bettongia penicillata})} after sustained fox \emph{({Vulpes vulpes})} control}. \emph{{A}ustralian Journal of Zoology}, \textbf{63}, 18--27.
+
+\leavevmode\vadjust pre{\hypertarget{ref-mcleod2014fertility}{}}%
+McLeod, S.R. \& Saunders, G. (2014) \href{https://doi.org/10.1016/j.ecolmodel.2013.10.016}{Fertility control is much less effective than lethal baiting for controlling foxes}. \emph{Ecological Modelling}, \textbf{273}, 1--10.
+
+\leavevmode\vadjust pre{\hypertarget{ref-medina2011global}{}}%
+Medina, F.M., Bonnaud, E., Vidal, E., Tershy, B.R., Zavaleta, E.S., Josh Donlan, C., Keitt, B.S., Le Corre, M., Horwath, S.V. \& Nogales, M. (2011) \href{https://doi.org/10.1111/j.1365-2486.2011.02464.x}{A global review of the impacts of invasive cats on island endangered vertebrates}. \emph{Global Change Biology}, \textbf{17}, 3503--3510.
+
+\leavevmode\vadjust pre{\hypertarget{ref-miller2014finite}{}}%
+Miller, D.L. \& Wood, S.N. (2014) \href{https://doi.org/10.1007/s10651-014-0277-4}{Finite area smoothing with generalized distance splines}. \emph{Environmental and Ecological Statistics}, \textbf{21}, 715--731.
+
+\leavevmode\vadjust pre{\hypertarget{ref-molsher2017mesopredator}{}}%
+Molsher, R., Newsome, A.E., Newsome, T.M. \& Dickman, C.R. (2017) \href{https://doi.org/10.1371/journal.pone.0168460}{Mesopredator management: Effects of red fox control on the abundance, diet and use of space by feral cats}. \emph{PLoS One}, \textbf{12}, e0168460.
+
+\leavevmode\vadjust pre{\hypertarget{ref-moseby2019understanding}{}}%
+Moseby, K.E., Letnic, M., Blumstein, D.T. \& West, R. (2019) \href{https://doi.org/10.1111/aec.12697}{Understanding predator densities for successful co-existence of alien predators and threatened prey}. \emph{Austral Ecology}, \textbf{44}, 409--419.
+
+\leavevmode\vadjust pre{\hypertarget{ref-moseby2020effectiveness}{}}%
+Moseby, K., McGregor, H. \& Read, J. (2020) \href{https://doi.org/10.1071/WR19132}{Effectiveness of the felixer grooming trap for the control of feral cats: A field trial in arid {South {A}ustralia}}. \emph{Wildlife Research}, \textbf{47}, 599--609.
+
+\leavevmode\vadjust pre{\hypertarget{ref-norton2015population}{}}%
+Norton, M.A., Prentice, A., Dingle, J., French, K. \& Claridge, A.W. (2015) \href{https://doi.org/10.1071/AM14026}{Population characteristics and management of the long-nosed potoroo \emph{({Potorous tridactylus})} in high-quality habitat in the {Southern Highlands of New South Wales}}. \emph{Australian Mammalogy}, \textbf{37}, 67--74.
+
+\leavevmode\vadjust pre{\hypertarget{ref-oksanen2000logic}{}}%
+Oksanen, L. \& Oksanen, T. (2000) \href{https://doi.org/10.1086/303354}{The logic and realism of the hypothesis of exploitation ecosystems}. \emph{The American Naturalist}, \textbf{155}, 703--723.
+
+\leavevmode\vadjust pre{\hypertarget{ref-prugh2009rise}{}}%
+Prugh, L.R., Stoner, C.J., Epps, C.W., Bean, W.T., Ripple, W.J., Laliberte, A.S. \& Brashares, J.S. (2009) \href{https://doi.org/10.1525/bio.2009.59.9.9}{The rise of the mesopredator}. \emph{Bioscience}, \textbf{59}, 779--791.
+
+\leavevmode\vadjust pre{\hypertarget{ref-rayner2007spatial}{}}%
+Rayner, M.J., Hauber, M.E., Imber, M.J., Stamp, R.K. \& Clout, M.N. (2007) \href{https://doi.org/10.1073/pnas.0707414105}{Spatial heterogeneity of mesopredator release within an oceanic island system}. \emph{Proceedings of the National Academy of Sciences}, \textbf{104}, 20862--20865.
+
+\leavevmode\vadjust pre{\hypertarget{ref-reddiex2007control}{}}%
+Reddiex, B., Forsyth, D.M., McDonald-Madden, E., Einoder, L.D., Griffioen, P.A., Chick, R.R. \& Robley, A.J. (2007) \href{https://doi.org/10.1071/WR05102}{Control of pest mammals for biodiversity protection in {{A}ustralia}. I. Patterns of control and monitoring}. \emph{Wildlife Research}, \textbf{33}, 691--709.
+
+\leavevmode\vadjust pre{\hypertarget{ref-riley1999index}{}}%
+Riley, S.J., DeGloria, S.D. \& Elliot, R. (1999) Index that quantifies topographic heterogeneity. \emph{Intermountain Journal of Sciences}, \textbf{5}, 23--27.
+
+\leavevmode\vadjust pre{\hypertarget{ref-riotte-lambert2020environmental}{}}%
+Riotte-Lambert, L. \& Matthiopoulos, J. (2020) \href{https://doi.org/10.1016/j.tree.2019.09.009}{Environmental predictability as a cause and consequence of animal movement}. \emph{Trends in Ecology \& Evolution}, \textbf{35}, 163--174.
+
+\leavevmode\vadjust pre{\hypertarget{ref-risbey2000impacts}{}}%
+Risbey, D.A., Calver, M.C., Short, J., Bradley, J.S. \& Wright, I.W. (2000) \href{https://doi.org/10.1071/WR98092}{The impact of cats and foxes on the small vertebrate fauna of {Heirisson Prong, Western {A}ustralia. II. A} field experiment}. \emph{Wildlife Research}, \textbf{27}, 223--235.
+
+\leavevmode\vadjust pre{\hypertarget{ref-ritchie2009predator}{}}%
+Ritchie, E.G. \& Johnson, C.N. (2009) \href{https://doi.org/10.1111/j.1461-0248.2009.01347.x}{Predator interactions, mesopredator release and biodiversity conservation}. \emph{Ecology Letters}, \textbf{12}, 982--998.
+
+\leavevmode\vadjust pre{\hypertarget{ref-robley2014long}{}}%
+Robley, A., Gormley, A.M., Forsyth, D.M. \& Triggs, B. (2014) \href{https://doi.org/10.1016/j.biocon.2014.10.017}{Long-term and large-scale control of the introduced red fox increases native mammal occupancy in {{A}ustralian} forests}. \emph{Biological Conservation}, \textbf{180}, 262--269.
+
+\leavevmode\vadjust pre{\hypertarget{ref-salo2010predator}{}}%
+Salo, P., Banks, P.B., Dickman, C.R. \& Korpimäki, E. (2010) \href{https://doi.org/10.1890/09-1260.1}{Predator manipulation experiments: Impacts on populations of terrestrial vertebrate prey}. \emph{Ecological Monographs}, \textbf{80}, 531--546.
+
+\leavevmode\vadjust pre{\hypertarget{ref-seidlitz2020optimising}{}}%
+Seidlitz, A., Bryant, K.A., Armstrong, N.J., Calver, M. \& Wayne, A.F. (2020) \href{https://doi.org/10.1071/AM20020}{Optimising camera trap height and model increases detection and individual identification rates for a small mammal, the numbat (myrmecobius fasciatus)}. \emph{Australian Mammalogy}, \textbf{43}, 226--234.
+
+\leavevmode\vadjust pre{\hypertarget{ref-sih1980optimal}{}}%
+Sih, A. (1980) \href{https://doi.org/10.1126/science.210.4473.1041}{Optimal behavior: Can foragers balance two conflicting demands?} \emph{Science}, \textbf{210}, 1041--1043.
+
+\leavevmode\vadjust pre{\hypertarget{ref-sogliani2019fox}{}}%
+Sogliani, D. \& Mori, E. (2019) \href{https://doi.org/10.1016/j.mambio.2018.07.003}{{`The fox and the cat'}: Sometimes they do not agree}. \emph{Mammalian Biology}, \textbf{95}, 150--154.
+
+\leavevmode\vadjust pre{\hypertarget{ref-soule1988reconstructed}{}}%
+Soulé, M.E., Bolger, D.T., Alberts, A.C., Wrights, J., Sorice, M. \& Hill, S. (1988) \href{https://doi.org/10.1111/j.1523-1739.1988.tb00337.x}{Reconstructed dynamics of rapid extinctions of chaparral-requiring birds in urban habitat islands}. \emph{Conservation Biology}, \textbf{2}, 75--92.
+
+\leavevmode\vadjust pre{\hypertarget{ref-stobo2020management}{}}%
+Stobo-Wilson, A.M., Brandle, R., Johnson, C.N. \& Jones, M.E. (2020) \href{https://doi.org/10.1071/WR19237}{Management of invasive mesopredators in the {Flinders Ranges, South {A}ustralia}: Effectiveness and implications}. \emph{Wildlife Research}, \textbf{47}, 720--730.
+
+\leavevmode\vadjust pre{\hypertarget{ref-stobo2021sharing}{}}%
+Stobo-Wilson, A.M., Murphy, B.P., Crawford, H.M., Dawson, S.J., Dickman, C.R., Doherty, T.S., Fleming, P.A., Gentle, M.N., Legge, S.M., Newsome, T.M., Palmer, R., Rees, M.W., Ritchie, E.G., Speed, J., Stuart, J.-M., Thompson, E., Turpin, J. \& Woinarski, J.C.Z. (2021a) \href{https://doi.org/10.1016/j.biocon.2021.109284}{Sharing meals: Predation on {{A}ustralian} mammals by the introduced european red fox compounds and complements predation by feral cats}. \emph{Biological Conservation}, \textbf{261}, 109284.
+
+\leavevmode\vadjust pre{\hypertarget{ref-stobo2021reptiles}{}}%
+Stobo-Wilson, A.M., Murphy, B.P., Legge, S.M., Chapple, D.G., Crawford, H.M., Dawson, S.J., Dickman, C.R., Doherty, T.S., Fleming, P.A., Gentle, M. \& others. (2021b) \href{https://doi.org/10.1071/WR20194}{Reptiles as food: Predation of {{A}ustralian} reptiles by introduced red foxes compounds and complements predation by cats}. \emph{Wildlife Research}, \textbf{48}, 470--480.
+
+\leavevmode\vadjust pre{\hypertarget{ref-sun2022cautionary}{}}%
+Sun, C., Burgar, J.M., Fisher, J.T. \& Burton, A.C. (2022) \href{https://doi.org/10.1016/j.gecco.2022.e02268}{A cautionary tale comparing spatial count and partial identity models for estimating densities of threatened populations}. \emph{Global Ecology and Conservation}, e02268.
+
+\leavevmode\vadjust pre{\hypertarget{ref-takimoto2022simple}{}}%
+Takimoto, G. \& Nishijima, S. (2022) \href{\%20https://doi.org/10.1111/oik.09021}{A simple theory for the mesopredator release effect: When does an apex predator protect their shared prey from a mesopredator?} \emph{Oikos}, e09021.
+
+\leavevmode\vadjust pre{\hypertarget{ref-thompson2007food}{}}%
+Thompson, C.M. \& Gese, E.M. (2007) \href{https://doi.org/10.1890/0012-9658(2007)88\%5B334:FWAIPC\%5D2.0.CO;2}{Food webs and intraguild predation: Community interactions of a native mesocarnivore}. \emph{Ecology}, \textbf{88}, 334--346.
+
+\leavevmode\vadjust pre{\hypertarget{ref-towerton2011detecting}{}}%
+Towerton, A.L., Penman, T.D., Kavanagh, R.P. \& Dickman, C.R. (2011) \href{https://doi.org/10.1071/WR10213}{Detecting pest and prey responses to fox control across the landscape using remote cameras}. \emph{Wildlife Research}, \textbf{38}, 208--220.
+
+\leavevmode\vadjust pre{\hypertarget{ref-wayne2017recoveries}{}}%
+Wayne, A.F., Maxwell, M.A., Ward, C.G., Wayne, J.C., Vellios, C.V. \& Wilson, I.J. (2017) \href{https://doi.org/10.1093/jmammal/gyw237}{{Recoveries and cascading declines of native mammals associated with control of an introduced predator}}. \emph{Journal of Mammalogy}, \textbf{98}, 489--501.
+
+\leavevmode\vadjust pre{\hypertarget{ref-wilson2010prey}{}}%
+Wilson, R.R., Blankenship, T.L., Hooten, M.B. \& Shivik, J.A. (2010) \href{https://doi.org/10.1007/s00442-010-1797-8}{Prey-mediated avoidance of an intraguild predator by its intraguild prey}. \emph{Oecologia}, \textbf{164}, 921--929.
+
+\leavevmode\vadjust pre{\hypertarget{ref-woinarski2015ongoing}{}}%
+Woinarski, J.C.Z., Burbidge, A.A. \& Harrison, P.L. (2015) \href{https://doi.org/10.1073/pnas.1417301112}{Ongoing unraveling of a continental fauna: Decline and extinction of {{A}ustralian} mammals since {European} settlement}. \emph{Proceedings of the National Academy of Sciences}, \textbf{112}, 4531--4540.
+
+\leavevmode\vadjust pre{\hypertarget{ref-woinarski2021compounding}{}}%
+Woinarski, J.C.Z., Stobo-Wilson, A.M., Crawford, H.M., Dawson, S.J., Dickman, C.R., Doherty, T.S., Fleming, P.A., Garnett, S.T., Gentle, M.N., Legge, S.M. \& others. (2021) \href{https://doi.org/10.1017/S0959270921000460}{Compounding and complementary carnivores: {A}ustralian bird species eaten by the introduced european red fox \emph{({Vulpes vulpes})} and domestic cat \emph{({Felis catus})}}. \emph{Bird Conservation International}, 1--17.
+
+\leavevmode\vadjust pre{\hypertarget{ref-wood2011fast}{}}%
+Wood, S.N. (2011) \href{\%20https://doi.org/10.1111/j.1467-9868.2010.00749.x}{Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models}. \emph{Journal of the Royal Statistical Society: Series B (Statistical Methodology)}, \textbf{73}, 3--36.
+
+\leavevmode\vadjust pre{\hypertarget{ref-wood2017generalized}{}}%
+Wood, S.N. (2017) \emph{Generalized Additive Models: An Introduction with r}. CRC press.
+
+\leavevmode\vadjust pre{\hypertarget{ref-zavaleta2001viewing}{}}%
+Zavaleta, E.S., Hobbs, R.J. \& Mooney, H.A. (2001) \href{https://doi.org/10.1016/S0169-5347(01)02194-2}{Viewing invasive species removal in a whole-ecosystem context}. \emph{Trends in Ecology \& Evolution}, \textbf{16}, 454--459.
+
+\end{CSLReferences}
+
+\newpage
+\beginsupplement
+\setcounter{page}{1}
+
+\hypertarget{supporting-information}{%
+\section*{SUPPORTING INFORMATION}\label{supporting-information}}
+\addcontentsline{toc}{section}{SUPPORTING INFORMATION}
+
+\hypertarget{density-app-field}{%
+\subsection{Field surveys}\label{density-app-field}}
+
+In the Glenelg region, we deployed camera-traps once at each site. In the Otway region, we redeployed camera-traps annually for three years. For the Otway region, all 2017 camera-sites were resurveyed each year, except for four logistically challenging sites in the southern grid. In 2018, we also added 16 sites in the southern grid, and 36 sites in the northern grid. All 2018 sites were resurveyed in 2019.
+
+At each site, we deployed a single Reconyx (Holmen, Wisconsin) branded camera-trap with passive infrared sensor that detects a thermal differential between the subject and the background temperature. The majority of camera-traps were Reconyx Hyperfire HC600 (97\% in the Glenelg region; 78\% in the Otway Ranges). In the Glenelg region, PC900's were deployed at the remainder of sites (3\%). In the Otway Ranges, PC900, PC800, HC500 and HF2X models were also used (Table \ref{tab:cam-models}). We programmed cameras to the `high sensitivity' setting and to take five consecutive photographs when triggered (no `quiet period'). We attached each camera to a tree, approximately 30 cm above the ground, facing toward a lure 2 - 2.5 m away. The lure comprised an oil-absorbing cloth doused in tuna oil, placed inside a PVC pipe container with a mesh top. We secured each lure to the top of a 1-m wooden stake and attached a handful of small white feathers to the outside of the PVC pipe container. Feathers were not used in the Lower Glenelg National Park survey. We cleared vegetation from the camera's line-of-sight to reduce false triggers and avoid obscuring cat coat markings.
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/density-camop-1} 
+
+}
+
+\caption{Camera-trap operation times in the Otway region, Australia. Each blue horizontal line represents one camera-trap deployment. Grey shading indicates periods of fox control in the impact landscape.}\label{fig:density-camop}
+\end{figure}
+
+\newpage
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{llr}
+\caption{\label{tab:cam-models}Frequency of different Reconyx camera-trap models used in surveys}\\
+\toprule
+Region & Camera model & Frequency\\
+\midrule
+\endfirsthead
+\caption[]{\label{tab:cam-models}Frequency of different Reconyx camera-trap models used in surveys \textit{(continued)}}\\
+\toprule
+Region & Camera model & Frequency\\
+\midrule
+\endhead
+
+\endfoot
+\bottomrule
+\endlastfoot
+Glenelg & HC600 HYPERFIRE & 413\\
+Glenelg & PC900 PROFESSIONAL & 12\\
+Otway & HC600 HYPERFIRE & 405\\
+Otway & HYPERFIRE 2 COVERT & 59\\
+Otway & PC900 PROFESSIONAL & 34\\
+\addlinespace
+Otway & HC500 HYPERFIRE & 9\\
+Otway & PC800 PROFESSIONAL & 6\\*
+\end{longtable}
+\endgroup{}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/camtrap1} 
+
+}
+
+\caption{Example of a typical camera-trap set-up in the Otway region, Australia.}\label{fig:density-cam-photo}
+\end{figure}
+
+\newpage
+
+\hypertarget{density-app-id}{%
+\subsection{Individual cat identification}\label{density-app-id}}
+
+We first labelled every camera-trap image with a species metadata tag using \href{https://www.digikam.org}{DigiKam software}. For cat images, we also added metadata tags for each cat coat type: black, mackerel/spotted tabby, classic tabby, ginger and other (coats with multiple colour blends; Fig. 3). This allowed us to summarise species records and extract cat images using the `camtrapR' R-package (Niedballa, \emph{et al.} (2016). camtrapR: an R package for efficient camera trap data management. \emph{Methods in Ecology and Evolution}, 7(12), 1457-1462).
+
+In the Otway Ranges, we considered all black cats to be of the `unmarked' category in spatial mark-resight models - even the few with white splotches on their underside (as these couldn't always be seen as cats move with their head down). In the Glenelg region, black cats were rarer (not detected at two landscapes) and often more distinctive, and so we could feasibly identify some individuals.
+
+For each of the `marked' coat categories, we identified individual cats based on their unique pelage markings where possible. Our ability to identify individuals substantially increased as the image library for each cat increased. Therefore we made the easiest identifications first to build up these libraries, before making decisions on the less obvious detections. We examined and matched all coat markings seen between two particular detections. Markings on the front legs were the most useful for identification as the patterns do not skew as much with different body positions. Unidentifiable detections were mainly due to only part of a cat appearing in the frame or because photos were blurry (because of cat movement or a foggy camera lens).
+
+In a small number of instances (less than ten), only left or right flanks were ever seen. For these cases, the side with the most repeat detections was labelled as an individual, whereas the side with the least number of detections was considered unidentifiable. Additionally, an extremely small portion of cats in the Otway region (no cats detected in Glenelg had ginger coats). When ginger coats are photographed with an infrared flash, they become overexposed and no markings can be seen (see the image in bottom-right corner in Fig. S3). Therefore, if there were multiple ginger cat detections in a single grid, we treated them in the same way as one-sided flank detections.
+
+For the Glenelg region, one observer identified the feral cats from landscape pairs 1 and 2 (MR) and pair 3 (Luke Woodford). For the 2017 and 2018 Otway datasets (where there were substantially more cat detections and fewer distinct coat patterns), two independent observers identified individual cats and discrepancies between observers were reviewed together until consensus was reached (MR, MLP, BH). If no consensus was reached, the cat was considered unidentifiable. In the 2019 Otway dataset, many of the identified cats were sighted in the previous surveys, making it easier to identify individuals, and only one observer was used (MR). We supplemented our image libraries for each individual cat with images from additional camera-trap surveys conducted within the Otway region grids (just before each of our surveys) using white flash camera-traps (Zoï Banikos, unpublished data).
+
+This process left us with three groups of cats: unmarked, marked (cats which could be identified to the individual-level with complete certainty) and mark status unknown (marked cats which couldn't be identified to the individual-level with complete certainty).
+
+We ignored the few detections of cats which were obviously young enough to be dependent on a parent, as these kittens do not have independent activity centres or movements and were not yet recruited into the adult population.
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/cat_coats} 
+
+}
+
+\caption{Feral cat coat categories from left-right, top-bottom: mackerel/spotted tabby, classic tabby, other, black, ginger and ginger with infrared flash.}\label{fig:density-cat-photo}
+\end{figure}
+
+\newpage
+
+\hypertarget{feral-cat-detection-plots}{%
+\subsection{Feral cat detection plots}\label{feral-cat-detection-plots}}
+
+\hypertarget{glenelg-region-1}{%
+\subsubsection{Glenelg region}\label{glenelg-region-1}}
+
+\hypertarget{replicate-1}{%
+\paragraph{Replicate 1}\label{replicate-1}}
+
+\(~\)
+
+\(~\)
+
+\(~\)
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/density-plot-ch-1-1} 
+
+}
+
+\caption{Feral cat detections in the first replicate grid pair in the Glenelg region, Australia. Camera-traps are indicated by red crosses. Solid fill coloured circles represent identified cats with lines indicating observed movements. Black open circles indicate black cat detections; blue circles indicate unidentifiable tabby cat detections, with circle radius scaling positively with the number of daily detections. Fox control does not occur in Annya (a; non-impact) but does in Cobboboonee (b; impact).}\label{fig:density-plot-ch-1}
+\end{figure}
+
+\newpage
+
+\hypertarget{replicate-2}{%
+\paragraph{Replicate 2}\label{replicate-2}}
+
+\(~\)
+
+\(~\)
+
+\(~\)
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/density-plot-ch-2-1} 
+
+}
+
+\caption{Feral cat detections in the second replicate grid pair in the Glenelg region, Australia. Camera-traps are indicated by red crosses. Solid fill coloured circles represent identified cats with lines indicating observed movements. Black open circles indicate black cat detections; blue circles indicate unidentifiable tabby cat detections, with circle radius scaling positively with the number of daily detections. Fox control does not occur in Hotspur (a; non-impact) but does in Mt Clay (b; impact).}\label{fig:density-plot-ch-2}
+\end{figure}
+
+\newpage
+
+\hypertarget{replicate-3}{%
+\paragraph{Replicate 3}\label{replicate-3}}
+
+\(~\)
+
+\(~\)
+
+\(~\)
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/density-plot-ch-3-1} 
+
+}
+
+\caption{Feral cat detections in the third replicate grid pair in the Glenelg region, Australia. Camera-traps are indicated by red crosses. Solid fill coloured circles represent identified cats with lines indicating observed movements. Fox control does not occur in the north (a; non-impact) but does in the south (b; impact) of Lower Glenelg National Park.}\label{fig:density-plot-ch-3}
+\end{figure}
+
+\newpage
+
+\hypertarget{otway-region-1}{%
+\subsubsection{Otway region}\label{otway-region-1}}
+
+\hypertarget{section}{%
+\paragraph{2017}\label{section}}
+
+\(~\)
+
+\(~\)
+
+\(~\)
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/density-plot-ch-4-1} 
+
+}
+
+\caption{Feral cat detections in the Otway region, Australia, 2017. Solid fill coloured circles represent identified cats with lines indicating observed movements. Black open circles indicate black cat detections; blue circles indicate unidentifiable tabby cat detections, with circle radius scaling positively with the number of daily detections. Fox control did not occur in either of the landscapes during this time.}\label{fig:density-plot-ch-4}
+\end{figure}
+
+\newpage
+
+\hypertarget{section-1}{%
+\paragraph{2018}\label{section-1}}
+
+\(~\)
+
+\(~\)
+
+\(~\)
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/density-plot-ch-5-1} 
+
+}
+
+\caption{Feral cat detections in the Otway region, Australia, 2018. Solid fill coloured circles represent identified cats with lines indicating observed movements. Black open circles indicate black cat detections; blue circles indicate unidentifiable tabby cat detections, with circle radius scaling positively with the number of daily detections. Fox control did not occur in the north landscape (a; non-impact),. Fox control occurred, but lapsed just prior to the survey in the south landscape (b; impact).}\label{fig:density-plot-ch-5}
+\end{figure}
+
+\newpage
+
+\hypertarget{section-2}{%
+\paragraph{2019}\label{section-2}}
+
+\(~\)
+
+\(~\)
+
+\(~\)
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/density-plot-ch-6-1} 
+
+}
+
+\caption{Feral cat detections in the Otway region, Australia, 2019. Solid fill coloured circles represent identified cats with lines indicating observed movements. Black open circles indicate black cat detections; blue circles indicate unidentifiable tabby cat detections, with circle radius scaling positively with the number of daily detections. Fox control did not occur in the north landscape (a; non-impact); foxes were controlled in the south landscape (b; non-impact) during this survey.}\label{fig:density-plot-ch-6}
+\end{figure}
+
+\newpage
+
+\hypertarget{density-app-fox}{%
+\subsection{Fox spatial occurrence}\label{density-app-fox}}
+
+\hypertarget{glenelg-region-2}{%
+\subsubsection{Glenelg region}\label{glenelg-region-2}}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/fox_occ_se_glenelg_600dpi} 
+
+}
+
+\caption{Standard error estimates around red fox occurrence probabilities derived from generalised additive models within each impact (I) and associated non-impact (NI) landscape in the Glenelg region, Australia. White dots represent camera-traps.}\label{fig:density-fox-se-g}
+\end{figure}
+
+\newpage
+
+\hypertarget{otway-region-2}{%
+\subsubsection{Otway Region}\label{otway-region-2}}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/fox_occ_se_otways_600dpi} 
+
+}
+
+\caption{Standard error estimates around red fox occurrence probabilities derived from generalised additive models within each impact (I) and associated non-impact (NI) landscape survey session in the Otway region, Australia. White dots represent camera-traps.}\label{fig:density-fox-se-o}
+\end{figure}
+
+\newpage
+
+\hypertarget{density-app-veg}{%
+\subsection{Vegetation categories}\label{density-app-veg}}
+
+We condensed the main Ecological Vegetation Class groupings (Department of Environment, Land, Water \& Planning 2020) into three categories for each region by merging similar groups. In the Glenelg region, we merged dry forests with lowland forests. In the Otway region, we merged rainforests with wet forests, as well as merged dry forests and heathy woodlands. This resulted in three categories for each region: cleared land, heathy woodlands, and lowland forests (Glenelg region only) or wet forests (Otways region only).
+
+A very small proportion of other Ecological Vegetation Class groupings were present in the habitat masks: riparian scrubs or swampy scrubs and woodlands, coastal scrubs grasslands and woodlands, wetlands, riverine grassy woodlands or forests, plains woodlands or forests, herb-rich woodlands. We removed these groups, and interpolated cell values from the nearest of the three vegetation categories.
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{../figs/density-veg-1} 
+
+}
+
+\caption{Condensed Ecological Vegetation Class groups in each study landscape used as habitat mask covariates in spatial mark-resight models (base models).}\label{fig:density-veg}
+\end{figure}
+
+\newpage
+
+\hypertarget{spatial-mark-resight-models}{%
+\subsection{Spatial mark-resight models}\label{spatial-mark-resight-models}}
+
+\hypertarget{glenelg-region-3}{%
+\subsubsection{Glenelg region}\label{glenelg-region-3}}
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrrrrr}
+\caption{\label{tab:density-aic-g-1}Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region; model set 1.}\\
+\toprule
+Detector function & K & logLik & AIC & AICc & dAICc & AICcwt\\
+\midrule
+exponential & 3 & -1745.99 & 3497.99 & 3498.37 & 0.00 & 1\\
+half-normal & 3 & -1763.02 & 3532.04 & 3532.43 & 34.06 & 0\\
+\bottomrule
+\multicolumn{7}{l}{\rule{0pt}{1em}K - number of parameters}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICc - Akaike's Information Criterion with small-sample adjustment}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}dAICc - difference between AICc of this model and the model with smallest AICc}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICcwt - AICc model weight}\\
+\end{longtable}
+\endgroup{}
+
+\newpage
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrrrrr}
+\caption{\label{tab:density-aic-g-2}Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region; model set 2.}\\
+\toprule
+Model & K & logLik & AIC & AICc & dAICc & AICcwt\\
+\midrule
+D\textasciitilde{}1 g0\textasciitilde{}1 sigma\textasciitilde{}1 & 3 & -1309.93 & 2625.85 & 2626.23 & 0.00 & 0.39\\
+D\textasciitilde{}vegetation g0\textasciitilde{}1 sigma\textasciitilde{}1 & 5 & -1307.68 & 2625.37 & 2626.35 & 0.12 & 0.37\\
+D\textasciitilde{}vegetation g0\textasciitilde{}s(T) sigma\textasciitilde{}1 & 7 & -1306.25 & 2626.50 & 2628.40 & 2.16 & 0.13\\
+D\textasciitilde{}1 g0\textasciitilde{}s(T) sigma\textasciitilde{}1 & 5 & -1308.83 & 2627.66 & 2628.64 & 2.41 & 0.12\\
+\bottomrule
+\multicolumn{7}{l}{\rule{0pt}{1em}K - number of parameters}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICc - Akaike's Information Criterion with small-sample adjustment}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}dAICc - difference between AICc of this model and the model with smallest AICc}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICcwt - AICc model weight}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}s(T) - nonlinear time trend smooth with three knots (g0 only)}\\
+\end{longtable}
+\endgroup{}
+
+\newpage
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrrrrr}
+\caption{\label{tab:density-aic-g-4}Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region; model set 3.}\\
+\toprule
+Model & K & logLik & AIC & AICc & dAICc & AICcwt\\
+\midrule
+D\textasciitilde{}session g0\textasciitilde{}fox\_occ sigma\textasciitilde{}fox\_occ & 10 & -1297.46 & 2614.93 & 2618.86 & 0.00 & 0.62\\
+D\textasciitilde{}session g0\textasciitilde{}1 sigma\textasciitilde{}1 & 8 & -1300.66 & 2617.32 & 2619.80 & 0.95 & 0.38\\
+\bottomrule
+\multicolumn{7}{l}{\rule{0pt}{1em}K - number of parameters}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICc - Akaike's Information Criterion with small-sample adjustment}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}dAICc - difference between AICc of this model and the model with smallest AICc}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICcwt - AICc model weight}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}fox\_occ - fine-scale occurrence probability of foxes derived from generalised additive models}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}session - landscape (n = 6)}\\
+\end{longtable}
+\endgroup{}
+
+\newpage
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrrrrr}
+\caption{\label{tab:density-aic-g-3}Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Glenelg region; model set 4.}\\
+\toprule
+Model & K & logLik & AIC & AICc & dAICc & AICcwt\\
+\midrule
+D\textasciitilde{}fox\_occ g0\textasciitilde{}1 sigma\textasciitilde{}1 & 4 & -1306.67 & 2621.33 & 2621.98 & 0.00 & 0.49\\
+D\textasciitilde{}fox\_occ g0\textasciitilde{}fox\_occ sigma\textasciitilde{}fox\_occ & 6 & -1304.97 & 2621.94 & 2623.34 & 1.36 & 0.25\\
+D\textasciitilde{}s(fox\_occ) g0\textasciitilde{}1 sigma\textasciitilde{}1 & 5 & -1306.61 & 2623.21 & 2624.20 & 2.22 & 0.16\\
+D\textasciitilde{}1 g0\textasciitilde{}1 sigma\textasciitilde{}1 & 3 & -1309.93 & 2625.85 & 2626.23 & 4.26 & 0.06\\
+D\textasciitilde{}s(fox\_occ) g0\textasciitilde{}s(fox\_occ) sigma\textasciitilde{}s(fox\_occ) & 9 & -1303.41 & 2624.81 & 2627.97 & 5.99 & 0.02\\
+\addlinespace
+D\textasciitilde{}1 g0\textasciitilde{}fox\_occ sigma\textasciitilde{}fox\_occ & 5 & -1309.41 & 2628.82 & 2629.80 & 7.82 & 0.01\\
+D\textasciitilde{}1 g0\textasciitilde{}s(fox\_occ) sigma\textasciitilde{}s(fox\_occ) & 7 & -1307.91 & 2629.81 & 2631.71 & 9.73 & 0.00\\
+\bottomrule
+\multicolumn{7}{l}{\rule{0pt}{1em}K - number of parameters}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICc - Akaike's Information Criterion with small-sample adjustment}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}dAICc - difference between AICc of this model and the model with smallest AICc}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICcwt - AICc model weight}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}fox\_occ - fine-scale occurrence probability of foxes derived from generalised additive models}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}s(fox\_occ) - nonlinear smooth of fox\_occ with three knots}\\
+\end{longtable}
+\endgroup{}
+
+\newpage
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrrll}
+\caption{\label{tab:density-landscape-est}Feral cat density per square kilometre as estimated by the AICc top-ranked model in the Glenelg region, Australia.}\\
+\toprule
+Landscape & Estimate & 5\% CI & 95\% CI & Treatment & Replicate\\
+\midrule
+Annya & 0.24 & 0.17 & 0.34 & Non-impact & 1\\
+Cobboboonee & 0.60 & 0.40 & 0.88 & Impact & 1\\
+Hotspur & 0.22 & 0.14 & 0.33 & Non-impact & 2\\
+Mt Clay & 0.24 & 0.18 & 0.31 & Impact & 2\\
+LGNP north & 0.15 & 0.07 & 0.35 & Non-impact & 3\\
+\addlinespace
+LGNP south & 0.56 & 0.34 & 0.90 & Impact & 3\\
+\bottomrule
+\end{longtable}
+\endgroup{}
+
+\newpage
+
+\hypertarget{otway-region-3}{%
+\subsubsection{Otway region}\label{otway-region-3}}
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrrrrr}
+\caption{\label{tab:density-aic-o-1}Akaike's Information Criterion values for detector functions in the Otway region, Australia; model set 1.}\\
+\toprule
+Detector function & K & logLik & AIC & AICc & dAICc & AICcwt\\
+\midrule
+exponential & 3 & -5591.00 & 11188.01 & 11188.17 & 0.00 & 1\\
+half-normal & 3 & -5743.26 & 11492.52 & 11492.69 & 304.52 & 0\\
+\bottomrule
+\multicolumn{7}{l}{\rule{0pt}{1em}K - number of parameters}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICc - Akaike's Information Criterion with small-sample adjustment}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}dAICc - difference between AICc of this model and the model with smallest AICc}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICcwt - AICc model weight}\\
+\end{longtable}
+\endgroup{}
+
+\newpage
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrrrrr}
+\caption{\label{tab:density-aic-o-2}Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Otway region; model set 2.}\\
+\toprule
+Model & K & logLik & AIC & AICc & dAICc & AICcwt\\
+\midrule
+D\textasciitilde{}year g0\textasciitilde{}1 sigma\textasciitilde{}1 & 5 & -3550.63 & 7111.26 & 7111.67 & 0.00 & 0.51\\
+D\textasciitilde{}year g0\textasciitilde{}s(T, k = 3) sigma\textasciitilde{}1 & 7 & -3548.91 & 7111.82 & 7112.59 & 0.92 & 0.32\\
+D\textasciitilde{}year + vegetation g0\textasciitilde{}1 sigma\textasciitilde{}1 & 7 & -3550.04 & 7114.08 & 7114.86 & 3.19 & 0.10\\
+D\textasciitilde{}year + vegetation g0\textasciitilde{}s(T, k = 3) sigma\textasciitilde{}1 & 9 & -3548.32 & 7114.64 & 7115.90 & 4.23 & 0.06\\
+D\textasciitilde{}year g0\textasciitilde{}model sigma\textasciitilde{}1 & 9 & -3550.42 & 7118.84 & 7120.11 & 8.44 & 0.01\\
+\addlinespace
+D\textasciitilde{}year g0\textasciitilde{}s(T, k = 3) + model sigma\textasciitilde{}1 & 11 & -3548.65 & 7119.30 & 7121.18 & 9.51 & 0.00\\
+D\textasciitilde{}year + vegetation g0\textasciitilde{}model sigma\textasciitilde{}1 & 11 & -3549.84 & 7121.69 & 7123.57 & 11.90 & 0.00\\
+\bottomrule
+\multicolumn{7}{l}{\rule{0pt}{1em}K - number of parameters}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICc - Akaike's Information Criterion with small-sample adjustment}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}dAICc - difference between AICc of this model and the model with smallest AICc}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICcwt - AICc model weight}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}s(T, k = 3) - nonlinear time trend (g0 only)}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}model - Reconyx camera-trap model}\\
+\end{longtable}
+\endgroup{}
+
+\newpage
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrrrrr}
+\caption{\label{tab:density-aic-o-4}Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Otway region; model set 3.}\\
+\toprule
+Model & K & logLik & AIC & AICc & dAICc & AICcwt\\
+\midrule
+D\textasciitilde{}session g0\textasciitilde{}fox\_occ sigma\textasciitilde{}fox\_occ & 10 & -3541.77 & 7103.55 & 7105.11 & 0.00 & 0.99\\
+D\textasciitilde{}session g0\textasciitilde{}1 sigma\textasciitilde{}1 & 8 & -3548.37 & 7112.73 & 7113.74 & 8.63 & 0.01\\
+\bottomrule
+\multicolumn{7}{l}{\rule{0pt}{1em}K - number of parameters}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICc - Akaike's Information Criterion with small-sample adjustment}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}dAICc - difference between AICc of this model and the model with smallest AICc}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICcwt - AICc model weight}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}fox\_occ - fine-scale occurrence probability of foxes derived from generalised additive models}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}session - landscape by year (n = 6)}\\
+\end{longtable}
+\endgroup{}
+
+\newpage
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrrrrr}
+\caption{\label{tab:density-aic-o-3}Akaike's Information Criterion values adjusted for small sample size for feral cat density models in the Otway region; model set 4.}\\
+\toprule
+Model & K & logLik & AIC & AICc & dAICc & AICcwt\\
+\midrule
+D\textasciitilde{}year + fox\_occ g0\textasciitilde{}fox\_occ sigma\textasciitilde{}fox\_occ & 8 & -3541.80 & 7099.59 & 7100.60 & 0.00 & 0.33\\
+D\textasciitilde{}year + s(fox\_occ) g0\textasciitilde{}s(fox\_occ) sigma\textasciitilde{}s(fox\_occ) & 11 & -3538.59 & 7099.19 & 7101.07 & 0.47 & 0.26\\
+D\textasciitilde{}year g0\textasciitilde{}s(fox\_occ) sigma\textasciitilde{}s(fox\_occ) & 9 & -3541.07 & 7100.13 & 7101.40 & 0.80 & 0.22\\
+D\textasciitilde{}year g0\textasciitilde{}fox\_occ sigma\textasciitilde{}fox\_occ & 7 & -3543.44 & 7100.87 & 7101.65 & 1.05 & 0.19\\
+D\textasciitilde{}year + fox\_occ g0\textasciitilde{}1 sigma\textasciitilde{}1 & 6 & -3548.26 & 7108.51 & 7109.09 & 8.49 & 0.00\\
+\addlinespace
+D\textasciitilde{}year + s(fox\_occ) g0\textasciitilde{}1 sigma\textasciitilde{}1 & 7 & -3547.47 & 7108.94 & 7109.72 & 9.12 & 0.00\\
+D\textasciitilde{}year g0\textasciitilde{}1 sigma\textasciitilde{}1 & 5 & -3550.63 & 7111.26 & 7111.67 & 11.07 & 0.00\\
+\bottomrule
+\multicolumn{7}{l}{\rule{0pt}{1em}K - number of parameters}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICc - Akaike's Information Criterion with small-sample adjustment}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}dAICc - difference between AICc of this model and the model with smallest AICc}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}AICcwt - AICc model weight}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}fox\_occ - fine-scale occurrence probability of foxes derived from generalised additive models}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}s(fox\_occ) - nonlinear smooth of fox\_occ with three knots}\\
+\end{longtable}
+\endgroup{}
+
+\newpage
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrrll}
+\caption{\label{tab:density-aic-o-5}Feral cat density per square kilometre as estimated by the AICc top-ranked model in the Otway region, Australia.}\\
+\toprule
+Landscape & Estimate & 5\% CI & 95\% CI & Treatment & Year\\
+\midrule
+north 2017 & 1.00 & 0.74 & 1.35 & Non-impact & 2017\\
+south 2017 & 0.74 & 0.52 & 1.05 & Impact & 2017\\
+north 2018 & 0.81 & 0.64 & 1.02 & Non-impact & 2018\\
+south 2018 & 0.82 & 0.63 & 1.06 & Impact & 2018\\
+north 2019 & 0.73 & 0.55 & 0.95 & Non-impact & 2019\\
+\addlinespace
+south 2019 & 0.98 & 0.76 & 1.27 & Impact & 2019\\
+\bottomrule
+\end{longtable}
+\endgroup{}
+
+
+\end{document}

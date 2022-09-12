@@ -267,13 +267,13 @@ glenelg_traps_df_lgnp$st_no <- as.integer(gsub('LGNP', "", glenelg_traps_df_lgnp
 glenelg_traps_df_lgnpn  <- filter(glenelg_traps_df_lgnp, st_no >= 65)
 glenelg_traps_df_lgnps  <- filter(glenelg_traps_df_lgnp, st_no < 65)
 
-# add values into capthists - fox
-covariates(traps(mrch_a)) <- glenelg_traps_df_a[,5:6]
-covariates(traps(mrch_c)) <- glenelg_traps_df_c[,5:6]
-covariates(traps(mrch_h)) <- glenelg_traps_df_h[,5:6]
-covariates(traps(mrch_mc)) <- glenelg_traps_df_mc[,5:6]
-covariates(traps(ch_lgnpn)) <- glenelg_traps_df_lgnpn[,5:6]
-covariates(traps(ch_lgnps)) <- glenelg_traps_df_lgnps[,5:6]
+# add values into capthists - fox + cam-trap model (already in there - but don't overwrite)
+covariates(traps(mrch_a)) <- c(glenelg_traps_df_a[,5:6], covariates(traps(mrch_a)))
+covariates(traps(mrch_c)) <- c(glenelg_traps_df_c[,5:6], covariates(traps(mrch_c)))
+covariates(traps(mrch_h)) <- c(glenelg_traps_df_h[,5:6], covariates(traps(mrch_h)))
+covariates(traps(mrch_mc)) <- c(glenelg_traps_df_mc[,5:6], covariates(traps(mrch_mc)))
+covariates(traps(ch_lgnpn)) <- c(glenelg_traps_df_lgnpn[,5:6])
+covariates(traps(ch_lgnps)) <- c(glenelg_traps_df_lgnps[,5:6])
 
 
 # OTWAY PREDICTIONS -----------------------------------------------------
@@ -360,12 +360,12 @@ otways_traps_df_s_18 <- otways_traps_df[which(grepl("^mrch_s_18", otways_traps_d
 otways_traps_df_s_19 <- otways_traps_df[which(grepl("^mrch_s_19", otways_traps_df$station2)),]
 
 # add values into capthists 
-covariates(traps(mrch_n_17)) <- otways_traps_df_n_17[,8:9]
-covariates(traps(mrch_n_18)) <- otways_traps_df_n_18[,8:9]
-covariates(traps(mrch_n_19)) <- otways_traps_df_n_19[,8:9]
-covariates(traps(mrch_s_17)) <- otways_traps_df_s_17[,8:9]
-covariates(traps(mrch_s_18)) <- otways_traps_df_s_18[,8:9]
-covariates(traps(mrch_s_19)) <- otways_traps_df_s_19[,8:9]
+covariates(traps(mrch_n_17)) <- c(otways_traps_df_n_17[,8:9], covariates(traps(mrch_n_17)))
+covariates(traps(mrch_n_18)) <- c(otways_traps_df_n_18[,8:9], covariates(traps(mrch_n_18)))
+covariates(traps(mrch_n_19)) <- c(otways_traps_df_n_19[,8:9], covariates(traps(mrch_n_19)))
+covariates(traps(mrch_s_17)) <- c(otways_traps_df_s_17[,8:9], covariates(traps(mrch_s_17)))
+covariates(traps(mrch_s_18)) <- c(otways_traps_df_s_18[,8:9], covariates(traps(mrch_s_18)))
+covariates(traps(mrch_s_19)) <- c(otways_traps_df_s_19[,8:9], covariates(traps(mrch_s_19)))
 
 
 

@@ -20,7 +20,7 @@ theme_update(panel.grid = element_blank())
 
 #  EFFECT SIZES -----------------------------------------------------
 
-# extract dataframe and change from log to response scale (95% CI)
+# extract dataframe and change from log to response scale (95% CI) - but actually plot on the log ratio on second thought!
 rr_g <- coef(glenelg_fits$fit_sess2, alpha = 0.05)[c(2,4,6),] %>%
   mutate(beta.resp = exp(beta),
          lcl.resp = exp(lcl),
@@ -51,26 +51,38 @@ rr_o <- rbind(rr_o_95, rr_o_83)
 
 
 # plot - glenelg
-plot_g_difference <- ggplot(rr_g, aes(y = beta.resp, x = pair)) + 
-  geom_pointrange(aes(ymin = lcl.resp, ymax = ucl.resp), size = 1, col = "black") +  
-  scale_y_continuous(limits = c(0,10), breaks = seq(0, 10, by = 1)) +
-  geom_hline(yintercept = 1, colour = "grey", linetype = "dashed") + 
-  labs(title = "", y = "Response ratio", x = "") +
+plot_g_difference <- ggplot(rr_g, aes(y = beta, x = pair)) + 
+  geom_pointrange(aes(ymin = lcl, ymax = ucl), size = 1, col = "black") +  
+  scale_y_continuous(limits = c(-0.5,2.5), breaks = seq(-0.5,2.5, by = 0.5)) +
+  geom_hline(yintercept = 0, colour = "grey", linetype = "dashed") + 
+  labs(title = "", y = "Estimated difference (log scale)", x = "") +
   theme(plot.title = element_text(size=11),           
         axis.title = element_text(size = 10))
 plot_g_difference
 
+
 # plot - otways
-plot_o_difference <- ggplot(rr_o, aes(y = beta.resp, x = year, group = CI)) + 
-  geom_pointrange(aes(ymin = lcl.resp, ymax = ucl.resp, col = CI), size = 1) +  
-  geom_hline(yintercept = 1, colour = "grey", linetype = "dashed") + 
+#plot_o_difference <- ggplot(rr_o, aes(y = beta, x = year, group = CI)) + 
+#  scale_y_continuous(limits = c(-0.8, 0.8), breaks = seq(-0.8, 0.8, by = 0.2)) +
+#  geom_pointrange(aes(ymin = lcl, ymax = ucl, col = CI), size = 1) +  
+#  #geom_hline(yintercept = 0, colour = "grey", linetype = "dashed") + 
+#  scale_color_manual(values=c('black','darkgrey')) +
+#  labs(title = "", y = "Log response ratio", x = "") +
+#  theme(plot.title = element_text(size=11),           
+#        axis.title = element_text(size = 10),
+#        legend.position = "bottom")
+
+# remove 95% CI's on second thoughts to avoid confusing people
+rr_o <- filter(rr_o, CI == "83%")
+
+plot_o_difference <- ggplot(rr_o, aes(y = beta, x = year)) + 
+  scale_y_continuous(limits = c(-0.8, 0.8), breaks = seq(-0.8, 0.8, by = 0.2)) +
+  geom_pointrange(aes(ymin = lcl, ymax = ucl, col = CI), size = 1) +  
   scale_color_manual(values=c('black','darkgrey')) +
-  labs(title = "", y = "Response ratio", x = "") +
+  labs(title = "", y = "Estimated difference (log scale)", x = "") +
   theme(plot.title = element_text(size=11),           
         axis.title = element_text(size = 10),
-        legend.position = "bottom")
-plot_o_difference
-
+        legend.position = "none")
 
 
 # DENSITY ESTIMATES -------------------------------------------------------
@@ -211,7 +223,7 @@ plot_cor <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
                      breaks = c("Otway", "Glenelg"),
                      values = c("Glenelg" = "#482E1B", "Otway" = "#384566"),
                      guide = "legend") +
-  labs(title = "", x = "log(fox occurrence)", y = bquote("Cats km"^-2)) +
+  labs(title = "", x = "log(fox occurrence probability)", y = bquote("Cats km"^-2)) +
   theme(axis.title = element_text(size = 12),       
         axis.title.y = element_text(angle = 0, vjust = 0.5),
         legend.title = element_text(size = 10),
@@ -252,7 +264,7 @@ plot_g0_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
   geom_ribbon(data = newdf_nl, aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.2) +
   geom_line(data = newdf_nl, size = 1.2, col = "#384566", linetype = 2)+
   ylim(0, 0.32) + 
-  labs(title = "", x = "log(fox occurrence)", y = expression(paste(italic("g")["0"]))) +
+  labs(title = "", x = "log(fox occurrence probability)", y = expression(paste(italic("g")["0"]))) +
   theme(plot.title = element_text(size=11),           axis.title = element_text(size = 10))
 
 ## sigma 
@@ -286,7 +298,7 @@ plot_sigma_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
   geom_ribbon(data = newdf_nl, aes(ymin = lower_bound, ymax = upper_bound), fill = "#384566", alpha = 0.2) +
   geom_line(data = newdf_nl, size = 1.2, col = "#384566", linetype = 2)+
   ylim(100, 580) + 
-  labs(title = "", x = "log(fox occurrence)", y = "sigma") +
+  labs(title = "", x = "log(fox occurrence probability)", y = "sigma") +
   theme(plot.title = element_text(size=11),           axis.title = element_text(size = 10))
 
 
@@ -295,25 +307,25 @@ plot_sigma_fox <- ggplot(NULL, aes(x = pr_occ, y = predicted_values)) +
 
 # 1) Correlation
 # 1a) Density (both)
-png("manuscript/figs/foxD_600dpi.png", width = 6.5, height = 4, res = 600, units = "in") 
+png("figs/foxD_600dpi.png", width = 6, height = 4, res = 600, units = "in") 
 plot_cor + 
   theme(plot.margin = margin(20, 30, 30, 30))
 dev.off() 
 
 # 1b (Detectability (otways only)
-png("manuscript/figs/foxDet_otways_600dpi.png", width = 8.3, height = 5, res = 600, units = "in")
+png("figs/foxDet_otways_600dpi.png", width = 8.3, height = 5, res = 600, units = "in")
 plot_g0_fox + plot_sigma_fox + plot_annotation(tag_levels = "a") + 
   theme(plot.margin = margin(40, 0, 40, 0))
 dev.off() 
 
 # 2) glenelg experimental 
-png("manuscript/figs/glenelg_estimates_600dpi.png", width = 8.3, height = 4.5, res = 600, units = "in")
+png("figs/glenelg_estimates_600dpi.png", width = 8.3, height = 4.5, res = 600, units = "in")
 plot_g_response + plot_g_difference + plot_annotation(tag_levels = "a") + 
   theme(plot.margin = margin(0, 0, 0, 0))
 dev.off() 
 
 # 3) otways experimental
-png("manuscript/figs/otways_estimates_600dpi.png", width = 8.3, height = 4.5, res = 600, units = "in")
+png("figs/otways_estimates_600dpi.png", width = 8.3, height = 4.5, res = 600, units = "in")
 plot_o_response + plot_o_difference + plot_annotation(tag_levels = "a") + 
   theme(plot.margin = margin(0, 0, 0, 0))
 dev.off() 

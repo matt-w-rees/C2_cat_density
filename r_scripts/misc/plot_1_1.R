@@ -130,14 +130,28 @@ estimates_df$baiting <- c("U", "B", "U", "B", "U", "B", "U", "U", "U", "U", "B",
 # PLOT --------------------------------------------------------------------
 
 plot_cat_fox <- ggplot(estimates_df, aes(y = estimate, x = fox_occ_pred,  colour = grid, group = Region)) + 
-  geom_pointrange(aes(ymin = lcl, ymax = ucl)) + 
-  geom_pointrange(aes(xmin = fox_occ_lcl, xmax = fox_occ_ucl)) + 
-  geom_point(size = 4) +
+ # geom_pointrange(aes(ymin = lcl, ymax = ucl)) + 
+#  geom_pointrange(aes(xmin = fox_occ_lcl, xmax = fox_occ_ucl)) + 
   geom_smooth(method = "lm", color = "black") + 
-  geom_text(aes(label=baiting),hjust=1.5, vjust=1.5) +
+  geom_point(size = 4, aes(color = Region)) +
+#  geom_text(aes(label=baiting),hjust=1.5, vjust=1.5) +
+  scale_fill_manual(name = "Region",
+                    breaks = c("Otway", "Glenelg"),
+                    values = c("Glenelg" = "#482E1B", "Otway" = "#384566"),
+                    guide = "legend") +
+  scale_color_manual(name = "Region",
+                     breaks = c("Otway", "Glenelg"),
+                     values = c("Glenelg" = "#482E1B", "Otway" = "#384566"),
+                     guide = "legend") +
   labs(title = "", x = "log(fox occurrence)", y = bquote("Cats km"^-2)) +
   theme(plot.title = element_text(size=11),           
         axis.title = element_text(size = 10),
         legend.title = element_blank(),
-        legend.position = "bottom")
+        legend.position = "right")
 plot_cat_fox
+
+
+# save
+png("figs/1-1-landscape.png", width = 8, height = 4.5, res = 600, units = "in")
+plot_cat_fox
+dev.off() 

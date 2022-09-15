@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.12)  12 SEP 2022 15:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.12)  15 SEP 2022 11:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -795,321 +795,321 @@ l.398 \newpage
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.715 \newpage
+l.721 \newpage
                [1]
-<../figs/density-camop-1.pdf, id=714, 469.755pt x 325.215pt>
+<../figs/density-camop-1.pdf, id=721, 469.755pt x 325.215pt>
 File: ../figs/density-camop-1.pdf Graphic file (type pdf)
 <use ../figs/density-camop-1.pdf>
-Package pdftex.def Info: ../figs/density-camop-1.pdf  used on input line 719.
+Package pdftex.def Info: ../figs/density-camop-1.pdf  used on input line 725.
 (pdftex.def)             Requested size: 374.40143pt x 259.19972pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.723 \caption
+l.729 \caption
               {Camera-trap operation times in the Otway region, Australia. E...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.723 ... of fox control in the impact landscape.}
+l.729 ... of fox control in the impact landscape.}
                                                   \label{fig:density-camop}
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.723 ... of fox control in the impact landscape.}
+l.729 ... of fox control in the impact landscape.}
                                                   \label{fig:density-camop}
 pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.726 \newpage
+l.732 \newpage
                [2 <../figs/density-camop-1.pdf>]
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.730 \begin{longtable}[t]{llr}
+l.736 \begin{longtable}[t]{llr}
                                
 pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.756 \newpage
+l.762 \newpage
                [3]
-<../figs/camtrap1.jpg, id=730, 1027.84pt x 770.88pt>
+<../figs/camtrap1.jpg, id=737, 1027.84pt x 770.88pt>
 File: ../figs/camtrap1.jpg Graphic file (type jpg)
 <use ../figs/camtrap1.jpg>
-Package pdftex.def Info: ../figs/camtrap1.jpg  used on input line 760.
+Package pdftex.def Info: ../figs/camtrap1.jpg  used on input line 766.
 (pdftex.def)             Requested size: 374.40143pt x 280.79837pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.764 \caption
+l.770 \caption
               {Example of a typical camera-trap set-up in the Otway region, ...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.764 ...p set-up in the Otway region, Australia.}
+l.770 ...p set-up in the Otway region, Australia.}
                                                   \label{fig:density-cam-photo}
 pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.767 \newpage
+l.773 \newpage
                [4 <../figs/camtrap1.jpg>]
 pdfTeX warning (ext4): destination with the same identifier (name{page.5}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.781 
+l.787 
        [5]
 pdfTeX warning (ext4): destination with the same identifier (name{page.6}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.786 \newpage
+l.792 \newpage
                [6]
-<../figs/cat_coats.jpg, id=743, 3854.4pt x 3252.15pt>
+<../figs/cat_coats.jpg, id=750, 3854.4pt x 3252.15pt>
 File: ../figs/cat_coats.jpg Graphic file (type jpg)
 <use ../figs/cat_coats.jpg>
-Package pdftex.def Info: ../figs/cat_coats.jpg  used on input line 790.
+Package pdftex.def Info: ../figs/cat_coats.jpg  used on input line 796.
 (pdftex.def)             Requested size: 374.40143pt x 315.85516pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.794 \caption
+l.800 \caption
               {Feral cat coat categories from left-right, top-bottom: macker...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.794 ..., ginger and ginger with infrared flash.}
+l.800 ..., ginger and ginger with infrared flash.}
                                                   \label{fig:density-cat-photo}
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.794 ..., ginger and ginger with infrared flash.}
+l.800 ..., ginger and ginger with infrared flash.}
                                                   \label{fig:density-cat-photo}
 pdfTeX warning (ext4): destination with the same identifier (name{page.7}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.797 \newpage
+l.803 \newpage
                [7 <../figs/cat_coats.jpg>]
-<../figs/density-plot-ch-1-1.pdf, id=747, 469.755pt x 325.215pt>
+<../figs/density-plot-ch-1-1.pdf, id=754, 469.755pt x 325.215pt>
 File: ../figs/density-plot-ch-1-1.pdf Graphic file (type pdf)
 <use ../figs/density-plot-ch-1-1.pdf>
-Package pdftex.def Info: ../figs/density-plot-ch-1-1.pdf  used on input line 816.
+Package pdftex.def Info: ../figs/density-plot-ch-1-1.pdf  used on input line 822.
 (pdftex.def)             Requested size: 374.40143pt x 259.19972pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.820 \caption
+l.826 \caption
               {Feral cat detections in the first replicate grid pair in the ...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.820 ...ct) but does in Cobboboonee (b; impact).}
+l.826 ...ct) but does in Cobboboonee (b; impact).}
                                                   \label{fig:density-plot-ch-1}
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.820 ...ct) but does in Cobboboonee (b; impact).}
+l.826 ...ct) but does in Cobboboonee (b; impact).}
                                                   \label{fig:density-plot-ch-1}
 pdfTeX warning (ext4): destination with the same identifier (name{page.8}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.823 \newpage
+l.829 \newpage
                [8 <../figs/density-plot-ch-1-1.pdf>]
-<../figs/density-plot-ch-2-1.pdf, id=760, 469.755pt x 325.215pt>
+<../figs/density-plot-ch-2-1.pdf, id=767, 469.755pt x 325.215pt>
 File: ../figs/density-plot-ch-2-1.pdf Graphic file (type pdf)
 <use ../figs/density-plot-ch-2-1.pdf>
-Package pdftex.def Info: ../figs/density-plot-ch-2-1.pdf  used on input line 836.
+Package pdftex.def Info: ../figs/density-plot-ch-2-1.pdf  used on input line 842.
 (pdftex.def)             Requested size: 374.40143pt x 259.19972pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.840 \caption
+l.846 \caption
               {Feral cat detections in the second replicate grid pair in the...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.840 ...impact) but does in Mt Clay (b; impact).}
+l.846 ...impact) but does in Mt Clay (b; impact).}
                                                   \label{fig:density-plot-ch-2}
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.840 ...impact) but does in Mt Clay (b; impact).}
+l.846 ...impact) but does in Mt Clay (b; impact).}
                                                   \label{fig:density-plot-ch-2}
 pdfTeX warning (ext4): destination with the same identifier (name{page.9}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.843 \newpage
+l.849 \newpage
                [9 <../figs/density-plot-ch-2-1.pdf>]
-<../figs/density-plot-ch-3-1.pdf, id=771, 469.755pt x 325.215pt>
+<../figs/density-plot-ch-3-1.pdf, id=778, 469.755pt x 325.215pt>
 File: ../figs/density-plot-ch-3-1.pdf Graphic file (type pdf)
 <use ../figs/density-plot-ch-3-1.pdf>
-Package pdftex.def Info: ../figs/density-plot-ch-3-1.pdf  used on input line 856.
+Package pdftex.def Info: ../figs/density-plot-ch-3-1.pdf  used on input line 862.
 (pdftex.def)             Requested size: 374.40143pt x 259.19972pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.860 \caption
+l.866 \caption
               {Feral cat detections in the third replicate grid pair in the ...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.860 ... impact) of Lower Glenelg National Park.}
+l.866 ... impact) of Lower Glenelg National Park.}
                                                   \label{fig:density-plot-ch-3}
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.860 ... impact) of Lower Glenelg National Park.}
+l.866 ... impact) of Lower Glenelg National Park.}
                                                   \label{fig:density-plot-ch-3}
 pdfTeX warning (ext4): destination with the same identifier (name{page.10}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.863 \newpage
+l.869 \newpage
                [10 <../figs/density-plot-ch-3-1.pdf>]
-<../figs/density-plot-ch-4-1.pdf, id=783, 469.755pt x 325.215pt>
+<../figs/density-plot-ch-4-1.pdf, id=790, 469.755pt x 325.215pt>
 File: ../figs/density-plot-ch-4-1.pdf Graphic file (type pdf)
 <use ../figs/density-plot-ch-4-1.pdf>
-Package pdftex.def Info: ../figs/density-plot-ch-4-1.pdf  used on input line 879.
+Package pdftex.def Info: ../figs/density-plot-ch-4-1.pdf  used on input line 885.
 (pdftex.def)             Requested size: 374.40143pt x 259.19972pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.11}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.886 \newpage
+l.892 \newpage
                [11
 pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.886 \newpage
+l.892 \newpage
                <../figs/density-plot-ch-4-1.pdf>]
-<../figs/density-plot-ch-5-1.pdf, id=796, 469.755pt x 325.215pt>
+<../figs/density-plot-ch-5-1.pdf, id=803, 469.755pt x 325.215pt>
 File: ../figs/density-plot-ch-5-1.pdf Graphic file (type pdf)
 <use ../figs/density-plot-ch-5-1.pdf>
-Package pdftex.def Info: ../figs/density-plot-ch-5-1.pdf  used on input line 899.
+Package pdftex.def Info: ../figs/density-plot-ch-5-1.pdf  used on input line 905.
 (pdftex.def)             Requested size: 374.40143pt x 259.19972pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.12}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.906 \newpage
+l.912 \newpage
                [12
 pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.906 \newpage
+l.912 \newpage
                <../figs/density-plot-ch-5-1.pdf>]
-<../figs/density-plot-ch-6-1.pdf, id=808, 469.755pt x 325.215pt>
+<../figs/density-plot-ch-6-1.pdf, id=815, 469.755pt x 325.215pt>
 File: ../figs/density-plot-ch-6-1.pdf Graphic file (type pdf)
 <use ../figs/density-plot-ch-6-1.pdf>
-Package pdftex.def Info: ../figs/density-plot-ch-6-1.pdf  used on input line 919.
+Package pdftex.def Info: ../figs/density-plot-ch-6-1.pdf  used on input line 925.
 (pdftex.def)             Requested size: 374.40143pt x 259.19972pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.13}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.926 \newpage
+l.932 \newpage
                [13
 pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.926 \newpage
+l.932 \newpage
                <../figs/density-plot-ch-6-1.pdf>]
-<../figs/fox_occ_se_glenelg_600dpi.png, id=820, 5119.125pt x 3011.25pt>
+<../figs/fox_occ_se_glenelg_600dpi.png, id=827, 5119.125pt x 3011.25pt>
 File: ../figs/fox_occ_se_glenelg_600dpi.png Graphic file (type png)
 <use ../figs/fox_occ_se_glenelg_600dpi.png>
-Package pdftex.def Info: ../figs/fox_occ_se_glenelg_600dpi.png  used on input line 936.
+Package pdftex.def Info: ../figs/fox_occ_se_glenelg_600dpi.png  used on input line 942.
 (pdftex.def)             Requested size: 374.40143pt x 220.22836pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.14}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.943 \newpage
+l.949 \newpage
                [14
 pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.943 \newpage
+l.949 \newpage
                <../figs/fox_occ_se_glenelg_600dpi.png>]
-<../figs/fox_occ_se_otways_600dpi.png, id=828, 5119.125pt x 2559.5625pt>
+<../figs/fox_occ_se_otways_600dpi.png, id=835, 5119.125pt x 2559.5625pt>
 File: ../figs/fox_occ_se_otways_600dpi.png Graphic file (type png)
 <use ../figs/fox_occ_se_otways_600dpi.png>
-Package pdftex.def Info: ../figs/fox_occ_se_otways_600dpi.png  used on input line 950.
+Package pdftex.def Info: ../figs/fox_occ_se_otways_600dpi.png  used on input line 956.
 (pdftex.def)             Requested size: 374.40143pt x 187.1941pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.15}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.957 \newpage
+l.963 \newpage
                [15
 pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.957 \newpage
+l.963 \newpage
                <../figs/fox_occ_se_otways_600dpi.png>]
 pdfTeX warning (ext4): destination with the same identifier (name{page.16}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.966 \newpage
+l.972 \newpage
                [16]
-<../figs/density-veg-1.pdf, id=840, 469.755pt x 325.215pt>
+<../figs/density-veg-1.pdf, id=847, 469.755pt x 325.215pt>
 File: ../figs/density-veg-1.pdf Graphic file (type pdf)
 <use ../figs/density-veg-1.pdf>
-Package pdftex.def Info: ../figs/density-veg-1.pdf  used on input line 970.
+Package pdftex.def Info: ../figs/density-veg-1.pdf  used on input line 976.
 (pdftex.def)             Requested size: 374.40143pt x 259.19972pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.17}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.977 \newpage
+l.983 \newpage
                [17
 pdfTeX warning (ext4): destination with the same identifier (name{figure.12}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.977 \newpage
+l.983 \newpage
                <../figs/density-veg-1.pdf>]
 pdfTeX warning (ext4): destination with the same identifier (name{page.18}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1002 \newpage
+l.1008 \newpage
                 [18]
 pdfTeX warning (ext4): destination with the same identifier (name{page.19}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1024 \newpage
+l.1030 \newpage
                 [19]
 pdfTeX warning (ext4): destination with the same identifier (name{page.20}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1045 \newpage
+l.1051 \newpage
                 [20]
 pdfTeX warning (ext4): destination with the same identifier (name{page.21}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1072 \newpage
+l.1078 \newpage
                 [21]
 pdfTeX warning (ext4): destination with the same identifier (name{page.22}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1092 \newpage
+l.1098 \newpage
                 [22]
 pdfTeX warning (ext4): destination with the same identifier (name{page.23}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1114 \newpage
+l.1120 \newpage
                 [23]
 pdfTeX warning (ext4): destination with the same identifier (name{page.24}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1141 \newpage
+l.1147 \newpage
                 [24]
 pdfTeX warning (ext4): destination with the same identifier (name{page.25}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1162 \newpage
+l.1168 \newpage
                 [25]
-Overfull \hbox (28.05647pt too wide) in alignment at lines 1166--1186
+Overfull \hbox (28.05647pt too wide) in alignment at lines 1172--1192
  [] [] [] [] [] [] [] 
  []
 
@@ -1117,29 +1117,29 @@ Overfull \hbox (28.05647pt too wide) in alignment at lines 1166--1186
 pdfTeX warning (ext4): destination with the same identifier (name{page.26}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1189 \newpage
+l.1195 \newpage
                 [26]
 pdfTeX warning (ext4): destination with the same identifier (name{page.27}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1210 \end{document}
+l.1216 \end{document}
                       [27] (./manuscript.aux)
 Package rerunfilecheck Info: File `manuscript.out' has not changed.
 (rerunfilecheck)             Checksum: 556D376C20954E2D86ABF459D68771C2;4540.
  ) 
 Here is how much of TeX's memory you used:
- 16382 strings out of 477035
- 265765 string characters out of 5827464
+ 16376 strings out of 477035
+ 265718 string characters out of 5827464
  653395 words of memory out of 5000000
  36718 multiletter control sequences out of 15000+600000
- 539798 words of font info for 195 fonts, out of 8000000 for 9000
+ 539278 words of font info for 191 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  72i,11n,77p,2151b,500s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/ree140/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/Users/ree140/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}</Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri7.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss8.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/ree140/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on manuscript.pdf (60 pages, 9760689 bytes).
+Output written on manuscript.pdf (60 pages, 9761776 bytes).
 PDF statistics:
- 997 PDF objects out of 1000 (max. 8388607)
- 866 compressed objects within 9 object streams
- 228 named destinations out of 1000 (max. 500000)
+ 1005 PDF objects out of 1200 (max. 8388607)
+ 874 compressed objects within 9 object streams
+ 230 named destinations out of 1000 (max. 500000)
  34131 words of extra memory for PDF output out of 35830 (max. 10000000)
 
